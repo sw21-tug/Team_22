@@ -10,6 +10,7 @@ The main focus will be on an interest profile. This profile can then be used to 
 | :---             |    :----:             |
 | **Product Owner**|   Holder, Lukas      |
 | **Scrum Master** |   Schuh, Georg         |
+| **Senior Developer**    | Rainer, Jörg          |
 | **Developer**    | Barucija, Tarik          |
 | **Developer**    | Feischl, Christof    |
 | **Developer**    | Haljevac, Bakir        |
