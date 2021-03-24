@@ -8,7 +8,7 @@ The main focus will be on an interest profile. This profile can then be used to 
 
 | Role             | Name                  | 
 | :---             |    :----:             |
-| **Product Owner**|   Lukas Holder      |
+| **Product Owner**|   Holder, Lukas      |
 | **Scrum Master** |   Schuh, Georg         |
 | **Developer**    | Barucija, Tarik          |
 | **Developer**    | Feischl, Christof    |
