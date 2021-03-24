@@ -9,12 +9,11 @@ The main focus will be on an interest profile. This profile can then be used to 
 | Role             | Name                  | 
 | :---             |    :----:             |
 | **Product Owner**|   Lukas Holder      |
-| **Scrum Master** |   ----        |
+| **Scrum Master** |   Schuh, Georg         |
 | **Developer**    | Barucija, Tarik          |
 | **Developer**    | Feischl, Christof    |
 | **Developer**    | Haljevac, Bakir        |
 | **Developer**    | Rožajac, Džemail          |
-| **Developer**    | Schuh, Georg       |
 | **Developer**    | Topolovec, Luca Andreas Michael         |
 
 
