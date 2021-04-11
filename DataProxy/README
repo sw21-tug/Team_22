@@ -1,0 +1,16 @@
+Curl commands for testing if server is running successfully on your pc can be found in "src/CurlCommands".
+You can change the port and address of the server in "resources/application.conf".
+
+For building this project, the obsolete Ktor(version 1.5.1)  plugin for in intellij has been used.
+Newer version was not available to public.
+
+Tests can be written in the "test/" directory. Please create Test classes for new components.
+
+Databaseojects and Data classes are defined in "src/DatabaseObjects". Based on some designchoices in the client we might want to move the
+data classes into some util folder that is shared between the client and the server.
+
+Routing happens in "src/Application.kt".
+
+The DatabaseConnector is currently using an In-Memory database. The database is cleared after shutting down the server.
+
+Added Dependencies can be seen in the build.gradle file

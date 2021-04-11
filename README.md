@@ -18,6 +18,28 @@ The main focus will be on an interest profile. This profile can then be used to 
 | **Developer**    | Topolovec, Luca Andreas Michael         |
 
 
+
+## Framework Info
+
+We have the android client project in the "Client" folder and the ktor server project in the "DataProxy" folder.
+
+If you want to have an easy time you might want to use 
+
+Android studio for the client 
+
+and 
+
+Intellij for the DataProxy.
+
+Also, as we have two seperate Projects, a Github tool like "Github Desktop" for the whole repository might be useful.
+
+Further information can be seen from the README files in each seperate folder.
+
+
+The whole Setup has only been tested on Ubuntu Version 20.
+
+
+
 ## Implemented features
 
 
