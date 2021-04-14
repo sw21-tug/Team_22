@@ -1,15 +1,7 @@
 package com.Table.Server
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.routing.*
+
 import io.ktor.http.*
-import io.ktor.sessions.*
-import io.ktor.auth.*
-import com.fasterxml.jackson.databind.*
-import io.ktor.jackson.*
-import io.ktor.features.*
 import kotlin.test.*
 import io.ktor.server.testing.*
 
@@ -21,6 +13,40 @@ class ApplicationTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals("HELLO WORLD!", response.content)
             }
+        }
+    }
+
+    @Test
+    fun testUserRegistrationInsert() {
+        withTestApplication({ module(testing = true) }) {
+            val usernames: List<String> = listOf("testuser1", "testuser2", "testuser3")
+            val emails: List<String> = listOf("test1@test.at", "test2@test.at", "test3@test.at")
+            for (i in 1..usernames.size) {
+                val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.FormUrlEncoded.toString())
+                    setBody(listOf("username" to usernames[i], "email" to emails[i], "password" to "pw").formUrlEncode())
+                }
+
+                addUser.apply {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                    assertEquals("Successfully created user ${usernames[i]}", response.content)
+                }
+            }
+
+            /*
+            ** (removed as out of the scope of this testcase, for later usage)
+
+            val getAllUsers = handleRequest(HttpMethod.Get, "/user")
+            getAllUsers.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                var mapper = jacksonObjectMapper()
+                val result: List<User> = mapper.readValue(response.content.toString())
+                assertEquals(result.size, usernames.size)
+                for (i in 1..usernames.size) {
+                    assertTrue { }
+                }
+            }
+     */
         }
     }
 }
