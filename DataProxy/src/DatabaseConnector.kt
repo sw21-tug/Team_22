@@ -17,10 +17,12 @@ class DatabaseConnector {
         print("Created Database\n")
     }
 
-    fun insertUser(user: User):Int {
+    fun insertUser(user: User):Int{
         transaction(db) {
             Users.insert {
                 it[Users.username] = user.username
+                it[Users.email] = user.email
+                it[Users.password] = user.password
             }
         }
         return 0

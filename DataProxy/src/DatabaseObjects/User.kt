@@ -1,7 +1,7 @@
 package com.Table.Server.DatabaseObjects
 import org.jetbrains.exposed.sql.*
 
-data class User(val id: Int?=null, val username: String, val email:String,  val password:String?=null)
+data class User(val id: Int?=null, val username: String, val email:String,  val password:String)
 object Users: Table() {
     val id: Column<Int> = integer("id").autoIncrement()
     val username: Column<String> = varchar("username", 255)

@@ -58,11 +58,9 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(users)
             }
             post("/"){
-                //assume json
-                println(call.receive<String>())
-                /*val user = call.receive<User>()
-                dbConnector.insertUser(user)
-                call.respond(user)*/
+                val user = call.receive<User>()
+                val responseUser = dbConnector.insertUser(user)
+                call.respond(responseUser)
             }
             post("/register"){
                 var user:User?= null
