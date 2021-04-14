@@ -21,10 +21,10 @@ class ApplicationTest {
         withTestApplication({ module(testing = true) }) {
             val usernames: List<String> = listOf("testuser1", "testuser2", "testuser3")
             val emails: List<String> = listOf("test1@test.at", "test2@test.at", "test3@test.at")
-            for (i in 1..usernames.size) {
+            for (i in usernames.indices) {
                 val addUser = handleRequest(HttpMethod.Post, "/user/register") {
-                    addHeader(HttpHeaders.ContentType, ContentType.Application.FormUrlEncoded.toString())
-                    setBody(listOf("username" to usernames[i], "email" to emails[i], "password" to "pw").formUrlEncode())
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody("{'username': '${usernames[i]}', 'email': '${emails[i]}', 'password': 'pw'}")
                 }
 
                 addUser.apply {
@@ -42,7 +42,7 @@ class ApplicationTest {
                 var mapper = jacksonObjectMapper()
                 val result: List<User> = mapper.readValue(response.content.toString())
                 assertEquals(result.size, usernames.size)
-                for (i in 1..usernames.size) {
+                for (i in usernames.indices) {
                     assertTrue { }
                 }
             }
