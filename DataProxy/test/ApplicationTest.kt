@@ -24,7 +24,7 @@ class ApplicationTest {
             for (i in usernames.indices) {
                 val addUser = handleRequest(HttpMethod.Post, "/user/register") {
                     addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                    setBody("{'username': '${usernames[i]}', 'email': '${emails[i]}', 'password': 'pw'}")
+                    setBody("{\"username\": \"${usernames[i]}\", \"email\": \"${emails[i]}\", \"password\": \"pw\"}")
                 }
 
                 addUser.apply {

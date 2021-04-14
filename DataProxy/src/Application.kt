@@ -59,10 +59,22 @@ fun Application.module(testing: Boolean = false) {
             }
             post("/"){
                 //assume json
-                val user = call.receive<User>()
-                print(user.age)
+                println(call.receive<String>())
+                /*val user = call.receive<User>()
                 dbConnector.insertUser(user)
-                call.respond(user)
+                call.respond(user)*/
+            }
+            post("/register"){
+                var user:User?= null
+                try {
+                    user = call.receive<User>()
+                } catch (e: Exception){
+                    call.response.status(HttpStatusCode.NotAcceptable)
+                    call.respondText("Failed to parse User")
+                    return@post
+                }
+                call.response.status(HttpStatusCode.OK)
+                call.respondText("Successfully created user ${user?.username}")
             }
 
         }

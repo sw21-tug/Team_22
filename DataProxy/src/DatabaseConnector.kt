@@ -21,7 +21,6 @@ class DatabaseConnector {
         transaction(db) {
             Users.insert {
                 it[Users.username] = user.username
-                it[Users.age] = user.age
             }
         }
         return 0
@@ -44,7 +43,6 @@ class DatabaseConnector {
         transaction(db){
             Users.update({Users.id eq id}){
                 if(name!=null){ it[Users.username] = name }
-                if(age!=null) { it[Users.age]  = age  }
             }
         }
         return 0
