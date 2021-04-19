@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".`RegistrationActivity.kt`"></activity>
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/app_name">
