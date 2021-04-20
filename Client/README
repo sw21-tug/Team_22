@@ -1,0 +1,3 @@
+Pretty much the default generated project from android studio. The login form default option has been used. If we do not want that choice we can just delete the login related classes.
+For now there is no library, that sends or handles requests and responses, added as a dependency. 
+Minimum supported android version is 4.1

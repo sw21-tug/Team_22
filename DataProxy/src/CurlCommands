@@ -1,0 +1,8 @@
+#Insert user
+curl -H "Content-Type: application/json" -d '{"username":"admin","ag":32}' http://localhost:8080/user/
+
+#get all users
+curl http://localhost:8080/user/
+
+#get user with id 1
+curl http://localhost:8080/user/1
