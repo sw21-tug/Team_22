@@ -1,4 +1,4 @@
-name: Android Build
+name: Test All
 
 on: [push, pull_request]
 
@@ -15,20 +15,42 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Run DataProxyBuild
+        run: ./DataProxy/gradlew -p ./Client build
+
       - name: Run Android Build
-        run: ./Client/gradlew build
+        run: ./Client/gradlew -p ./Client build
+
+
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
       - name: Run Android JunitTests
-        run: ./Client/gradlew test
-
-      - name: Run Android EspressoTests 
-        run: ./Client/gradlew connectedAndroidTest
-
-      - name: Run DataProxyBuild
-        run: ./DataProxy/gradlew build
+        run: ./Client/gradlew -p ./Client test
 
       - name: Run DataProxyTests
-        run: ./DataProxy/gradlew test
+        run: ./DataProxy/gradlew -p ./Client test
 
 
+  androidTests:
+
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run Android EspressoTests 
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 16
+          script: ./Client/gradlew -p ./Client connectedAndroidTest
 
