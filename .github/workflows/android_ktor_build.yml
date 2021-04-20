@@ -16,7 +16,7 @@ jobs:
           java-version: 1.8
 
       - name: Run DataProxyBuild
-        run: ./DataProxy/gradlew -p ./Client build
+        run: ./DataProxy/gradlew -p ./DataProxy build
 
       - name: Run Android Build
         run: ./Client/gradlew -p ./Client build
@@ -38,7 +38,7 @@ jobs:
         run: ./Client/gradlew -p ./Client test
 
       - name: Run DataProxyTests
-        run: ./DataProxy/gradlew -p ./Client test
+        run: ./DataProxy/gradlew -p ./DataProxy test
 
 
   androidTests:
