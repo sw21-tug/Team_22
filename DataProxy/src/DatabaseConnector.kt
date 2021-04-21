@@ -3,7 +3,7 @@ import com.Table.Server.DatabaseObjects.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
-import org.jetbrains.exposed.sql.transactions.transactionManager
+import org.mindrot.jbcrypt.BCrypt
 
 
 class DatabaseConnector {
@@ -19,11 +19,13 @@ class DatabaseConnector {
     }
 
     fun insertUser(user: User) : Int {
+        val salt = BCrypt.gensalt()
         return transaction(db) {
             Users.insert {
                 it[username] = user.username
                 it[email] = user.email
-                it[password] = user.password
+                it[passwordHash] = BCrypt.hashpw(user.password, salt)
+                it[Users.salt] = salt
             }[Users.id]
         }
     }

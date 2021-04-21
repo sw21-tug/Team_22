@@ -71,6 +71,11 @@ fun Application.module(testing: Boolean = false) {
                 var id: Int?
                 try {
                     user = call.receive<User>()
+                    if(!Users.emailValidator(user.email)) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respondText("Email invalid")
+                        return@post
+                    }
                     id = dbConnector.insertUser(user)
                 } catch (e: ExposedSQLException) {
                     call.response.status(HttpStatusCode.Conflict)

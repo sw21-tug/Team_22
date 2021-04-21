@@ -149,4 +149,22 @@ class ApplicationTest {
             }
         }
     }
+
+    @Test
+    fun testRegistrationInvalidEmail() {
+        withTestApplication({ module(testing = true) }) {
+            val usernames: List<String> = listOf("testuser1")
+            val emails: List<String> = listOf("test1test.at")
+            for (i in usernames.indices) {
+                val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody("{\"username\": \"${usernames[i]}\", \"email\": \"${emails[i]}\", \"password\": \"pw\"}")
+                }
+
+                addUser.apply {
+                        assertEquals(HttpStatusCode.NotAcceptable, response.status())
+                }
+            }
+        }
+    }
 }
