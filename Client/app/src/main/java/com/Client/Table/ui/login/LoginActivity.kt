@@ -108,6 +108,8 @@ class LoginActivity : AppCompatActivity() {
         ).show()
     }
 
+    
+
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
