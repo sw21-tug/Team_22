@@ -11,4 +11,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="login_text">"Login to Looking 4 Group"</string>
+    <string name="prompt_user_name">Username</string>
+
 </resources>
