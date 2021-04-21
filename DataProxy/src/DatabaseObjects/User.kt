@@ -9,6 +9,11 @@ object Users: Table() {
     val password: Column<String> = varchar("password", 255)
     override val primaryKey = PrimaryKey(id, name = "User_ID")
 
+    init {
+        index(true, username)
+        index(true, email)
+    }
+
     fun toUser(row: ResultRow): User = User(
         id = row[id],
         username = row[username],
