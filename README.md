@@ -43,6 +43,9 @@ The whole Setup has only been tested on Ubuntu Version 20.
 ## Implemented features
 
 -Registration UI https://github.com/sw21-tug/Team_22/projects/1#card-58962875
+
 -Registration Backend https://github.com/sw21-tug/Team_22/projects/1#card-58962883
+
 -Login UI https://github.com/sw21-tug/Team_22/projects/1#card-58962879
+
 -Login Backend https://github.com/sw21-tug/Team_22/projects/1#card-58962886
