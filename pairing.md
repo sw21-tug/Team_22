@@ -10,9 +10,9 @@ Dev 6: Topolovec, Luca Andreas Michael
 
 | Syntax                | Rainer, Jörg  | Barucija, Tarik   | Feischl, Christof | Haljevac, Bakir   | Rožajac, Džemail  | Topolovec, Luca   | 
 | :---                  |    :----:     |    :----:         |    :----:         |    :----:         |    :----:         |    :----:         |   
-| Rainer, Jörg          | X             | 00:00             | 08:00             | 00:00             | 00:00             | 00:00             | 
-| Barucija, Tarik       | 00:00         | X                 | 00:00             | 00:00             | 08:00             | 08:00             | 
-| Feischl, Christof     | 08:00         | 00:00             | X                 | 00:00             | 00:00             | 00:00             | 
+| Rainer, Jörg          | X             | 00:00             | 16:00             | 00:00             | 00:00             | 00:00             |
+| Barucija, Tarik       | 00:00         | X                 | 00:00             | 00:00             | 16:00             | 16:00             |
+| Feischl, Christof     | 16:00         | 00:00             | X                 | 00:00             | 00:00             | 00:00             |
 | Haljevac, Bakir       | 00:00         | 00:00             | 00:00             | X                 | 00:00             | 00:00             | 
-| Rožajac, Džemail      | 00:00         | 08:00             | 00:00             | 00:00             | X                 | 00:00             | 
-| Topolovec, Luca       | 00:00         | 00:00             | 00:00             | 08:00             | 00:00             | X                 |
+| Rožajac, Džemail      | 00:00         | 16:00             | 00:00             | 00:00             | X                 | 00:00             |
+| Topolovec, Luca       | 00:00         | 00:00             | 00:00             | 16:00             | 00:00             | X                 |
