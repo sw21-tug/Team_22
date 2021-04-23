@@ -92,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
     <CheckBox
-        android:id="@+id/consent_checkbox"
+        android:id="@+id/register_checkbox"
         app:layout_constraintTop_toBottomOf="@+id/password_repeat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

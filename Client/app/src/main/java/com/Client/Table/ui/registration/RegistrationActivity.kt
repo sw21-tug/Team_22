@@ -45,59 +45,46 @@ class RegistrationActivity : AppCompatActivity() {
         email = findViewById(R.id.register_email)
         password = findViewById(R.id.register_password)
         repeatPassword = findViewById(R.id.password_repeat)
-        check_box = findViewById(R.id.consent_checkbox)
+        check_box = findViewById(R.id.register_checkbox)
 
     }
 
     private fun validateInput(): Boolean {
-        if (email.getText().toString().equals("")) {
-            email.setError("Please Enter Email")
-            return false
-        }
+        var valid: Boolean = true
 
         // checking the proper email format
         if (!isEmailValid(email.getText().toString())) {
             email.setError("Please Enter Valid Email")
-            return false
-        }
-
-        if (username.getText().toString().equals("")) {
-            username.setError("Please Enter Username")
-            return false
+            valid = false
         }
 
         if (username.getText().length < MIN_USERNAME_LENGTH) {
-            username.setError("Username Length must be more than " + MIN_USERNAME_LENGTH + " characters")
-            return false
-        }
-
-        if (password.getText().toString().equals("")) {
-            password.setError("Please Enter Password")
-            return false
+            username.setError("Username Length must be more than 4 characters")
+            valid = false
         }
 
         // checking minimum password Length
         if (password.getText().length < MIN_PASSWORD_LENGTH) {
-            password.setError("Password Length must be more than " + MIN_PASSWORD_LENGTH + " characters")
-            return false
+            password.setError("Password Length must be more than 6 characters")
+            valid = false
         }
 
         if (repeatPassword.getText().toString().equals("")) {
             repeatPassword.setError("Please Enter Repeat Password")
-            return false
+            valid = false
         }
 
         // Checking if repeat password is same
         if (!password.getText().toString().equals(repeatPassword.text.toString())) {
             repeatPassword.setError("Password does not match")
-            return false
+            valid = false
         }
 
         if (!check_box.isChecked()){
             check_box.setError("This has to be checked")
-            return false
+            valid = false
         }
-        return true
+        return valid
     }
 
     private fun performRegistration() {
@@ -113,6 +100,8 @@ class RegistrationActivity : AppCompatActivity() {
             Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
             // Here you can call you API
 
+        } else {
+            Toast.makeText(this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show()
         }
     }
 }
