@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.Client.Table.R
 
-
 class RegistrationActivity : AppCompatActivity() {
     lateinit var username: EditText
     lateinit var email: EditText
