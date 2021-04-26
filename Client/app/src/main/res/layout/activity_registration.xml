@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingTop="16dp"
-    android:background="@color/lightBlue"
+    android:background="@color/white"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.registration.RegistrationActivity">
@@ -121,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/consent_checkbox"
+        app:layout_constraintTop_toBottomOf="@+id/register_checkbox"
 
         app:layout_constraintVertical_bias="0.2" />
 
