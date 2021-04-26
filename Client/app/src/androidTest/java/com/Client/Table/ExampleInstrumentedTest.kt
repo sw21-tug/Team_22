@@ -21,4 +21,11 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.Client.Table", appContext.packageName)
     }
+    @Test
+    fun useLoginContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        print("Hello\n")
+        assertEquals("com.Client.Table", appContext.packageName)
+    }
 }
