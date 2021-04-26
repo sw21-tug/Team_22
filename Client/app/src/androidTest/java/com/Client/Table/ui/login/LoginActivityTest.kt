@@ -23,6 +23,15 @@ class LoginActivityTest{
         onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
     }
     @Test
+    fun  register_activity_displayed_after_button(){
+        //probably needs to be rewritten at some point
+        val activityScenario = ActivityScenario.launch(LoginActivity::class.java)
+        onView(withId(R.id.register)).perform(click())
+        onView(withId(R.id.password_repeat)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.login)).check(matches(isDisplayed()))
+    }
+    @Test
     fun  login_then_logout(){
         //probably needs to be rewritten at some point
         val activityScenario = ActivityScenario.launch(LoginActivity::class.java)

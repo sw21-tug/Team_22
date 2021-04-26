@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.Client.Table.MainViewActivity
 
 import com.Client.Table.R
+import com.Client.Table.ui.registration.RegistrationActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
         val loading = findViewById<ProgressBar>(R.id.loading)
+        val register = findViewById<Button>(R.id.register)
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -97,7 +99,16 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
+            register.setOnClickListener {
+                updateUiForRegister()
+            }
         }
+    }
+    private fun updateUiForRegister(){
+        val intent = Intent(this, RegistrationActivity::class.java).apply{
+//pass stuff?
+        }
+        startActivity(intent)
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
@@ -109,11 +120,12 @@ class LoginActivity : AppCompatActivity() {
         }
         startActivity(intent)
         Toast.makeText(
-                applicationContext,
-                "$welcome $displayName",
-                Toast.LENGTH_LONG
+            applicationContext,
+            "$welcome $displayName",
+            Toast.LENGTH_LONG
         ).show()
     }
+
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
