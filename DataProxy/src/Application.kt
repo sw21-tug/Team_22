@@ -12,6 +12,7 @@ import io.ktor.jackson.*
 import io.ktor.features.*
 import com.Table.Server.DatabaseConnector
 import com.Table.Server.DatabaseObjects.*
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -38,7 +39,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     //set dbconnector
-    val dbConnector:DatabaseConnector = DatabaseConnector()
+    val dbConnector = DatabaseConnector()
     dbConnector.connectToDatabase()
 
     install(Routing) {
@@ -46,23 +47,47 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
-        route("/user"){
-            get("/"){
+        route("/user") {
+            get("/") {
                 val users = dbConnector.getAllUsers()
                 call.respond(users)
             }
-            get("/{id}")
-            {
+            get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 val users = dbConnector.getUserById(id)
-                call.respond(users)
+                if (users.size != 1) {
+                    call.respond("User not found")
+                    return@get
+                }
+                call.respond(users[0])
             }
-            post("/"){
-                //assume json
+            post("/") {
                 val user = call.receive<User>()
-                print(user.age)
-                dbConnector.insertUser(user)
-                call.respond(user)
+                val responseUser = dbConnector.insertUser(user)
+                call.respond(responseUser)
+            }
+            post("/register") {
+                var user: User?
+                var id: Int?
+                try {
+                    user = call.receive<User>()
+                    if(!Users.emailValidator(user.email)) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respondText("Email invalid")
+                        return@post
+                    }
+                    id = dbConnector.insertUser(user)
+                } catch (e: ExposedSQLException) {
+                    call.response.status(HttpStatusCode.Conflict)
+                    call.respondText("User already existing or database error")
+                    return@post
+                } catch (e: Exception) {
+                    call.response.status(HttpStatusCode.NotAcceptable)
+                    call.respondText("Failed to parse User")
+                    return@post
+                }
+                call.response.status(HttpStatusCode.OK)
+                call.respond(mapOf("id" to id))
             }
 
         }
