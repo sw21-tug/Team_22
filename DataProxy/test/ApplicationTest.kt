@@ -168,7 +168,7 @@ class ApplicationTest {
         }
     }
     @Test
-    fun testLoginIsInValid(){
+    fun testLoginIsInvalid(){
         withTestApplication({ module(testing = true) }) {
             val username ="Max Mustermann"
             val password ="1234567"
@@ -182,6 +182,28 @@ class ApplicationTest {
         }
     }
 
+    @Test
+    fun testLoginIsValid() {
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
 
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
 
+        }
+    }
 }
