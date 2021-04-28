@@ -167,4 +167,20 @@ class ApplicationTest {
             }
         }
     }
+    @Test
+    fun testLoginIsInValid(){
+        withTestApplication({ module(testing = true) }) {
+            val username ="Max Mustermann"
+            val password ="1234567"
+            val login_request = handleRequest(HttpMethod.Post, "/user/login"){
+                setBody("{\"username\": \"${username}\", \"email\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotFound, response.status())
+            }
+        }
+    }
+
+
+
 }
