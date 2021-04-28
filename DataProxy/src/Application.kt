@@ -23,6 +23,7 @@ fun Application.module(testing: Boolean = false) {
         cookie<MySession>("MY_SESSION") {
             cookie.extensions["SameSite"] = "lax"
         }
+        cookie<LoginSession>("LOGIN_SESSION", storage = SessionStorageMemory())
     }
 
     install(Authentication) {
@@ -89,6 +90,18 @@ fun Application.module(testing: Boolean = false) {
                 call.response.status(HttpStatusCode.OK)
                 call.respond(mapOf("id" to id))
             }
+            post("/login") {
+                var user: UserCredentials?
+                try {
+                    user = call.receive<UserCredentials>()
+                } catch (e: Exception) {
+                    call.response.status(HttpStatusCode.NotAcceptable)
+                    call.respondText("Failed to parse User")
+                    return@post
+                }
+                call.response.status(HttpStatusCode.NotFound)
+                call.respond("Yes")
+            }
 
         }
 
@@ -114,4 +127,4 @@ fun Application.module(testing: Boolean = false) {
 }
 
 data class MySession(val count: Int = 0)
-
+data class LoginSession(val username: String, val count: Int)

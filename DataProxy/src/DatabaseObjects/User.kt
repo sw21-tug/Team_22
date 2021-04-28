@@ -3,6 +3,7 @@ import org.jetbrains.exposed.sql.*
 import java.util.regex.Pattern
 
 data class User(val id: Int?=null, val username: String, val email:String, val password:String)
+data class UserCredentials(val username: String, val password:String)
 object Users: Table() {
     val id: Column<Int> = integer("id").autoIncrement()
     val username: Column<String> = varchar("username", 255)

@@ -173,7 +173,8 @@ class ApplicationTest {
             val username ="Max Mustermann"
             val password ="1234567"
             val login_request = handleRequest(HttpMethod.Post, "/user/login"){
-                setBody("{\"username\": \"${username}\", \"email\": \"${password}\"}");
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
             }
             login_request.apply {
                 assertEquals(HttpStatusCode.NotFound, response.status())
