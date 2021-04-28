@@ -91,9 +91,18 @@ fun Application.module(testing: Boolean = false) {
                 call.respond(mapOf("id" to id))
             }
             post("/login") {
-                var user: UserCredentials?
+                var credentials: UserCredentials?
                 try {
-                    user = call.receive<UserCredentials>()
+                    credentials = call.receive<UserCredentials>()
+                    val users:List<UserCredentials> = dbConnector.getUserForAuth(credentials)
+                    if (!users.isEmpty()){
+                        if(Users.credentialsEquals(credentials, users[0]))
+                        {
+                            call.response.status(HttpStatusCode.OK)
+                            call.respondText("ok")
+                            return@post
+                        }
+                    }
                 } catch (e: Exception) {
                     call.response.status(HttpStatusCode.NotAcceptable)
                     call.respondText("Failed to parse User")
