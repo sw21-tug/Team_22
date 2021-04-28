@@ -24,4 +24,14 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_edit_bio">Edit Bio</string>
+    <string name="edit_bio_heading">Edit Personal Bio</string>
+    <string name="bio_hint_displayed_username">Displayed username</string>
+    <string name="bio_hint_age">Age</string>
+    <string name="bio_hint_city">City</string>
+    <string name="bio_checkboxes_interests_heading">I am interested in ...</string>
+    <string name="bio_interests_card_games">Card games</string>
+    <string name="bio_interests_board_games">Board games</string>
+    <string name="bio_interests_ttrpgs">Tabletop role-playing games (TTRPGs)</string>
+    <string name="submit_button_text">SUBMIT</string>
 </resources>
