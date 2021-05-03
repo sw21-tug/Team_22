@@ -12,24 +12,57 @@ import io.ktor.jackson.*
 import io.ktor.features.*
 import com.Table.Server.DatabaseConnector
 import com.Table.Server.DatabaseObjects.*
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.auth.jwt.*
 import org.jetbrains.exposed.exceptions.ExposedSQLException
+import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
+
 fun Application.module(testing: Boolean = false) {
     install(Sessions) {
         cookie<MySession>("MY_SESSION") {
             cookie.extensions["SameSite"] = "lax"
         }
-        cookie<LoginSession>("LOGIN_SESSION", storage = SessionStorageMemory())
     }
 
+    val issuer = "127.0.0.1" //environment.config.property("jwt.domain").getString()
+    val audience ="L4GUser"// environment.config.property("jwt.audience").getString()
+    val myRealm = "L4GServer"//environment.config.property("jwt.realm").getString()
+    val secret:String = "secret"
+    val verifierStringHeader:String = "isLoggedIn"
+    val verifierString:String = "loggedIn"
+    val encryptionAlgorithm:Algorithm = Algorithm.HMAC256(secret)
+
+
+    fun Application.generateToken(userCredentials: UserCredentials): String =
+        JWT.create().withAudience(audience)
+        .withIssuer(issuer)
+        .withClaim(verifierStringHeader, verifierString)
+        .withClaim("username", userCredentials.username)
+        .withExpiresAt(Date(System.currentTimeMillis() + 36000000)) //expirationtime, currently 10hours
+        .sign(encryptionAlgorithm)
+
     install(Authentication) {
-        basic("myBasicAuth") {
-            realm = "Ktor Server"
-            validate { if (it.name == "test" && it.password == "password") UserIdPrincipal(it.name) else null }
+        jwt{
+            realm = myRealm
+            verifier(JWT
+                .require(encryptionAlgorithm)
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .build())
+            validate { credential ->
+                var claim = credential.payload.getClaim(verifierStringHeader).asString()
+                if (claim.equals(verifierString)) {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
         }
     }
 
@@ -43,11 +76,21 @@ fun Application.module(testing: Boolean = false) {
     val dbConnector = DatabaseConnector()
     dbConnector.connectToDatabase()
 
+
+
     install(Routing) {
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
+        route("/testauthentication"){
+            authenticate{
+            get("/") {
+                call.response.status(HttpStatusCode.OK)
+                call.respond("JWT is valid")
+               }
+            }
+        }
         route("/user") {
             get("/") {
                 val users = dbConnector.getAllUsers()
@@ -95,14 +138,13 @@ fun Application.module(testing: Boolean = false) {
                 try {
                     credentials = call.receive<UserCredentials>()
                     val users:List<UserCredentials> = dbConnector.getUserForAuth(credentials)
-                    if (!users.isEmpty()){
-                        if(Users.credentialsEquals(credentials, users[0]))
-                        {
+                    if (!users.isEmpty() && Users.credentialsEquals(credentials, users[0]))
+                    {
                             call.response.status(HttpStatusCode.OK)
-                            call.respondText("ok")
+                            call.respondText(generateToken(credentials))
                             return@post
-                        }
                     }
+
                 } catch (e: Exception) {
                     call.response.status(HttpStatusCode.NotAcceptable)
                     call.respondText("Failed to parse User")
@@ -122,13 +164,6 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("Counter is ${session.count}. Refresh to increment.")
         }
 
-        authenticate("myBasicAuth") {
-            get("/protected/route/basic") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
-            }
-        }
-
         get("/json/jackson") {
             call.respond(mapOf("hello" to "world"))
         }
@@ -136,4 +171,3 @@ fun Application.module(testing: Boolean = false) {
 }
 
 data class MySession(val count: Int = 0)
-data class LoginSession(val username: String, val count: Int)

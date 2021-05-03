@@ -254,10 +254,11 @@ class ApplicationTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 token = response.content.toString()
             }
-            val authentication_request = handleRequest(HttpMethod.Post,"/testauthentication") {
+            val authentication_request = handleRequest(HttpMethod.Get,"/testauthentication/") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, "Bearer " + token)
             }
+
             authentication_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
