@@ -265,7 +265,76 @@ class ApplicationTest {
         }
     }
 
+    @Test
+    fun testMissingPassword(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
 
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", }");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
 
+    @Test
+    fun testMissingUsername(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testMissingLoginData(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
 
 }
