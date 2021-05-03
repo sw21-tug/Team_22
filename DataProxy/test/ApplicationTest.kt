@@ -337,4 +337,16 @@ class ApplicationTest {
         }
     }
 
+    @Test
+    fun testAuthenticationWithoutToken(){
+        withTestApplication({ module(testing = true) }) {
+            val authentication_request = handleRequest(HttpMethod.Get,"/testauthentication/") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            }
+            authentication_request.apply {
+                assertEquals(HttpStatusCode.Unauthorized, response.status())
+            }
+        }
+    }
+    
 }
