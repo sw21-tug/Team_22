@@ -25,8 +25,8 @@ import java.io.*
 import java.lang.Exception
 
 class EditBioFragmentTest {
-    @Rule
-    var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    //@Rule
+    //var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Test
     fun testInputFields()
@@ -50,11 +50,11 @@ class EditBioFragmentTest {
     fun testUserPictureCanBeChosen()
     {
         val scenario = launchFragmentInContainer<EditBioFragment>()
-        onView(withId(R.id.bio_profile_picture_preview)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.profile_picture)).check(matches(not(isDisplayed())))
         val mockRes = mockGalleryImage()
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(mockRes)
-        onView(withId(R.id.bio_upload_profile_picture_button)).perform(click())
-        onView(withId(R.id.bio_profile_picture_preview)).check(matches(isDisplayed()))
+        onView(withId(R.id.edit_picture_button)).perform(click())
+        onView(withId(R.id.profile_picture)).check(matches(isDisplayed()))
     }
 
     /**
