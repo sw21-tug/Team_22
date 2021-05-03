@@ -3,6 +3,7 @@ import com.Table.Server.DatabaseObjects.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
+import org.mindrot.jbcrypt.BCrypt
 
 
 class DatabaseConnector {
@@ -17,14 +18,16 @@ class DatabaseConnector {
         print("Created Database\n")
     }
 
-    fun insertUser(user: User):Int {
-        transaction(db) {
+    fun insertUser(user: User) : Int {
+        val salt = BCrypt.gensalt()
+        return transaction(db) {
             Users.insert {
-                it[Users.username] = user.username
-                it[Users.age] = user.age
-            }
+                it[username] = user.username
+                it[email] = user.email
+                it[passwordHash] = BCrypt.hashpw(user.password, salt)
+                it[Users.salt] = salt
+            }[Users.id]
         }
-        return 0
     }
     fun getUserById(id:Int):List<User>{
         val users = transaction(db){
@@ -40,14 +43,20 @@ class DatabaseConnector {
         return user
     }
 
-    fun updateUsers(id:Int, name:String?=null, age:Int?=null):Int{
+    fun updateUsers(id:Int, name:String?=null):Int{
         transaction(db){
             Users.update({Users.id eq id}){
-                if(name!=null){ it[Users.username] = name }
-                if(age!=null) { it[Users.age]  = age  }
+                if(name!=null){ it[username] = name }
             }
         }
         return 0
+    }
+
+    fun reset() {
+        transaction(db) {
+            if (Users.exists())
+                Users.deleteAll()
+        }
     }
 
 }
