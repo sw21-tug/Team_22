@@ -21,7 +21,10 @@ class EditBioFragment : Fragment() {
 
     private lateinit var bioViewModel: BioViewModel
 
-    val SERVICE_CODE = 1
+    companion object {
+        val TAG_IMAGE_ADDED = 1
+    }
+
     lateinit var profile_image: ImageView
     lateinit var edit_image: Button
     lateinit var username: EditText
@@ -34,7 +37,11 @@ class EditBioFragment : Fragment() {
     lateinit var check_box_4: CheckBox
 
     val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        profile_image.setImageURI(uri)
+        if (uri != null)
+        {
+            profile_image.setImageURI(uri)
+            profile_image.tag = TAG_IMAGE_ADDED
+        }
     }
 
     override fun onCreateView(
@@ -45,10 +52,6 @@ class EditBioFragment : Fragment() {
         bioViewModel =
             ViewModelProvider(this).get(BioViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_edit_bio, container, false)
-        /*val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
 
 
         edit_btn = root.findViewById(R.id.edit_picture_button)
