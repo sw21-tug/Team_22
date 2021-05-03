@@ -203,7 +203,69 @@ class ApplicationTest {
             login_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
+        }
+    }
+
+    @Test
+    fun testInvalidPassword(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val password_invalid = "invalid"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password_invalid}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotFound, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAuthentication(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            var token = ""
+            login_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                token = response.content.toString()
+            }
+            val authentication_request = handleRequest(HttpMethod.Post,"/testauthentication") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, "Bearer " + token)
+            }
+            authentication_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
 
         }
     }
+
+
+
+
 }
