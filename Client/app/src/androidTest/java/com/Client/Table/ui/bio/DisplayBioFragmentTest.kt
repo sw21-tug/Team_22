@@ -18,9 +18,9 @@ class DisplayBioFragmentTest {
         onView(withId(R.id.bio_age_display)).check(matches(isDisplayed())).check(matches(withText(" ")))
         onView(withId(R.id.bio_city_display)).check(matches(isDisplayed())).check(matches(withText(" ")))
 
-        onView(withId(R.id.display_bio_checkbox_1)).check(matches(not(isChecked())))
-        onView(withId(R.id.display_bio_checkbox_2)).check(matches(not(isChecked())))
-        onView(withId(R.id.display_bio_checkbox_3)).check(matches(not(isChecked())))
-        onView(withId(R.id.display_bio_checkbox_4)).check(matches(not(isChecked())))
+        onView(withId(R.id.display_bio_preference_1)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.display_bio_preference_2)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.display_bio_preference_3)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.display_bio_preference_4)).check(matches(not(isDisplayed())))
     }
 }
