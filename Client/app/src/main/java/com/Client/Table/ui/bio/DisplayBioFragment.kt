@@ -12,7 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.Client.Table.MainViewActivity
 import com.Client.Table.R
+import com.Client.Table.ui.home.HomeFragment
 
 class DisplayBioFragment : Fragment() {
 
@@ -26,6 +30,7 @@ class DisplayBioFragment : Fragment() {
         bioViewModel =
             ViewModelProvider(this).get(BioViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_display_bio, container, false)
+
         val bio_username: TextView = root.findViewById(R.id.bio_username_display)
         val bio_age: TextView = root.findViewById(R.id.bio_age_display)
         val bio_city: TextView = root.findViewById(R.id.bio_city_display)
@@ -46,6 +51,12 @@ class DisplayBioFragment : Fragment() {
         bioViewModel.bio_city.observe(viewLifecycleOwner, Observer {
             bio_city.text = it
         })
+
+        val edit_profile_button: Button = root.findViewById(R.id.edit_profile_button)
+        edit_profile_button.setOnClickListener {
+            val action = DisplayBioFragmentDirections.actionNavDisplayBioToNavEditBio()
+            findNavController().navigate(action)
+        }
 
         return root
     }

@@ -14,6 +14,7 @@ import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.Client.Table.R
 
 
@@ -72,6 +73,8 @@ class EditBioFragment : Fragment() {
             if (validateInput())
             {
                 // afterwards the data can be stored in the model
+                val action = EditBioFragmentDirections.actionNavEditBioToNavDisplayBio()
+                findNavController().navigate(action)
             }
 
         }
