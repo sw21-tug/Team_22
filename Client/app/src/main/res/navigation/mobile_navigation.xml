@@ -28,4 +28,10 @@
         android:name="com.Client.Table.ui.bio.EditBioFragment"
         android:label="menu_edit_bio"
         tools:layout="@layout/fragment_edit_bio" />
+
+    <fragment
+        android:id="@+id/nav_display_bio"
+        android:name="com.Client.Table.ui.bio.DisplayBioFragment"
+        android:label="menu_display_bio"
+        tools:layout="@layout/fragment_display_bio" />
 </navigation>

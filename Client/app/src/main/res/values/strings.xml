@@ -35,7 +35,8 @@
     <string name="bio_interests_ttrpgs">Tabletop role-playing games (TTRPGs)</string>
     <string name="bio_interests_wargames"> Wargames </string>
     <string name="submit_button_text">SUBMIT</string>
-
+    <string name="your_personal_bio">Your Personal Bio</string>
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
+    <string name="your_bio">Your Bio</string>
 </resources>
