@@ -9,6 +9,8 @@ import android.net.Uri
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -89,6 +91,7 @@ class EditBioFragmentTest {
         intent.data = Uri.fromFile(file)
         return Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
     }
+
     @Test
     fun checkEditedFields()
     {
@@ -103,7 +106,35 @@ class EditBioFragmentTest {
 
         onView(withId(R.id.bio_age_input)).check(matches(hasErrorText(context.resources.getString(R.string.bio_error_message_age_range))))
         onView(withId(R.id.bio_username_input)).check(matches(hasErrorText(context.resources.getString(R.string.bio_error_message_empty_username))))
+    }
 
+    @Test
+    fun testProfileSubmitButton()
+    {
+        // ** Start **
+        // Adapted from https://developer.android.com/guide/navigation/navigation-testing
+        val navController = TestNavHostController(
+            ApplicationProvider.getApplicationContext())
+
+        val scenario = launchFragmentInContainer<EditBioFragment> {
+            EditBioFragment().also { fragment ->
+                fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                    if (viewLifecycleOwner != null) {
+                        navController.setGraph(R.navigation.mobile_navigation)
+                        Navigation.setViewNavController(fragment.requireView(), navController)
+                        navController.setCurrentDestination(R.id.nav_edit_bio)
+                    }
+                }
+            }
+        }
+        // ** End **
+
+        onView(withId(R.id.bio_username_input)).perform(typeText("dzemail"), closeSoftKeyboard())
+        onView(withId(R.id.bio_age_input)).perform(typeText("20"), closeSoftKeyboard())
+        onView(withId(R.id.bio_city_input)).perform(typeText("Graz"), closeSoftKeyboard())
+        onView(withId(R.id.edit_bio_header)).check(matches(isDisplayed()))
+        onView(withId(R.id.edit_bio_submit)).perform(scrollTo(), click())
+        navController.currentDestination?.id?.equals(R.id.nav_display_bio)?.let { assert(it) }
 
     }
 }
