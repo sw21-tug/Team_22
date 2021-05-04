@@ -89,4 +89,19 @@ class EditBioFragmentTest {
         intent.data = Uri.fromFile(file)
         return Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
     }
+    @Test
+    fun checkEditedFields()
+    {
+        onView(withId(R.id.bio_username_input)).perform(typeText(" "), closeSoftKeyboard())
+        onView(withId(R.id.bio_age_input)).perform(typeText("123"), closeSoftKeyboard())
+        onView(withId(R.id.bio_city_input)).perform(typeText("Sarajevo"), closeSoftKeyboard())
+
+
+        onView(withId(R.id.edit_bio_submit)).perform(click())
+
+        onView(withId(R.id.bio_age_input)).check(matches(hasErrorText("This is not a valid age")))
+        onView(withId(R.id.bio_username_input)).check(matches(hasErrorText("Please enter an username")))
+
+
+    }
 }
