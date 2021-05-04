@@ -1,6 +1,9 @@
 package com.Client.Table.ui.bio
 
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -31,10 +34,26 @@ class DisplayBioFragmentTest {
     @Test
     fun testEditProfileButton()
     {
-        launchFragmentInContainer<DisplayBioFragment>()
+        // ** Start **
+        // Adapted from https://developer.android.com/guide/navigation/navigation-testing
+        val navController = TestNavHostController(
+                ApplicationProvider.getApplicationContext())
+
+        val scenario = launchFragmentInContainer<DisplayBioFragment> {
+            DisplayBioFragment().also { fragment ->
+                fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                    if (viewLifecycleOwner != null) {
+                        navController.setGraph(R.navigation.mobile_navigation)
+                        Navigation.setViewNavController(fragment.requireView(), navController)
+                        navController.setCurrentDestination(R.id.nav_display_bio)
+                    }
+                }
+            }
+        }
+        // ** End **
         onView(withId(R.id.display_bio_header)).check(matches(isDisplayed()))
-        onView(withId(R.id.edit_profile_button)).perform(click())
-        onView(withId(R.id.edit_bio_header)).check(matches(isDisplayed()))
+        onView(withId(R.id.edit_profile_button)).perform(scrollTo(), click())
+        navController.currentDestination?.id?.equals(R.id.nav_edit_bio)?.let { assert(it) }
 
     }
 }
