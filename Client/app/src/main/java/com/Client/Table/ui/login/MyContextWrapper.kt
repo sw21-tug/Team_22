@@ -60,3 +60,5 @@ class MyContextWrapper(base: Context) : ContextWrapper(base) {
         }
     }
 }
+
+// Adapted from https://github.com/techguynaresh/androidKotlin

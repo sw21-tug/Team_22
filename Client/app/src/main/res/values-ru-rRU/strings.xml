@@ -37,5 +37,14 @@
     <string name="register_checkbox">"Я согласен с правилами и условиями"</string>
     <string name="register_btn">"ПРЕДСТАВИТЬ"</string>
 
+    <string name="emailError">Пожалуйста, введите действительный адрес электронной почты</string>
+    <string name="userError">Длина имени пользователя должна быть более 4 символов</string>
+    <string name="passwordError">Длина пароля должна быть более 6 символов</string>
+    <string name="repeatError">Пожалуйста, введите пароль еще раз</string>
+    <string name="matchError">Пароль не подходит</string>
+    <string name="checkerror">Это необходимо проверить</string>
+
+    <string name="ru">ru</string>
+
 
 </resources>

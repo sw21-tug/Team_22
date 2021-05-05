@@ -21,3 +21,5 @@ class MyPreference(context : Context){
     }
 
 }
+
+// Adapted from https://github.com/techguynaresh/androidKotlin

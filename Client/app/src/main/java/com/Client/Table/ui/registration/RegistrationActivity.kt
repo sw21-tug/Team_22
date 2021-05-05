@@ -11,6 +11,9 @@ import android.widget.Toast
 import com.Client.Table.R
 
 
+
+
+
 class RegistrationActivity : AppCompatActivity() {
 
     lateinit var username: EditText
@@ -54,34 +57,34 @@ class RegistrationActivity : AppCompatActivity() {
 
         // checking the proper email format
         if (!isEmailValid(email.getText().toString())) {
-            email.setError("Please Enter Valid Email")
+            email.setError(getString(R.string.emailError))
             valid = false
         }
 
         if (username.getText().length < MIN_USERNAME_LENGTH) {
-            username.setError("Username Length must be more than 4 characters")
+            username.setError(getString(R.string.userError))
             valid = false
         }
 
         // checking minimum password Length
         if (password.getText().length < MIN_PASSWORD_LENGTH) {
-            password.setError("Password Length must be more than 6 characters")
+            password.setError(getString(R.string.passwordError))
             valid = false
         }
 
         if (repeatPassword.getText().toString().equals("")) {
-            repeatPassword.setError("Please Enter Repeat Password")
+            repeatPassword.setError(getString(R.string.repeatError))
             valid = false
         }
 
         // Checking if repeat password is same
         if (!password.getText().toString().equals(repeatPassword.text.toString())) {
-            repeatPassword.setError("Password does not match")
+            repeatPassword.setError(getString(R.string.matchError))
             valid = false
         }
 
         if (!check_box.isChecked()){
-            check_box.setError("This has to be checked")
+            check_box.setError(getString(R.string.checkerror))
             valid = false
         }
         return valid

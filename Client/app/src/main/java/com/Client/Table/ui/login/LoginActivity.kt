@@ -43,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Responsible for changing language
 
+        // Addapted https://github.com/techguynaresh/androidKotlin
+
         val language = findViewById<Button>(R.id.btnLanguage)
         val spinner = findViewById<Spinner>(R.id.spinner)
 

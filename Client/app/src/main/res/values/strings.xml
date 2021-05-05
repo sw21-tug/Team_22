@@ -33,6 +33,14 @@
     <string name="register_btn">"SUBMIT"</string>
     <string name="selectedlanguage">English</string>
     <string name="language">LANGUAGES</string>
+    <string name="emailError">Please Enter Valid Email</string>
+    <string name="userError">Username Length must be more than 4 characters</string>
+    <string name="passwordError">Password Length must be more than 6 characters</string>
+    <string name="repeatError">Please Enter Repeat Password</string>
+    <string name="matchError">Password does not match</string>
+    <string name="checkerror">This has to be checked</string>
+
+    <string name="ru">ru</string>
 
 
 
