@@ -45,7 +45,7 @@ class DisplayBioFragment : Fragment() {
         })
 
         bioViewModel.bio_age.observe(viewLifecycleOwner, Observer {
-            bio_age.text = it
+            bio_age.text = it.toString()
         })
 
         bioViewModel.bio_city.observe(viewLifecycleOwner, Observer {
