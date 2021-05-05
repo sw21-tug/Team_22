@@ -25,8 +25,15 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="btnLanguage">"SELECT"</string>
+    <string name="register_title">"Register"</string>
+    <string name="register_username">"Username"</string>
+    <string name="password_repeat">"Repeat password"</string>
+    <string name="register_checkbox">"I agree to terms and conditions"</string>
+    <string name="register_btn">"SUBMIT"</string>
     <string name="selectedlanguage">English</string>
-    <string name="language">LANGUAGES</string>`
+    <string name="language">LANGUAGES</string>
+
 
 
 </resources>

@@ -28,7 +28,14 @@
     <string name="menu_slideshow">Слайд-шоу</string>
 
     <string name="selectedlanguage">Aнглийский</string>
-    <string name="language">ЯЗЫКИ</string>`
+    <string name="language">ЯЗЫКИ</string>
+
+    <string name="btnLanguage">"ВЫБРАТЬ"</string>
+    <string name="register_title">"Pегистр"</string>
+    <string name="register_username">"Имя пользователя"</string>
+    <string name="password_repeat">"Повторите пароль"</string>
+    <string name="register_checkbox">"Я согласен с правилами и условиями"</string>
+    <string name="register_btn">"ПРЕДСТАВИТЬ"</string>
 
 
 </resources>
