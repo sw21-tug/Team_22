@@ -70,8 +70,8 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="97dp"
-        android:layout_height="45dp"
+        android:layout_width="98dp"
+        android:layout_height="47dp"
         android:layout_gravity="start"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
@@ -81,7 +81,7 @@
         android:text="@string/action_sign_in_short"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintHorizontal_bias="0.031"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.0" />
@@ -122,30 +122,53 @@
 
     <Button
         android:id="@+id/btnLanguage"
-        android:layout_width="98dp"
-        android:layout_height="39dp"
+        android:layout_width="99dp"
+        android:layout_height="41dp"
         android:gravity="center"
         android:text="@string/btnLanguage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.611" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="212dp"
-        android:layout_height="27dp"
+        android:layout_width="182dp"
+        android:layout_height="35dp"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
         android:spinnerMode="dropdown"
         android:splitMotionEvents="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toEndOf="@+id/btnLanguage"
         app:layout_constraintTop_toBottomOf="@+id/register"
-        app:layout_constraintVertical_bias="0.389" />
+        app:layout_constraintVertical_bias="0.607" />
+
+    <EditText
+        android:id="@+id/editTextLanguage"
+        android:layout_width="142dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="serif"
+        android:inputType="textPersonName"
+        android:text="@string/txt_Language"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLanguage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,7 +44,7 @@
     <string name="matchError">Пароль не подходит</string>
     <string name="checkerror">Это необходимо проверить</string>
 
-    <string name="ru">ru</string>
+    <string name="txt_Language">Язык</string>
 
 
 </resources>

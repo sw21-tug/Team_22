@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var myPreference: MyPreference
     lateinit var context: Context
 
-    val languageList = arrayOf("en","ru")
+    val languageList = arrayOf("EN","RU")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
