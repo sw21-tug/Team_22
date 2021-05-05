@@ -26,7 +26,9 @@ class LoginActivityLanguageTest{
         onView(withId(R.id.login)).check(matches(withText("Войти")))
 
         onView(withId(R.id.username)).perform(typeText("username"))
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.password)).perform(typeText("password"))
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.login)).perform(click())
         onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
 
