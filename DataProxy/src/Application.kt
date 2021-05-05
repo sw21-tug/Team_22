@@ -30,34 +30,14 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    val issuer = "127.0.0.1" //environment.config.property("jwt.domain").getString()
-    val audience ="L4GUser"// environment.config.property("jwt.audience").getString()
-    val myRealm = "L4GServer"//environment.config.property("jwt.realm").getString()
-    val secret:String = "secret"
-    val verifierStringHeader:String = "isLoggedIn"
-    val verifierString:String = "loggedIn"
-    val encryptionAlgorithm:Algorithm = Algorithm.HMAC256(secret)
-
-
-    fun Application.generateToken(userCredentials: UserCredentials): String =
-        JWT.create().withAudience(audience)
-        .withIssuer(issuer)
-        .withClaim(verifierStringHeader, verifierString)
-        .withClaim("username", userCredentials.username)
-        .withExpiresAt(Date(System.currentTimeMillis() + 36000000)) //expirationtime, currently 10hours
-        .sign(encryptionAlgorithm)
-
+    val jwthandler: JWTHandler = JWTHandler();
     install(Authentication) {
-        jwt{
-            realm = myRealm
-            verifier(JWT
-                .require(encryptionAlgorithm)
-                .withAudience(audience)
-                .withIssuer(issuer)
-                .build())
+        jwt("requires-logged-in"){
+            realm = jwthandler.myRealm
+            verifier(jwthandler.getLoginVerifier())
             validate { credential ->
-                var claim = credential.payload.getClaim(verifierStringHeader).asString()
-                if (claim.equals(verifierString)) {
+                var hasClaim = credential.payload.claims.contains(jwthandler.usernameString)
+                if (hasClaim) {
                     JWTPrincipal(credential.payload)
                 } else {
                     null
@@ -84,8 +64,9 @@ fun Application.module(testing: Boolean = false) {
         }
 
         route("/testauthentication"){
-            authenticate{
+            authenticate("requires-logged-in"){
             get("/") {
+                //think about cases where users delete accounts, yet someone could still send a request with a valid JWT Token with no corresponding user.
                 call.response.status(HttpStatusCode.OK)
                 call.respond("JWT is valid")
                }
@@ -141,19 +122,21 @@ fun Application.module(testing: Boolean = false) {
                     if (!users.isEmpty() && Users.credentialsEquals(credentials, users[0]))
                     {
                             call.response.status(HttpStatusCode.OK)
-                            call.respondText(generateToken(credentials))
+                            call.respondText(jwthandler.generateLoginToken(credentials))
                             return@post
                     }
+                    call.response.status(HttpStatusCode.NotFound)
+                    call.respond("Yes")
+                    return@post
 
                 } catch (e: Exception) {
                     call.response.status(HttpStatusCode.NotAcceptable)
                     call.respondText("Failed to parse User")
                     return@post
                 }
-                call.response.status(HttpStatusCode.NotFound)
-                call.respond("Yes")
+                call.response.status(HttpStatusCode.ExpectationFailed)
+                call.respond("Oh no!")
             }
-
         }
 
 
