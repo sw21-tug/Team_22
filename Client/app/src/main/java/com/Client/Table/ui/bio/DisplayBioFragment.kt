@@ -1,56 +1,45 @@
 package com.Client.Table.ui.bio
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.Client.Table.MainViewActivity
 import com.Client.Table.R
-import com.Client.Table.ui.home.HomeFragment
 
-class DisplayBioFragment : Fragment() {
+class DisplayBioFragment : Fragment()
+{
+    private lateinit var bio_username: TextView
+    private lateinit var bio_age: TextView
+    private lateinit var bio_city: TextView
 
-    private lateinit var bioViewModel: BioViewModel
+    private lateinit var bio_preference_1: TextView
+    private lateinit var bio_preference_2: TextView
+    private lateinit var bio_preference_3: TextView
+    private lateinit var bio_preference_4: TextView
+
+    private val bioViewModel: BioViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bioViewModel =
-            ViewModelProvider(this).get(BioViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_display_bio, container, false)
 
-        val bio_username: TextView = root.findViewById(R.id.bio_username_display)
-        val bio_age: TextView = root.findViewById(R.id.bio_age_display)
-        val bio_city: TextView = root.findViewById(R.id.bio_city_display)
+        bio_username = root.findViewById(R.id.bio_username_display)
+        bio_age = root.findViewById(R.id.bio_age_display)
+        bio_city = root.findViewById(R.id.bio_city_display)
 
-        val bio_preference_1: TextView = root.findViewById(R.id.display_bio_preference_1)
-        val bio_preference_2: TextView = root.findViewById(R.id.display_bio_preference_2)
-        val bio_preference_3: TextView = root.findViewById(R.id.display_bio_preference_3)
-        val bio_preference_4: TextView = root.findViewById(R.id.display_bio_preference_4)
-
-        bioViewModel.bio_username.observe(viewLifecycleOwner, Observer {
-            bio_username.text = it
-        })
-
-        bioViewModel.bio_age.observe(viewLifecycleOwner, Observer {
-            bio_age.text = it.toString()
-        })
-
-        bioViewModel.bio_city.observe(viewLifecycleOwner, Observer {
-            bio_city.text = it
-        })
+        bio_preference_1 = root.findViewById(R.id.display_bio_preference_1)
+        bio_preference_2 = root.findViewById(R.id.display_bio_preference_2)
+        bio_preference_3 = root.findViewById(R.id.display_bio_preference_3)
+        bio_preference_4 = root.findViewById(R.id.display_bio_preference_4)
 
         val edit_profile_button: Button = root.findViewById(R.id.edit_profile_button)
         edit_profile_button.setOnClickListener {
@@ -59,5 +48,54 @@ class DisplayBioFragment : Fragment() {
         }
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bioViewModel.bio_username.observe(viewLifecycleOwner, Observer { it ->
+            bio_username.text = it
+        })
+
+        bioViewModel.bio_age.observe(viewLifecycleOwner, Observer { it ->
+            bio_age.text = it.toString()
+        })
+
+        bioViewModel.bio_city.observe(viewLifecycleOwner, Observer {
+            bio_city.text = it
+        })
+
+        bioViewModel.bio_card_games.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                bio_preference_1.visibility = TextView.VISIBLE
+            } else {
+                bio_preference_1.visibility = TextView.INVISIBLE
+            }
+
+        })
+
+        bioViewModel.bio_board_games.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                bio_preference_2.visibility = TextView.VISIBLE
+            } else {
+                bio_preference_2.visibility = TextView.INVISIBLE
+            }
+        })
+
+        bioViewModel.bio_ttrpg.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                bio_preference_3.visibility = TextView.VISIBLE
+            } else {
+                bio_preference_3.visibility = TextView.INVISIBLE
+            }
+        })
+
+        bioViewModel.bio_wargames.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                bio_preference_4.visibility = TextView.VISIBLE
+            } else {
+                bio_preference_4.visibility = TextView.INVISIBLE
+            }
+        })
     }
 }
