@@ -9,6 +9,14 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.Client.Table.R
+import androidx.lifecycle.viewModelScope
+import com.Client.Table.data.model.User
+import com.Client.Table.network.BackendApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -97,8 +105,16 @@ class RegistrationActivity : AppCompatActivity() {
             val password = password.getText().toString()
             val repeatPassword = repeatPassword.getText().toString()
 
-            Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
-            // Here you can call you API
+            var success: Boolean = false
+            runBlocking {
+                success = RegistrationModel().register(username, email, password) != null
+            }
+
+            if (success) {
+                Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show()
+            }
 
         } else {
             Toast.makeText(this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show()
