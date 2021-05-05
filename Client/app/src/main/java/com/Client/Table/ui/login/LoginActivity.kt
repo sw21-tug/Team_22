@@ -18,7 +18,13 @@ import android.widget.Toast
 import com.Client.Table.MainViewActivity
 
 import com.Client.Table.R
+import com.Client.Table.data.LoginDataSource
+import com.Client.Table.data.LoginRepository
+import com.Client.Table.network.BackendApi
 import com.Client.Table.ui.registration.RegistrationActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class LoginActivity : AppCompatActivity() {
 
@@ -115,14 +121,25 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
+        // test authentication for reference purpose
+        GlobalScope.launch {
+            try {
+                println(BackendApi.retrofitService.testauthentication(model.jwtToken).response)
+            } catch (e: Exception)
+            {
+                println("Error: authenticated route not working although logged in")
+                e.printStackTrace()
+            }
+        }
+
         val intent = Intent(this, MainViewActivity::class.java).apply{
 //pass stuff?
         }
         startActivity(intent)
         Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
+                applicationContext,
+                "$welcome $displayName",
+                Toast.LENGTH_LONG
         ).show()
     }
 
