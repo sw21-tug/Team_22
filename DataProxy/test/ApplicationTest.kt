@@ -249,10 +249,13 @@ class ApplicationTest {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
             }
+            val mapper = jacksonObjectMapper()
             var token = ""
             login_request.apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                token = response.content.toString()
+                //assertEquals(HttpStatusCode.OK, response.status())
+                val tokentree: JsonNode = mapper.readTree(response.content)
+                val mapperJWT = jacksonObjectMapper().convertValue<String>(tokentree.get("jwtToken"))
+                token = mapperJWT
             }
             val authentication_request = handleRequest(HttpMethod.Get,"/testauthentication/") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())

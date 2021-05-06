@@ -68,7 +68,7 @@ fun Application.module(testing: Boolean = false) {
             get("/") {
                 //think about cases where users delete accounts, yet someone could still send a request with a valid JWT Token with no corresponding user.
                 call.response.status(HttpStatusCode.OK)
-                call.respond("JWT is valid")
+                call.respond(mapOf("response" to "JWT is valid"))
                }
             }
         }
@@ -122,7 +122,7 @@ fun Application.module(testing: Boolean = false) {
                     if (!users.isEmpty() && Users.credentialsEquals(credentials, users[0]))
                     {
                             call.response.status(HttpStatusCode.OK)
-                            call.respondText(jwthandler.generateLoginToken(credentials))
+                            call.respond(mapOf("jwtToken" to jwthandler.generateLoginToken(credentials)))
                             return@post
                     }
                     call.response.status(HttpStatusCode.NotFound)
