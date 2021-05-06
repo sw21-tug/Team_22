@@ -1,6 +1,7 @@
 package com.Client.Table.ui.registration
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -20,9 +21,9 @@ class RegistrationActivityLanguageTest {
         onView(withId(R.id.registerBtn)).perform(click())
 
         onView(withId(R.id.register_email)).perform(typeText("tarik"))
-        closeSoftKeyboard()
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.register_btn)).perform(click())
-        onView(withId(R.id.register_email)).check(matches(hasErrorText(R.string.emailError.toString())))
+        onView(withId(R.id.register_email)).check(matches(hasErrorText("Пожалуйста, введите действительный адрес электронной почты")))
     }
 
 
@@ -36,9 +37,9 @@ class RegistrationActivityLanguageTest {
         onView(withId(R.id.registerBtn)).perform(click())
 
         onView(withId(R.id.register_username)).perform(typeText("ta"))
-        closeSoftKeyboard()
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.register_btn)).perform(click())
-        onView(withId(R.id.register_username)).check(matches(hasErrorText(R.string.userError.toString())))
+        onView(withId(R.id.register_username)).check(matches(hasErrorText("Длина имени пользователя должна быть более 4 символов")))
     }
 
 }
