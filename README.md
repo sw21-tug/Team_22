@@ -49,9 +49,3 @@ The whole Setup has only been tested on Ubuntu Version 20.
 -Login UI https://github.com/sw21-tug/Team_22/projects/1#card-58962879
 
 -Login Backend https://github.com/sw21-tug/Team_22/projects/1#card-58962886
-
--Implement new Language https://github.com/sw21-tug/Team_22/projects/1#card-60000383
-
--User Bio UI https://github.com/sw21-tug/Team_22/projects/1#card-58962898
-
--User Bio Backend https://github.com/sw21-tug/Team_22/projects/1#card-58962921
