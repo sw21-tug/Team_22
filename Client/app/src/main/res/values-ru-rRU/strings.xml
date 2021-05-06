@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Клиент</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Электронное письмо</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="prompt_user_name">Имя пользователя</string>
+    <string name="action_sign_in">Войдите или зарегистрируйтесь</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="action_register">Pегистр </string>
+    <string name="welcome">"Добро пожаловать !"</string>
+    <string name="invalid_username">Неверное имя пользователя</string>
+    <string name="invalid_password">Пароль должен содержать более 5 символов.</string>
+    <string name="login_failed">"Ошибка входа"</string>
+    <string name="login_text">"Войти в поиск группы"</string>
+    <string name="title_activity_main_view">Основной вид деятельности</string>
+    <string name="title_activity_register_view">Зарегистрироваться Посмотреть активность</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="nav_header_title">Cтудия Android</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Заголовок навигации</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="menu_home">Дом</string>
+    <string name="menu_gallery">Галерея</string>
+    <string name="menu_slideshow">Слайд-шоу</string>
+
+    <string name="selectedlanguage">Aнглийский</string>
+    <string name="language">ЯЗЫКИ</string>
+
+    <string name="btnLanguage">"ВЫБРАТЬ"</string>
+    <string name="register_title">"Pегистр"</string>
+    <string name="register_username">"Имя пользователя"</string>
+    <string name="password_repeat">"Повторите пароль"</string>
+    <string name="register_checkbox">"Я согласен с правилами и условиями"</string>
+    <string name="register_btn">"ПРЕДСТАВИТЬ"</string>
+
+    <string name="emailError">Пожалуйста, введите действительный адрес электронной почты</string>
+    <string name="userError">Длина имени пользователя должна быть более 4 символов</string>
+    <string name="passwordError">Длина пароля должна быть более 6 символов</string>
+    <string name="repeatError">Пожалуйста, введите пароль еще раз</string>
+    <string name="matchError">Пароль не подходит</string>
+    <string name="checkerror">Это необходимо проверить</string>
+
+    <string name="txt_Language">Язык</string>
+
+    <string name="menu_edit_bio">Редактировать биографию</string>
+    <string name="edit_bio_heading">Редактировать личную биографию</string>
+    <string name="bio_hint_displayed_username">Отображаемое имя пользователя</string>
+    <string name="bio_hint_age">Возраст</string>
+    <string name="bio_hint_city">Город</string>
+    <string name="bio_checkboxes_interests_heading">Я заинтересован в ...</string>
+    <string name="bio_interests_card_games">Карточные игры</string>
+    <string name="bio_interests_board_games">Настольные игры</string>
+    <string name="bio_interests_ttrpgs">Настольные ролевые игры</string>
+    <string name="bio_interests_wargames"> Военные игры </string>
+    <string name="submit_button_text">ПРЕДСТАВИТЬ</string>
+    <string name="your_personal_bio">Ваша личная биография</string>
+    <string name="bio_error_message_age_range">Это недопустимый возраст</string>
+    <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
+    <string name="your_bio">Ваша биография</string>
+
+
+</resources>

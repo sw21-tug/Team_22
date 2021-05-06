@@ -24,6 +24,25 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="btnLanguage">"SELECT"</string>
+    <string name="register_title">"Register"</string>
+    <string name="register_username">"Username"</string>
+    <string name="password_repeat">"Repeat password"</string>
+    <string name="register_checkbox">"I agree to terms and conditions"</string>
+    <string name="register_btn">"SUBMIT"</string>
+    <string name="selectedlanguage">English</string>
+    <string name="language">LANGUAGES</string>
+    <string name="emailError">Please Enter Valid Email</string>
+    <string name="userError">Username Length must be more than 4 characters</string>
+    <string name="passwordError">Password Length must be more than 6 characters</string>
+    <string name="repeatError">Please Enter Repeat Password</string>
+    <string name="matchError">Password does not match</string>
+    <string name="checkerror">This has to be checked</string>
+
+    <string name="txt_Language">Language</string>
+
+
     <string name="menu_edit_bio">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
@@ -39,4 +58,5 @@
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
+
 </resources>

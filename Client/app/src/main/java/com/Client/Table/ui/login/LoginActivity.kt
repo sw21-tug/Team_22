@@ -1,6 +1,6 @@
 package com.Client.Table.ui.login
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,10 +11,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import com.Client.Table.MainViewActivity
 
 import com.Client.Table.R
@@ -30,16 +27,45 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
 
+    lateinit var myPreference: MyPreference
+    lateinit var context: Context
+
+    val languageList = arrayOf("EN","RU")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
+        context = this
+        myPreference = MyPreference(this)
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
+        val signin = findViewById<Button>(R.id.signinBtn)
         val loading = findViewById<ProgressBar>(R.id.loading)
-        val register = findViewById<Button>(R.id.register)
+        val registerBtn = findViewById<Button>(R.id.registerBtn)
+
+
+        // Responsible for changing language
+
+        // Addapted https://github.com/techguynaresh/androidKotlin
+
+        val selectLanguageBtn = findViewById<Button>(R.id.btnLanguage)
+        val selectLanuageSpinner = findViewById<Spinner>(R.id.languageSpinner)
+
+        selectLanuageSpinner.adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1, languageList)
+
+        val lang = myPreference.getLoginCount()
+        val index = languageList.indexOf(lang)
+        if(index >= 0){
+            selectLanuageSpinner.setSelection(index)
+        }
+
+        selectLanguageBtn.setOnClickListener {
+            myPreference.setLoginCount(languageList[selectLanuageSpinner.selectedItemPosition])
+            startActivity(Intent(this,LoginActivity::class.java))
+            finish()
+        }
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -48,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            signin.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -101,11 +127,11 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
-            login.setOnClickListener {
+            signin.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
-            register.setOnClickListener {
+            registerBtn.setOnClickListener {
                 updateUiForRegister()
             }
         }
@@ -146,6 +172,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        myPreference = MyPreference(newBase!!)
+        val lang:String = myPreference.getLoginCount()
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, lang))
     }
 }
 
