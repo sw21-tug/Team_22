@@ -1,12 +1,10 @@
 package com.Client.Table.ui.login
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.os.LocaleList
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
@@ -37,27 +35,28 @@ class LoginActivity : AppCompatActivity() {
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
+        val signin = findViewById<Button>(R.id.signinBtn)
         val loading = findViewById<ProgressBar>(R.id.loading)
-        val register = findViewById<Button>(R.id.register)
+        val registerBtn = findViewById<Button>(R.id.registerBtn)
+
 
         // Responsible for changing language
 
         // Addapted https://github.com/techguynaresh/androidKotlin
 
-        val language = findViewById<Button>(R.id.btnLanguage)
-        val spinner = findViewById<Spinner>(R.id.spinner)
+        val selectLanguageBtn = findViewById<Button>(R.id.btnLanguage)
+        val selectLanuageSpinner = findViewById<Spinner>(R.id.languageSpinner)
 
-        spinner.adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1, languageList)
+        selectLanuageSpinner.adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1, languageList)
 
         val lang = myPreference.getLoginCount()
         val index = languageList.indexOf(lang)
         if(index >= 0){
-            spinner.setSelection(index)
+            selectLanuageSpinner.setSelection(index)
         }
 
-        language.setOnClickListener {
-            myPreference.setLoginCount(languageList[spinner.selectedItemPosition])
+        selectLanguageBtn.setOnClickListener {
+            myPreference.setLoginCount(languageList[selectLanuageSpinner.selectedItemPosition])
             startActivity(Intent(this,LoginActivity::class.java))
             finish()
         }
@@ -69,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            signin.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -122,11 +121,11 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
-            login.setOnClickListener {
+            signin.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
-            register.setOnClickListener {
+            registerBtn.setOnClickListener {
                 updateUiForRegister()
             }
         }

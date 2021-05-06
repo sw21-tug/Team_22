@@ -69,7 +69,7 @@
 
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/signinBtn"
         android:layout_width="98dp"
         android:layout_height="47dp"
         android:layout_gravity="start"
@@ -87,7 +87,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/registerBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -130,11 +130,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@+id/signinBtn"
         app:layout_constraintVertical_bias="0.611" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/languageSpinner"
         android:layout_width="182dp"
         android:layout_height="35dp"
         android:layout_marginStart="44dp"
@@ -145,7 +145,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toEndOf="@+id/btnLanguage"
-        app:layout_constraintTop_toBottomOf="@+id/register"
+        app:layout_constraintTop_toBottomOf="@+id/registerBtn"
         app:layout_constraintVertical_bias="0.607" />
 
     <EditText
@@ -166,7 +166,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@+id/signinBtn"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
