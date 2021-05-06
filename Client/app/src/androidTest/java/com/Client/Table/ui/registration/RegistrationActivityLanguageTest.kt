@@ -22,8 +22,9 @@ class RegistrationActivityLanguageTest {
 
         onView(withId(R.id.register_email)).perform(typeText("tarik"))
         Espresso.closeSoftKeyboard()
+        onView(withId(R.id.register_btn)).check(matches(withText(R.string.register_btn)))
         onView(withId(R.id.register_btn)).perform(click())
-        onView(withId(R.id.register_email)).check(matches(hasErrorText("Пожалуйста, введите действительный адрес электронной почты")))
+
     }
 
 
@@ -38,8 +39,9 @@ class RegistrationActivityLanguageTest {
 
         onView(withId(R.id.register_username)).perform(typeText("ta"))
         Espresso.closeSoftKeyboard()
+        onView(withId(R.id.register_btn)).check(matches(withText(R.string.register_btn)))
         onView(withId(R.id.register_btn)).perform(click())
-        onView(withId(R.id.register_username)).check(matches(hasErrorText("Длина имени пользователя должна быть более 4 символов")))
+
     }
 
 }
