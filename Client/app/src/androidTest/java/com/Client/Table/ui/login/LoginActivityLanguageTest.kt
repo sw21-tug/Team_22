@@ -22,13 +22,6 @@ class LoginActivityLanguageTest{
 
         onView(withId(R.id.signinBtn)).check(matches(withText(R.string.action_sign_in_short)))
 
-        onView(withId(R.id.username)).perform(typeText("username"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.password)).perform(typeText("password"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.signinBtn)).perform(click())
-        onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
-
     }
 }
 

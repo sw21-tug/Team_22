@@ -20,8 +20,6 @@ class RegistrationActivityLanguageTest {
         onView(withId(R.id.btnLanguage)).perform((click()))
         onView(withId(R.id.registerBtn)).perform(click())
 
-        onView(withId(R.id.register_email)).perform(typeText("tarik"))
-        Espresso.closeSoftKeyboard()
         onView(withId(R.id.register_btn)).check(matches(withText(R.string.register_btn)))
         onView(withId(R.id.register_btn)).perform(click())
 
@@ -37,8 +35,6 @@ class RegistrationActivityLanguageTest {
         onView(withId(R.id.btnLanguage)).perform((click()))
         onView(withId(R.id.registerBtn)).perform(click())
 
-        onView(withId(R.id.register_username)).perform(typeText("ta"))
-        Espresso.closeSoftKeyboard()
         onView(withId(R.id.register_btn)).check(matches(withText(R.string.register_btn)))
         onView(withId(R.id.register_btn)).perform(click())
 
