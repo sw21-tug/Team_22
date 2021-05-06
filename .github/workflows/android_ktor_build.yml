@@ -51,6 +51,6 @@ jobs:
       - name: Run Android EspressoTests 
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 16
+          api-level: 26
           script: ./Client/gradlew -p ./Client connectedAndroidTest
 
