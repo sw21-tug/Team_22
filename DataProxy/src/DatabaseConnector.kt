@@ -43,6 +43,14 @@ class DatabaseConnector {
         return user
     }
 
+    fun getUserForAuth(credentials: UserCredentials):List<UserCredentials>{
+        val salt: String?
+        val users = transaction(db){
+            Users.select{Users.username eq credentials.username}.map{ Users.toUserCredentials(it)}
+        }
+        return users
+    }
+
     fun updateUsers(id:Int, name:String?=null):Int{
         transaction(db){
             Users.update({Users.id eq id}){

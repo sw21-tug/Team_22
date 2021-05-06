@@ -12,12 +12,17 @@ import io.ktor.jackson.*
 import io.ktor.features.*
 import com.Table.Server.DatabaseConnector
 import com.Table.Server.DatabaseObjects.*
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.auth.jwt.*
 import org.jetbrains.exposed.exceptions.ExposedSQLException
+import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
+
 fun Application.module(testing: Boolean = false) {
     install(Sessions) {
         cookie<MySession>("MY_SESSION") {
@@ -25,10 +30,19 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    val jwthandler: JWTHandler = JWTHandler();
     install(Authentication) {
-        basic("myBasicAuth") {
-            realm = "Ktor Server"
-            validate { if (it.name == "test" && it.password == "password") UserIdPrincipal(it.name) else null }
+        jwt("requires-logged-in"){
+            realm = jwthandler.myRealm
+            verifier(jwthandler.getLoginVerifier())
+            validate { credential ->
+                var hasClaim = credential.payload.claims.contains(jwthandler.usernameString)
+                if (hasClaim) {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
         }
     }
 
@@ -42,11 +56,22 @@ fun Application.module(testing: Boolean = false) {
     val dbConnector = DatabaseConnector()
     dbConnector.connectToDatabase()
 
+
+
     install(Routing) {
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
+        route("/testauthentication"){
+            authenticate("requires-logged-in"){
+            get("/") {
+                //think about cases where users delete accounts, yet someone could still send a request with a valid JWT Token with no corresponding user.
+                call.response.status(HttpStatusCode.OK)
+                call.respond(mapOf("response" to "JWT is valid"))
+               }
+            }
+        }
         route("/user") {
             get("/") {
                 val users = dbConnector.getAllUsers()
@@ -89,7 +114,29 @@ fun Application.module(testing: Boolean = false) {
                 call.response.status(HttpStatusCode.OK)
                 call.respond(mapOf("id" to id))
             }
+            post("/login") {
+                var credentials: UserCredentials?
+                try {
+                    credentials = call.receive<UserCredentials>()
+                    val users:List<UserCredentials> = dbConnector.getUserForAuth(credentials)
+                    if (!users.isEmpty() && Users.credentialsEquals(credentials, users[0]))
+                    {
+                            call.response.status(HttpStatusCode.OK)
+                            call.respond(mapOf("jwtToken" to jwthandler.generateLoginToken(credentials)))
+                            return@post
+                    }
+                    call.response.status(HttpStatusCode.NotFound)
+                    call.respond("Yes")
+                    return@post
 
+                } catch (e: Exception) {
+                    call.response.status(HttpStatusCode.NotAcceptable)
+                    call.respondText("Failed to parse User")
+                    return@post
+                }
+                call.response.status(HttpStatusCode.ExpectationFailed)
+                call.respond("Oh no!")
+            }
         }
 
 
@@ -100,13 +147,6 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("Counter is ${session.count}. Refresh to increment.")
         }
 
-        authenticate("myBasicAuth") {
-            get("/protected/route/basic") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
-            }
-        }
-
         get("/json/jackson") {
             call.respond(mapOf("hello" to "world"))
         }
@@ -114,4 +154,3 @@ fun Application.module(testing: Boolean = false) {
 }
 
 data class MySession(val count: Int = 0)
-

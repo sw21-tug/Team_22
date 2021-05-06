@@ -167,4 +167,190 @@ class ApplicationTest {
             }
         }
     }
+    @Test
+    fun testLoginIsInvalid(){
+        withTestApplication({ module(testing = true) }) {
+            val username ="Max Mustermann"
+            val password ="1234567"
+            val login_request = handleRequest(HttpMethod.Post, "/user/login"){
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotFound, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testLoginIsValid() {
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testInvalidPassword(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val password_invalid = "invalid"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password_invalid}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotFound, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAuthentication(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            val mapper = jacksonObjectMapper()
+            var token = ""
+            login_request.apply {
+                //assertEquals(HttpStatusCode.OK, response.status())
+                val tokentree: JsonNode = mapper.readTree(response.content)
+                val mapperJWT = jacksonObjectMapper().convertValue<String>(tokentree.get("jwtToken"))
+                token = mapperJWT
+            }
+            val authentication_request = handleRequest(HttpMethod.Get,"/testauthentication/") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, "Bearer " + token)
+            }
+
+            authentication_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+        }
+    }
+
+    @Test
+    fun testMissingPassword(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", }");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testMissingUsername(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testMissingLoginData(){
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAuthenticationWithoutToken(){
+        withTestApplication({ module(testing = true) }) {
+            val authentication_request = handleRequest(HttpMethod.Get,"/testauthentication/") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            }
+            authentication_request.apply {
+                assertEquals(HttpStatusCode.Unauthorized, response.status())
+            }
+        }
+    }
+    
 }

@@ -42,6 +42,7 @@
 
     <string name="txt_Language">Language</string>
 
+
     <string name="menu_edit_bio">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
@@ -57,7 +58,5 @@
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
-
-
 
 </resources>
