@@ -14,6 +14,7 @@ import com.Table.Server.DatabaseConnector
 import com.Table.Server.DatabaseObjects.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import io.ktor.auth.jwt.*
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
@@ -86,6 +87,31 @@ fun Application.module(testing: Boolean = false) {
                 }
                 call.respond(users[0])
             }
+            authenticate("requires-logged-in"){
+                post("/updateBio"){
+                    try {
+                        val bio = call.receive<Bio>()
+                        val ret = dbConnector.updateBio(bio)
+                        if(ret == 0){
+                            call.response.status(HttpStatusCode.OK)
+                            call.respondText("Bio Updated")
+                            return@post
+                        }
+                    }
+                    catch (e: ExposedSQLException){
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respondText("Cant insert Bio")
+                        return@post
+                    }
+                    catch (i:java.lang.Exception){
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respondText("Cant insert Bio")
+                        return@post
+                    }
+                    call.response.status(HttpStatusCode.ExpectationFailed)
+                    call.respond("Oh no!")
+                }
+            }
             post("/") {
                 val user = call.receive<User>()
                 val responseUser = dbConnector.insertUser(user)
@@ -138,8 +164,6 @@ fun Application.module(testing: Boolean = false) {
                 call.respond("Oh no!")
             }
         }
-
-
 
         get("/session/increment") {
             val session = call.sessions.get<MySession>() ?: MySession()

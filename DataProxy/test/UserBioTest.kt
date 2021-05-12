@@ -1,5 +1,6 @@
 package com.Table.Server
 
+import com.Table.Server.DatabaseObjects.Bio
 import com.Table.Server.DatabaseObjects.User
 import com.Table.Server.DatabaseObjects.UserCredentials
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -11,7 +12,7 @@ import io.ktor.server.testing.*
 class UserBioTest {
     val dbConnector: DatabaseConnector = DatabaseConnector()
 
-    val loggedInUser: User = User(1, "max", "mustermann", "password")
+    var loggedInUser: User = User(1, "max", "mustermann", "password")
     var jwtToken: String? = null
     val jwthandler = JWTHandler()
 
@@ -26,15 +27,16 @@ class UserBioTest {
         dbConnector.reset()
         dbConnector.insertUser(loggedInUser)
         jwtToken = "Bearer " + jwthandler.generateLoginToken(dbConnector.getUserForAuth(UserCredentials(loggedInUser.username, loggedInUser.password, null))[0])
+        loggedInUser = dbConnector.getUserById(loggedInUser.id!!)[0]
     }
 
     @Test
     fun testAddUserBio() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Put, "/user/updateBio") {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(Bio(null, "maxi_muster", 16, "Graz", true, false, true, false)))
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
             }
 
             update_bio_request.apply {
@@ -46,14 +48,14 @@ class UserBioTest {
     @Test
     fun testAddUserBioInvalid() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Put, "/user/updateBio") {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody("{\"id\": 100, \"age\": 16}") // missing obligatory username
+                setBody("{\"id\": 100, \"age\": \"16Invalid\"}") // missing obligatory username
             }
 
             update_bio_request.apply {
-                assertEquals(HttpStatusCode.Conflict, response.status())
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
             }
         }
     }
