@@ -58,5 +58,7 @@
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
+    <string name="your_group">Your Group</string>
+    <string name="menu_group">Group</string>
 
 </resources>

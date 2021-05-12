@@ -61,6 +61,8 @@
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>
     <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
     <string name="your_bio">Ваша биография</string>
+    <string name="your_group">Ваша группа</string>
+    <string name="menu_group">группа</string>
 
 
 </resources>

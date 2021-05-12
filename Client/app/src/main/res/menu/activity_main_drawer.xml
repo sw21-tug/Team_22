@@ -26,5 +26,9 @@
             android:id="@+id/nav_display_bio"
             android:icon="@drawable/ic_menu_edit_bio"
             android:title="@string/your_bio" />
+        <item
+            android:id="@+id/nav_display_group"
+            android:icon="@drawable/ic_menu_edit_bio"
+            android:title="@string/your_group" />
     </group>
 </menu>
