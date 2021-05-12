@@ -3,6 +3,8 @@ package com.Table.Server
 import com.Table.Server.DatabaseObjects.Bio
 import com.Table.Server.DatabaseObjects.User
 import com.Table.Server.DatabaseObjects.UserCredentials
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
 import org.junit.Before
@@ -52,6 +54,41 @@ class UserBioTest {
             update_bio_request.apply {
                 assertEquals(HttpStatusCode.NotAcceptable, response.status())
             }
+        }
+    }
+
+    @Test
+    fun testGetUserBioValid(){
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val get_bio_request = handleRequest(HttpMethod.Get, "/user/getBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            }
+
+            get_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree.get("bio"))
+                    assertTrue(mapperConvertValue.user_name == "maxi_muster")
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
         }
     }
 
