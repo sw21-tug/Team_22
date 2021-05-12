@@ -51,9 +51,10 @@ class DatabaseConnector {
         }
         return 0
     }
-    fun getBioById(id:Int):List<Bio>{
+    fun getBioByUsername(username: String):List<Bio>{
         val bio = transaction(db){
-            Bios.select{Bios.bio_id eq id}.map{ Bios.toBio(it)}
+            val user: User = getUserByUsername(username)[0]
+            Bios.select{Bios.bio_id eq user.bio_id!!}.map{ Bios.toBio(it)}
         }
         return bio
     }
@@ -61,6 +62,13 @@ class DatabaseConnector {
     fun getUserById(id:Int):List<User>{
         val users = transaction(db){
             Users.select{Users.id eq id}.map{ Users.toUser(it)}
+        }
+        return users
+    }
+
+    fun getUserByUsername(username: String):List<User>{
+        val users = transaction(db){
+            Users.select{Users.username eq username}.map{ Users.toUser(it)}
         }
         return users
     }

@@ -3,9 +3,10 @@ package com.Table.Server
 import com.Table.Server.DatabaseObjects.UserCredentials
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.application.*
+import io.ktor.auth.*
 import java.util.*
-import io.ktor.auth.jwt.*
+
+data class UserPrincipal(val username: String) : Principal
 
 class JWTHandler {
     val issuer: String = "127.0.0.1"

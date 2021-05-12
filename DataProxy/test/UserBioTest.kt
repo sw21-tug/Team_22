@@ -73,6 +73,7 @@ class UserBioTest {
 
             val get_bio_request = handleRequest(HttpMethod.Get, "/user/getBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
             }
 
             get_bio_request.apply {
