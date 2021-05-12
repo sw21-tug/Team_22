@@ -12,22 +12,17 @@ import io.ktor.server.testing.*
 class UserBioTest {
     val dbConnector: DatabaseConnector = DatabaseConnector()
 
-    var loggedInUser: User = User(1, "max", "mustermann", "password")
+    var loggedInUser: User = User(null, "max", "mustermann", "password")
     var jwtToken: String? = null
     val jwthandler = JWTHandler()
 
     @Before
     fun initDB() {
-        dbConnector.connectToDatabase()
-    }
-
-    @BeforeTest
-    fun resetDB() {
-        dbConnector.connectToDatabase()
         dbConnector.reset()
-        dbConnector.insertUser(loggedInUser)
+        dbConnector.connectToDatabase()
+        val id = dbConnector.insertUser(loggedInUser)
         jwtToken = "Bearer " + jwthandler.generateLoginToken(dbConnector.getUserForAuth(UserCredentials(loggedInUser.username, loggedInUser.password, null))[0])
-        loggedInUser = dbConnector.getUserById(loggedInUser.id!!)[0]
+        loggedInUser = dbConnector.getUserById(id)[0]
     }
 
     @Test
