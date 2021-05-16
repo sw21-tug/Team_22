@@ -29,7 +29,11 @@ interface BackendApiService {
     suspend fun login(@Body credentials: Credentials): LoginResponse
 
     @GET("/testauthentication/")
-    suspend fun testauthentication(@Header("Authorization") authToken: String) : TestAuthentication
+    suspend fun testauthentication(@Header("Authorization") authToken: String) : Response
+
+    @POST("/user/updateBio")
+    suspend fun updatebio(@Header("Authorization")authToken: String,@Body bio :Bio): Response
+
 }
 
 object BackendApi {

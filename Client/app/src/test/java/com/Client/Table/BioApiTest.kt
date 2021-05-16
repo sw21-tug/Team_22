@@ -6,6 +6,7 @@ import com.Client.Table.data.LoginRepository
 import com.Client.Table.data.model.RegistrationResponse
 import com.Client.Table.network.retrofit
 import com.Client.Table.ui.bio.BioViewModel
+import com.Client.Table.ui.login.LoggedInUserView
 import com.Client.Table.ui.login.LoginViewModel
 import com.Client.Table.ui.registration.RegistrationModel
 import com.squareup.moshi.Moshi
@@ -44,6 +45,7 @@ class BioApiTest {
             .baseUrl(StringBuilder("http://" + mockWebServer.hostName + ":" + mockWebServer.port.toString()).toString())
             .build()
         bioViewModel = BioViewModel()
+        LoginRepository.user = LoggedInUserView("Mario","1234567")
     }
     @After
     fun tearDown() {
@@ -57,7 +59,7 @@ class BioApiTest {
     @Test
     fun testUpdateBioApiCall()
     {
-        val response = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK).setBody("{\"result\":\"success\"}")
+        val response = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK).setBody("{\"response\":\"success\"}")
         mockWebServer.enqueue(response)
         var res: Boolean = bioViewModel!!.setData("mario", 21, "Graz", true, false, true, false)
 
