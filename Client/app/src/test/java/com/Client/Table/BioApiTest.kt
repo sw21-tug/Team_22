@@ -1,6 +1,7 @@
 package com.Client.Table
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import com.Client.Table.data.LoginDataSource
 import com.Client.Table.data.LoginRepository
 import com.Client.Table.data.model.RegistrationResponse
@@ -44,8 +45,12 @@ class BioApiTest {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(StringBuilder("http://" + mockWebServer.hostName + ":" + mockWebServer.port.toString()).toString())
             .build()
+
+        val response = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK).setBody("{\"bio_id\": \"1\", \"bio_username\": \"Mario\", \"bio_age\": \"20\"," +
+                " \"bio_city\": \"Graz\", \"bio_card_games\": \"true\", \"bio_board_games\": \"false\", \"bio_ttrpg\": \"false\", \"bio_wargames\": \"true\"}")
+        mockWebServer.enqueue(response)
         bioViewModel = BioViewModel()
-        LoginRepository.user = LoggedInUserView("Mario","1234567")
+        LoginRepository.user = LoggedInUserView("Mario","1")
     }
     @After
     fun tearDown() {
@@ -66,4 +71,16 @@ class BioApiTest {
         assert(res)
     }
 
+    @Test
+    fun testGetBioApiCall(){
+        assert(bioViewModel!!.bio_id.toString() == "1")
+        assert(bioViewModel!!.bio_username.toString() == "Mario")
+        assert(bioViewModel!!.bio_age.toString() == "20")
+        assert(bioViewModel!!.bio_city.toString() == "Graz")
+        assert(bioViewModel!!.bio_card_games.toString() == "true")
+        assert(bioViewModel!!.bio_board_games.toString() == "false")
+        assert(bioViewModel!!.bio_ttrpg.toString() == "false")
+        assert(bioViewModel!!.bio_wargames.toString() == "true")
+        
+    }
 }
