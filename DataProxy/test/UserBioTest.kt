@@ -80,7 +80,7 @@ class UserBioTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree.get("bio"))
+                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree)
                     assertTrue(mapperConvertValue.user_name == "maxi_muster")
                 }
                 catch (e:Exception)

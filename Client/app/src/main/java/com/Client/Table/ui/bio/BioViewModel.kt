@@ -33,23 +33,29 @@ class BioViewModel : ViewModel() {
 
     init {
         runBlocking {
-            val bio: Bio = BackendApi.retrofitService.getBio(LoginRepository.user!!.jwtToken)
-            if (bio.id != null)
-                _bio_id.value = bio.id
-            if (bio.user_name != null)
-                _username.value = bio.user_name
-            if (bio.age != null)
-                _age.value = bio.age
-            if (bio.city != null)
-                _city.value = bio.city
-            if (bio.card_games != null)
-                _card_games.value = bio.card_games
-            if (bio.card_games != null)
-                _board_games.value = bio.board_games
-            if (bio.ttrpg != null)
-                _ttrpg.value = bio.ttrpg
-            if (bio.wargames != null)
-                _wargames.value = bio.wargames
+            try {
+                val bio: Bio = BackendApi.retrofitService.getBio(LoginRepository.user!!.jwtToken)
+                if (bio.id != null)
+                    _bio_id.value = bio.id
+                if (bio.user_name != null)
+                    _username.value = bio.user_name
+                if (bio.age != null)
+                    _age.value = bio.age
+                if (bio.city != null)
+                    _city.value = bio.city
+                if (bio.card_games != null)
+                    _card_games.value = bio.card_games
+                if (bio.card_games != null)
+                    _board_games.value = bio.board_games
+                if (bio.ttrpg != null)
+                    _ttrpg.value = bio.ttrpg
+                if (bio.wargames != null)
+                    _wargames.value = bio.wargames
+            } catch (e: Exception)
+            {
+                e.printStackTrace()
+                println("Get bio did not work")
+            }
         }
     }
 

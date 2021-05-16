@@ -10,12 +10,22 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.Client.Table.R
+import com.Client.Table.data.LoginDataSource
+import com.Client.Table.data.LoginRepository
+import com.Client.Table.ui.login.LoggedInUserView
+import com.Client.Table.ui.login.LoginViewModel
 import org.hamcrest.CoreMatchers.not
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DisplayBioFragmentTest {
+    @Before
+    fun setUp() {
+        LoginRepository.user = LoggedInUserView("Mario", "1")
+    }
+
     @Test
     fun testDisplayingWhenModelEmpty()
     {

@@ -20,12 +20,20 @@ import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.Client.Table.R
+import com.Client.Table.data.LoginRepository
+import com.Client.Table.ui.login.LoggedInUserView
 import org.hamcrest.Matchers.*
+import org.junit.Before
 import org.junit.Test
 import java.io.*
 import java.lang.Exception
 
 class EditBioFragmentTest {
+    @Before
+    fun setUp()
+    {
+        LoginRepository.user = LoggedInUserView("Mario", "1")
+    }
 
     @Test
     fun testInputFields()

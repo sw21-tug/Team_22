@@ -31,7 +31,7 @@ class BioApiTest {
     fun setUp() {
         // start the mocked web server and inject the edited retrofit server to the mocked one
         mockWebServer = MockWebServer()
-        mockWebServer.start()
+        mockWebServer.start(8190)
         retrofit = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(StringBuilder("http://" + mockWebServer.hostName + ":" + mockWebServer.port.toString()).toString())
@@ -77,6 +77,5 @@ class BioApiTest {
         assert(bioViewModel!!.bio_board_games.value == false)
         assert(bioViewModel!!.bio_ttrpg.value == false)
         assert(bioViewModel!!.bio_wargames.value == true)
-        
     }
 }
