@@ -89,24 +89,26 @@ fun Application.module(testing: Boolean = false) {
                     try {
                         val bio = call.receive<Bio>()
                         val ret = dbConnector.updateBio(bio)
-                        if(ret == 0){
+                        if (ret == 0) {
                             call.response.status(HttpStatusCode.OK)
-                            call.respondText("Bio Updated")
+                            call.respond(mapOf("response" to "success"))
                             return@post
+                        } else {
+                            throw Exception("ID invalid")
                         }
                     }
-                    catch (e: ExposedSQLException){
+                    catch (e: ExposedSQLException) {
                         call.response.status(HttpStatusCode.Conflict)
-                        call.respondText("Cant insert Bio")
+                        call.respond(mapOf("response" to "Conflict"))
                         return@post
                     }
-                    catch (i:java.lang.Exception){
+                    catch (i:java.lang.Exception) {
                         call.response.status(HttpStatusCode.NotAcceptable)
-                        call.respondText("Cant insert Bio")
+                        call.respond(mapOf("response" to "Request not acceptable"))
                         return@post
                     }
                     call.response.status(HttpStatusCode.ExpectationFailed)
-                    call.respond("Oh no!")
+                    call.respond(mapOf("response" to "Oh no!"))
                 }
 
                 get("/getBio") {
@@ -114,17 +116,17 @@ fun Application.module(testing: Boolean = false) {
                         val bios = dbConnector.getBioByUsername(call.principal<UserPrincipal>()!!.username)
                         if (!bios.isEmpty()) {
                             call.response.status(HttpStatusCode.OK)
-                            call.respond(mapOf("bio" to bios[0]))
+                            call.respond(bios[0])
                             return@get
                         } else {
                             call.response.status(HttpStatusCode.NotFound)
-                            call.respond("No bio existing for user")
+                            call.respond(mapOf("response" to "No bio existing for user"))
                             return@get
                         }
                     }
                     catch (i:java.lang.Exception){
                         call.response.status(HttpStatusCode.Conflict)
-                        call.respondText("Cant retrieve bio")
+                        call.respond(mapOf("response" to "Cant retrieve bio"))
                         return@get
                     }
                 }
