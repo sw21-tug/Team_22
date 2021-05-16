@@ -32,7 +32,10 @@ interface BackendApiService {
     suspend fun testauthentication(@Header("Authorization") authToken: String) : Response
 
     @POST("/user/updateBio")
-    suspend fun updatebio(@Header("Authorization")authToken: String,@Body bio :Bio): Response
+    suspend fun updateBio(@Header("Authorization")authToken: String, @Body bio :Bio): Response
+
+    @GET("/user/getBio")
+    suspend fun getBio(@Header("Authorization")authToken: String): Bio
 
 }
 
