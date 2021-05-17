@@ -62,6 +62,10 @@
     <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
     <string name="your_bio">Ваша биография</string>
     <string name="your_group">Ваша группа</string>
+    <string name="group_not_found">группа не найдена</string>
+    <string name="cannot_add_member_twice">Невозможно добавить участника дважды</string>
+    <string name="deleted_member">Удаленный участник</string>
+    <string name="too_many_members">В группах может быть не более 10 участников.</string>
     <string name="menu_group">группа</string>
 
 

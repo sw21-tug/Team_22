@@ -59,6 +59,10 @@
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
     <string name="your_group">Your Group</string>
+    <string name="group_not_found">Group not found</string>
+    <string name="cannot_add_member_twice">Cannot Add member twice</string>
+    <string name="deleted_member">Deleted member</string>
+    <string name="too_many_members">Groups can only have 10 members</string>
     <string name="menu_group">Group</string>
 
 </resources>
