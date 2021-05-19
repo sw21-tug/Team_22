@@ -16,12 +16,14 @@ class DisplayGroupViewModel() : ViewModel() {
     private val _group_name: MutableLiveData<String> = MutableLiveData<String>("Your Group Name")
     //private val _member_to_add: MutableLiveData<String> = MutableLiveData<String>()
     private val _member_list = MutableLiveData<MutableList<String>>(ArrayList())
+    private val _group_name_list = MutableLiveData<MutableList<String>>(ArrayList())
     private val _error_val: MutableLiveData<Int> = MutableLiveData<Int>(-1)
 
 
     val group_name: LiveData<String> get() = _group_name
     //val member_to_add_name: LiveData<String> get() = _member_to_add
     val group_members: LiveData<MutableList<String>> get() = _member_list
+    val groups_: LiveData<MutableList<String>> get() = _group_name_list
     val error_ :LiveData<Int> get() = _error_val
 
     fun setData(name: String, member: String, members: MutableList<String>)
@@ -31,6 +33,14 @@ class DisplayGroupViewModel() : ViewModel() {
         _member_list.value = members
 
     }
+
+    fun fetchGroupList(username:String){
+        val data = dataSource.fetchUserGroups(username)
+        if(data is Result.Success){
+            _group_name_list.value = data.data
+        }
+    }
+
     fun fetchGroupData(name: String){
         val data = dataSource.getGroup(name)
 
@@ -39,9 +49,7 @@ class DisplayGroupViewModel() : ViewModel() {
 
         } else {
             _error_val.value = R.string.group_not_found
-
         }
-
     }
 
     fun translateGroupDataSource(group: Group){
@@ -50,21 +58,36 @@ class DisplayGroupViewModel() : ViewModel() {
         _member_list.value = ArrayList(group.fetchedUserList.map { it.name })
     }
 
+    fun addGroup(name:String){
+        group_members.value?.let{
+            val mylist: MutableList<String> = ArrayList<String>(_group_name_list.value)
+            if (mylist.contains(name)) {
+                _error_val.value = R.string.cannot_create_group_with_same_name
+                return@let
+            }
+            mylist.add(name)
+            _group_name_list.value = mylist
+        }
+    }
+
     fun addMember(name:String){
         _member_list.value?.let {
             val mylist: MutableList<String> = ArrayList<String>(_member_list.value)
-            if (!mylist.contains(name))
-            {
-                if(mylist.size>=10){
-                    _error_val.value = R.string.too_many_members
-                }
-                else {
-                    mylist.add(name)
-                }
+            if(mylist.size>=6){
+                _error_val.value = R.string.too_many_members
+                return@let
             }
-            else{
+            if (mylist.contains(name)) {
                 _error_val.value = R.string.cannot_add_member_twice
+                return@let
             }
+            val data = dataSource.addMemberToGroup("grpname", name)
+            if(data is Result.Error) {
+                _error_val.value = R.string.user_not_found
+                return@let
+            }
+            mylist.add(name) //dont do this with requests, might bug out when you swap group while waiting for response
+            //fetchGroupdata again
             _member_list.value = mylist
         }
     }
