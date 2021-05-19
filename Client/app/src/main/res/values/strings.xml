@@ -58,5 +58,15 @@
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
+    <string name="edit_search_preferences">Your preferences</string>
+    <string name="age_range">Age range</string>
+    <string name="city_preference">City</string>
+    <string name="edit_search_profile">EDIT SEARCH PROFILE</string>
+    <array name="rangeSliderValues">
+        <item>20.0</item>
+        <item>70.0</item>
+    </array>
+
+
 
 </resources>
