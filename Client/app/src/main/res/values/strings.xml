@@ -45,6 +45,7 @@
 
     <string name="menu_edit_bio">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
+    <string name="edit_proile_image">Edit Profil Image</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
     <string name="bio_hint_age">Age</string>
     <string name="bio_hint_city">City</string>
