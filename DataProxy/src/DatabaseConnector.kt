@@ -34,12 +34,17 @@ class DatabaseConnector {
         }
     }
 
-    fun updateBio(bio:Bio):Int{
-        var bioid:Int?=null
-        if(bio.id!=null){bioid=bio.id}
-        if(bioid==null){return 1}
+    fun updateBio(bio:Bio, username: String):Int{
+        var user: User
+        val users: List<User> = getUserByUsername(username)
+
+        if (users.isEmpty())
+            return -1
+        else
+            user = users[0]
+
         transaction(db){
-            Bios.update({Bios.bio_id eq bioid}){
+            Bios.update({Bios.bio_id eq user.bio_id!!}){
                 if(bio.user_name!=null){it[user_name]=bio.user_name }
                 if(bio.age!=null){ it[age] = bio.age }
                 if(bio.city!=null){ it[city] = bio.city }

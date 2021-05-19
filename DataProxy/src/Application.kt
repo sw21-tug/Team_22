@@ -88,7 +88,7 @@ fun Application.module(testing: Boolean = false) {
                 post("/updateBio"){
                     try {
                         val bio = call.receive<Bio>()
-                        val ret = dbConnector.updateBio(bio)
+                        val ret = dbConnector.updateBio(bio, call.principal<UserPrincipal>()!!.username)
                         if (ret == 0) {
                             call.response.status(HttpStatusCode.OK)
                             call.respond(mapOf("response" to "success"))
