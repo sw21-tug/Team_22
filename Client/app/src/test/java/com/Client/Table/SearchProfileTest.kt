@@ -61,7 +61,23 @@ class SearchProfileTest {
             }
         }
     }
-}
+
+    fun setValue(value: Int): ViewAction {
+        return object : ViewAction {
+            override fun getDescription(): String {
+                return "Set Slider value to $value"
+            }
+
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isAssignableFrom(Slider::class.java)
+            }
+
+            override fun perform(uiController: UiController?, view: View) {
+                val ageSlider = view as Slider
+                ageSlider.value = value.toFloat()
+            }
+        }
+    }
     // Adaptation End
 
 }
