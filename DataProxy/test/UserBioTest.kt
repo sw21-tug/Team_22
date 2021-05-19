@@ -122,4 +122,31 @@ class UserBioTest {
             }
         }
     }
+
+    @Test
+    fun testGetUserBioValidAtStart(){
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+
+            val get_bio_request = handleRequest(HttpMethod.Get, "/user/getBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+            get_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree)
+                    assertTrue(mapperConvertValue.user_name == null)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+        }
+    }
 }
+
+
