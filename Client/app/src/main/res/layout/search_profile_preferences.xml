@@ -25,7 +25,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bio_checkboxes"
-        app:layout_constraintVertical_bias="0.505"
+        app:layout_constraintVertical_bias="0.517"
         app:values="@array/rangeSliderValues" />
 
     <LinearLayout
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/edit_search_preferences"
+            android:id="@+id/search_preferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -51,33 +51,60 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
-            android:id="@+id/edit_bio_checkbox_1"
+        <TextView
+            android:id="@+id/card_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bio_interests_card_games"
-            android:textSize="16sp" />
+            app:layout_constraintStart_toStartOf="@+id/search_preferences"
+            app:layout_constraintTop_toTopOf="@+id/search_preferences"
+            android:text = "@string/bio_interests_card_games"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            android:visibility="visible"
+        />
 
-        <CheckBox
-            android:id="@+id/edit_bio_checkbox_2"
+        <TextView
+            android:id="@+id/ttrpgs_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bio_interests_board_games"
-            android:textSize="16sp" />
+            app:layout_constraintStart_toStartOf="@+id/search_preferences"
+            app:layout_constraintTop_toTopOf="@+id/search_preferences"
+            android:text = "@string/bio_interests_ttrpgs"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="0dp"
+            android:textStyle="italic"
+            android:visibility="visible"
 
-        <CheckBox
-            android:id="@+id/edit_bio_checkbox_3"
+            />
+        <TextView
+            android:id="@+id/board_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bio_interests_ttrpgs"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/edit_bio_checkbox_4"
+            app:layout_constraintStart_toStartOf="@+id/search_preferences"
+            app:layout_constraintTop_toTopOf="@+id/search_preferences"
+            android:text = "@string/bio_interests_board_games"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            android:visibility="visible"
+            />
+        <TextView
+            android:id="@+id/wargames"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bio_interests_wargames"
-            android:textSize="16sp" />
+            app:layout_constraintStart_toStartOf="@+id/search_preferences"
+            app:layout_constraintTop_toTopOf="@+id/search_preferences"
+            android:text = "@string/bio_interests_wargames"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            android:visibility="visible"
+            />
 
 
     </LinearLayout>
