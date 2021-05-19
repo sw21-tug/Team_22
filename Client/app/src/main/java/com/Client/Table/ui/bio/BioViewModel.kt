@@ -1,5 +1,6 @@
 package com.Client.Table.ui.bio
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ class BioViewModel : ViewModel() {
     private val _username: MutableLiveData<String> = MutableLiveData<String>()
     private val _age: MutableLiveData<Int> by lazy {MutableLiveData<Int>()}
     private val _city = MutableLiveData<String>()
+    private val _profile_picture = MutableLiveData<Bitmap>()
 
     private val _card_games = MutableLiveData<Boolean>(false)
     private val _board_games = MutableLiveData<Boolean>(false)
@@ -26,6 +28,7 @@ class BioViewModel : ViewModel() {
     val bio_username: LiveData<String> get() = _username
     val bio_age: LiveData<Int> get() = _age
     val bio_city: LiveData<String> get() = _city
+    val bio_profile_picture: LiveData<Bitmap> get() = _profile_picture
     val bio_card_games: LiveData<Boolean> get() = _card_games
     val bio_board_games: LiveData<Boolean> get() = _board_games
     val bio_ttrpg: LiveData<Boolean> get() = _ttrpg
@@ -53,14 +56,13 @@ class BioViewModel : ViewModel() {
                     _wargames.value = bio.wargames!!
             } catch (e: Exception)
             {
-                e.printStackTrace()
                 println("Get bio did not work")
             }
         }
     }
 
 
-    fun setData(name: String, age: Int, city: String, card_games: Boolean, board_games: Boolean, ttrpg: Boolean, wargames:Boolean): Boolean {
+    fun setData(name: String, age: Int, city: String, profile_picture: Bitmap? = null, card_games: Boolean, board_games: Boolean, ttrpg: Boolean, wargames:Boolean): Boolean {
         _username.value = name
         _age.value = age
         _city.value = city
@@ -68,13 +70,25 @@ class BioViewModel : ViewModel() {
         _board_games.value = board_games
         _ttrpg.value = ttrpg
         _wargames.value = wargames
+        if (profile_picture != null)
+            _profile_picture.value = profile_picture!!
 
         return try {
             runBlocking {
-                val response:Response = BackendApi.retrofitService.updateBio(LoginRepository.user!!.jwtToken,Bio(bio_id.value, bio_username.value,
-                    bio_age.value,bio_city.value,bio_card_games.value,
-                    bio_board_games.value,bio_ttrpg.value,bio_wargames.value))
-                return@runBlocking response.response=="success"
+                try {
+                    val response: Response = BackendApi.retrofitService.updateBio(
+                        LoginRepository.user!!.jwtToken, Bio(
+                            bio_id.value, bio_username.value,
+                            bio_age.value, bio_city.value, bio_card_games.value,
+                            bio_board_games.value, bio_ttrpg.value, bio_wargames.value
+                        )
+                    )
+                    return@runBlocking response.response == "success"
+                } catch (e: Exception)
+                {
+                    println("Update bio send request to backend did not work; depending on test case maybe ok")
+                    return@runBlocking false
+                }
             }
         }
         catch (e: Exception) {

@@ -62,7 +62,7 @@ class BioApiTest {
     {
         val response = MockResponse().setResponseCode(HttpURLConnection.HTTP_OK).setBody("{\"response\":\"success\"}")
         mockWebServer.enqueue(response)
-        var res: Boolean = bioViewModel!!.setData("mario", 21, "Graz", true, false, true, false)
+        var res: Boolean = bioViewModel!!.setData("mario", 21, "Graz",null, true, false, true, false)
 
         assert(res)
     }

@@ -40,6 +40,7 @@ class BioModelTest {
             username,
             age,
             city,
+            null,
             interestedInCardGames,
             interestedInBoardGames,
             interestedInTTRPGGames,
