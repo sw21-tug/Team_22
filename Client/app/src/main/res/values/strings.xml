@@ -67,4 +67,8 @@
     <string name="cannot_create_group_with_same_name">Cannot create group with the same name twice</string>
     <string name="menu_group">Group</string>
 
+    <string name="select_group">Select Group</string>
+    <string name="group_name">Group Name</string>
+    <string name="add_name">Name</string>
+
 </resources>

@@ -25,7 +25,7 @@ class DisplayGroupFragment : Fragment() {
     lateinit var groups : MutableList<String>
     lateinit var groupName: TextView
     lateinit var memberName: TextView
-    lateinit var saveGroupBtn: Button
+    lateinit var addGroupBtn: Button
     lateinit var addMemberBtn: Button
     lateinit var membersList: ListView
     lateinit var membersAdapter: ArrayAdapter<String>
@@ -44,7 +44,7 @@ class DisplayGroupFragment : Fragment() {
         groupViewModel = DisplayGroupViewModel()
         groupName = root.findViewById(R.id.groupNameText)
         memberName = root.findViewById(R.id.addPersonText)
-        saveGroupBtn = root.findViewById(R.id.saveGroupBtn)
+        addGroupBtn = root.findViewById(R.id.saveGroupBtn)
         addMemberBtn = root.findViewById(R.id.addPlayerBtn)
         membersList = root.findViewById(R.id.groupListView)
         selectGroupSpinner = root.findViewById<Spinner>(R.id.selectGroupSpinner)
@@ -57,6 +57,12 @@ class DisplayGroupFragment : Fragment() {
             membersAdapter.notifyDataSetChanged()
             true
         }
+        addGroupBtn.setOnClickListener {
+            groupViewModel.addGroup(groupName.text.toString())
+            groupAdapter.notifyDataSetChanged()
+           // groupViewModel.fetchGroupData(groupName.text.toString())
+        }
+
         groups = ArrayList()
         groupAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, groups)
         selectGroupSpinner.adapter=groupAdapter
