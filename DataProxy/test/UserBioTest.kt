@@ -14,7 +14,7 @@ import io.ktor.server.testing.*
 class UserBioTest {
     val dbConnector: DatabaseConnector = DatabaseConnector()
 
-    var loggedInUser: User = User(null, "max", "mustermann", "password")
+    var loggedInUser: User = User(null, "maxi", "mustermann", "password")
     var jwtToken: String? = null
     val jwthandler = JWTHandler()
 
@@ -48,7 +48,7 @@ class UserBioTest {
             val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody("{\"id\": 100, \"age\": \"16Invalid\"}") // missing obligatory username
+                setBody("{\"id\": 100, \"age\": \"16Invalid\"}") // age not parseable
             }
 
             update_bio_request.apply {
@@ -93,4 +93,33 @@ class UserBioTest {
         }
     }
 
+    @Test
+    fun testInvalidUserUpdateBio(){
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, "Bearer invalid_token")
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.Unauthorized, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testUpdateBioValidWithoutId(){
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(null, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+        }
+    }
 }
