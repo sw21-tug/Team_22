@@ -13,15 +13,9 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Rule
+
 class SearchProfileTest {
 
-    @Test
-    fun TestSearchBar() {
-        val activityScenario = ActivityScenario.launch(SearchPreferenceActivity::class.java)
-        onView(withId(R.id.bio_city_input)).perform(
-            typeText("Graz")
-        ).perform(pressKey(KeyEvent.KEYCODE_ENTER))
-    }
 }
 
 
