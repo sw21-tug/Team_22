@@ -16,6 +16,7 @@
     <string name="login_text">"Войти в поиск группы"</string>
     <string name="title_activity_main_view">Основной вид деятельности</string>
     <string name="title_activity_register_view">Зарегистрироваться Посмотреть активность</string>
+    <string name="title_activity_search_profile_view">Просмотр профиля поиска</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="nav_header_title">Cтудия Android</string>
@@ -69,6 +70,8 @@
         <item>20.0</item>
         <item>70.0</item>
     </array>
+    <string name="crossed_ttrpg"> <strike> T</strike> </string>
+    <string name="search_profile_preference">настройки поиска</string>
 
 
 </resources>
