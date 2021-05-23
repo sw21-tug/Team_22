@@ -61,7 +61,7 @@ class DisplayGroupViewModel() : ViewModel() {
     fun addGroup(name:String){
         group_members.value?.let{
             val mylist: MutableList<String> = ArrayList<String>()
-            if (mylist.contains(name)) {
+            if (_group_name_list.value!!.contains(name)) {
                 _error_val.value = R.string.cannot_create_group_with_same_name
                 return@let
             }

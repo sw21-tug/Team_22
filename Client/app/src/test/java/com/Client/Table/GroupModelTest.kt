@@ -87,8 +87,42 @@ class GroupModelTest {
         model.addMember(username)
 
         assert(model.group_members.value!!.size == 1)
+    }
 
+    @Test
+    fun addGroup()
+    {
+        val model: DisplayGroupViewModel = DisplayGroupViewModel()
 
+        val group_name = "Graz"
+        val username = "max_mustermann"
+        val members: MutableList<String> = emptyList<String>().toMutableList()
+
+        model.addGroup(group_name)
+        assert(members.isEmpty())
+
+        model.addMember(username)
+        assert(model.group_members.value!!.size == 1)
+    }
+
+    @Test
+    fun addTooManyMembers()
+    {
+        val model: DisplayGroupViewModel = DisplayGroupViewModel()
+
+        val group_name = "Graz"
+        val username = "max_mustermann"
+        val members: MutableList<String> = emptyList<String>().toMutableList()
+
+        model.addGroup("Test")
+        model.addMember(username)
+        model.addGroup(group_name)
+        assert(members.isEmpty())
+
+        for(i : Int in 1..20){
+            model.addMember(username + i.toString())
+        }
+        assert(model.group_members.value!!.size == 6)
 
     }
 
