@@ -46,6 +46,7 @@
 
     <string name="menu_edit_bio">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
+    <string name="edit_proile_image">Edit Profil Image</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
     <string name="bio_hint_age">Age</string>
     <string name="bio_hint_city">City</string>
@@ -59,6 +60,7 @@
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
+
     <string name="edit_search_preferences">Your preferences</string>
     <string name="age_range">Age range</string>
     <string name="city_preference">City</string>
@@ -70,6 +72,20 @@
     <string name="crossed_ttrpg"> <strike> T</strike> </string>
     <string name="search_profile_preference"> search preferences </string>
 
+
+
+    <string name="your_group">Your Group</string>
+    <string name="group_not_found">Group not found</string>
+    <string name="cannot_add_member_twice">Cannot Add member twice</string>
+    <string name="deleted_member">Deleted member</string>
+    <string name="too_many_members">Groups can only have 10 members</string>
+    <string name="user_not_found">User not found</string>
+    <string name="cannot_create_group_with_same_name">Cannot create group with the same name twice</string>
+    <string name="menu_group">Group</string>
+
+    <string name="select_group">Select Group</string>
+    <string name="group_name">Group Name</string>
+    <string name="add_name">Name</string>
 
 
 </resources>

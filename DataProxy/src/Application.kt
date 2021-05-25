@@ -10,10 +10,7 @@ import io.ktor.auth.*
 import com.fasterxml.jackson.databind.*
 import io.ktor.jackson.*
 import io.ktor.features.*
-import com.Table.Server.DatabaseConnector
 import com.Table.Server.DatabaseObjects.*
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.auth.jwt.*
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
@@ -38,7 +35,8 @@ fun Application.module(testing: Boolean = false) {
             validate { credential ->
                 var hasClaim = credential.payload.claims.contains(jwthandler.usernameString)
                 if (hasClaim) {
-                    JWTPrincipal(credential.payload)
+                    //JWTPrincipal(credential.payload)
+                    UserPrincipal(credential.payload.getClaim("username").asString())
                 } else {
                     null
                 }
@@ -86,6 +84,53 @@ fun Application.module(testing: Boolean = false) {
                 }
                 call.respond(users[0])
             }
+            authenticate("requires-logged-in"){
+                post("/updateBio"){
+                    try {
+                        val bio = call.receive<Bio>()
+                        val ret = dbConnector.updateBio(bio, call.principal<UserPrincipal>()!!.username)
+                        if (ret == 0) {
+                            call.response.status(HttpStatusCode.OK)
+                            call.respond(mapOf("response" to "success"))
+                            return@post
+                        } else {
+                            throw Exception("ID invalid")
+                        }
+                    }
+                    catch (e: ExposedSQLException) {
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Conflict"))
+                        return@post
+                    }
+                    catch (i:java.lang.Exception) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Request not acceptable"))
+                        return@post
+                    }
+                    call.response.status(HttpStatusCode.ExpectationFailed)
+                    call.respond(mapOf("response" to "Oh no!"))
+                }
+
+                get("/getBio") {
+                    try {
+                        val bios = dbConnector.getBioByUsername(call.principal<UserPrincipal>()!!.username)
+                        if (!bios.isEmpty()) {
+                            call.response.status(HttpStatusCode.OK)
+                            call.respond(bios[0])
+                            return@get
+                        } else {
+                            call.response.status(HttpStatusCode.NotFound)
+                            call.respond(mapOf("response" to "No bio existing for user"))
+                            return@get
+                        }
+                    }
+                    catch (i:java.lang.Exception){
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Cant retrieve bio"))
+                        return@get
+                    }
+                }
+            }
             post("/") {
                 val user = call.receive<User>()
                 val responseUser = dbConnector.insertUser(user)
@@ -122,7 +167,7 @@ fun Application.module(testing: Boolean = false) {
                     if (!users.isEmpty() && Users.credentialsEquals(credentials, users[0]))
                     {
                             call.response.status(HttpStatusCode.OK)
-                            call.respond(mapOf("jwtToken" to jwthandler.generateLoginToken(credentials)))
+                            call.respond(mapOf("jwtToken" to jwthandler.generateLoginToken(users[0])))
                             return@post
                     }
                     call.response.status(HttpStatusCode.NotFound)
@@ -138,8 +183,6 @@ fun Application.module(testing: Boolean = false) {
                 call.respond("Oh no!")
             }
         }
-
-
 
         get("/session/increment") {
             val session = call.sessions.get<MySession>() ?: MySession()

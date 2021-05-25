@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -71,7 +72,7 @@ class EditBioFragment : Fragment() {
         submit_btn.setOnClickListener {
             if (validateInput())
             {
-                bioViewModel.setData(username.text.toString(), age.text.toString().toInt(), city.text.toString(), check_box_1.isChecked, check_box_2.isChecked, check_box_3.isChecked, check_box_4.isChecked)
+                bioViewModel.setData(username.text.toString(), age.text.toString().toInt(), city.text.toString(), profile_image.drawable?.toBitmap(), check_box_1.isChecked, check_box_2.isChecked, check_box_3.isChecked, check_box_4.isChecked)
                 val action = EditBioFragmentDirections.actionNavEditBioToNavDisplayBio()
                 findNavController().navigate(action)
             }
