@@ -1,6 +1,7 @@
 package com.Client.Table.data
 
 import com.Client.Table.data.model.LoggedInUser
+import com.Client.Table.ui.login.LoggedInUserView
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -15,6 +16,10 @@ class LoginRepository(val dataSource: LoginDataSource) {
 
     val isLoggedIn: Boolean
         get() = user != null
+
+    companion object{
+        var user: LoggedInUserView? = null
+    }
 
     init {
         // If user credentials will be cached in local storage, it is recommended it be encrypted

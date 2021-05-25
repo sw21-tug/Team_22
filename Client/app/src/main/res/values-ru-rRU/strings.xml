@@ -50,6 +50,7 @@
     <string name="edit_bio_heading">Редактировать личную биографию</string>
     <string name="bio_hint_displayed_username">Отображаемое имя пользователя</string>
     <string name="bio_hint_age">Возраст</string>
+    <string name="edit_proile_image">Изменить изображение профиля</string>
     <string name="bio_hint_city">Город</string>
     <string name="bio_checkboxes_interests_heading">Я заинтересован в ...</string>
     <string name="bio_interests_card_games">Карточные игры</string>

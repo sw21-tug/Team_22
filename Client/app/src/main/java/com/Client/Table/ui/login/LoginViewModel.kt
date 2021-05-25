@@ -25,6 +25,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName,
                     jwtToken = "Bearer " + result.data.jwtToken
             ))
+            LoginRepository.user =_loginResult.value?.success
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
