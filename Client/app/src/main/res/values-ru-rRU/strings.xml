@@ -16,6 +16,7 @@
     <string name="login_text">"Войти в поиск группы"</string>
     <string name="title_activity_main_view">Основной вид деятельности</string>
     <string name="title_activity_register_view">Зарегистрироваться Посмотреть активность</string>
+    <string name="title_activity_search_profile_view">Просмотр профиля поиска</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="nav_header_title">Cтудия Android</string>
@@ -62,6 +63,18 @@
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>
     <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
     <string name="your_bio">Ваша биография</string>
+
+    <string name="edit_search_preferences">Ваши предпочтения</string>
+    <string name="age_range">Возрастной диапазон</string>
+    <string name="city_preference">Город</string>
+    <string name="edit_search_profile">ИЗМЕНИТЬ ПРОФИЛЬ ПОИСКА</string>
+    <array name="rangeSliderValues">
+        <item>20.0</item>
+        <item>70.0</item>
+    </array>
+    <string name="crossed_ttrpg"> <strike> T</strike> </string>
+    <string name="search_profile_preference">настройки поиска</string>
+
     <string name="your_group">Ваша группа</string>
     <string name="group_not_found">группа не найдена</string>
     <string name="cannot_add_member_twice">Невозможно добавить участника дважды</string>
@@ -74,6 +87,7 @@
     <string name="select_group">Выбрать группу</string>
     <string name="group_name">Имя группы</string>
     <string name="add_name">Имя</string>
+
 
 
 
