@@ -61,6 +61,19 @@
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>
     <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
     <string name="your_bio">Ваша биография</string>
+    <string name="your_group">Ваша группа</string>
+    <string name="group_not_found">группа не найдена</string>
+    <string name="cannot_add_member_twice">Невозможно добавить участника дважды</string>
+    <string name="deleted_member">Удаленный участник</string>
+    <string name="too_many_members">В группах может быть не более 10 участников.</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="cannot_create_group_with_same_name">Невозможно создать группу с одинаковым именем дважды</string>
+    <string name="menu_group">группа</string>
+
+    <string name="select_group">Выбрать группу</string>
+    <string name="group_name">Имя группы</string>
+    <string name="add_name">Имя</string>
+
 
 
 </resources>

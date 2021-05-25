@@ -42,4 +42,10 @@
             android:id="@+id/action_nav_display_bio_to_nav_edit_bio"
             app:destination="@id/nav_edit_bio" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_display_group"
+        android:name="com.Client.Table.ui.displaygroup.DisplayGroupFragment"
+        android:label="@string/menu_group"
+        tools:layout="@layout/fragement_display_group" />
 </navigation>
