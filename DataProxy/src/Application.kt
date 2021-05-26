@@ -76,6 +76,7 @@ fun Application.module(testing: Boolean = false) {
                 post("/create") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
+                        dbConnector.createGroup(credentials)
                         // send username, groupname, groupid as json
                         // response is status code
                         call.response.status(HttpStatusCode.OK)
@@ -91,6 +92,7 @@ fun Application.module(testing: Boolean = false) {
                 post("/addmember") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
+                        dbConnector.addMemberToGroup(credentials)
                         // send username, groupname, groupid
                         // response is status code
                         call.response.status(HttpStatusCode.OK)
@@ -106,6 +108,7 @@ fun Application.module(testing: Boolean = false) {
                 post("/deletemember") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
+                        dbConnector.deleteMemberFromGroup(credentials)
                         // send username, groupname, groupid
                         // response is status code
                         call.response.status(HttpStatusCode.OK)
