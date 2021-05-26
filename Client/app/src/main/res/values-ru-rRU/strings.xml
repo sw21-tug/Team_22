@@ -54,10 +54,10 @@
     <string name="edit_proile_image">Изменить изображение профиля</string>
     <string name="bio_hint_city">Город</string>
     <string name="bio_checkboxes_interests_heading">Я заинтересован в ...</string>
-    <string name="bio_interests_card_games">Карточные игры</string>
-    <string name="bio_interests_board_games">Настольные игры</string>
-    <string name="bio_interests_ttrpgs">Настольные ролевые игры</string>
-    <string name="bio_interests_wargames"> Военные игры </string>
+    <string name="card_games">Карточные игры</string>
+    <string name="board_games">Настольные игры</string>
+    <string name="ttrpgs">Настольные ролевые игры</string>
+    <string name="war_games"> Военные игры </string>
     <string name="submit_button_text">ПРЕДСТАВИТЬ</string>
     <string name="your_personal_bio">Ваша личная биография</string>
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>

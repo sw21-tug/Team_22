@@ -9,7 +9,7 @@
 
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/sliderRange"
+        android:id="@+id/search_profile_age_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -24,12 +24,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bio_checkboxes"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_checkboxes"
         app:layout_constraintVertical_bias="0.517"
         app:values="@array/rangeSliderValues" />
 
     <LinearLayout
-        android:id="@+id/bio_checkboxes"
+        android:id="@+id/search_profile_checkboxes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/search_preferences"
+            android:id="@+id/edit_search_preferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -51,60 +51,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/card_games"
+        <CheckBox
+            android:id="@+id/search_profile_card_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_card_games"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-        />
+            android:text="@string/card_games"
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/ttrpgs_games"
+        <CheckBox
+            android:id="@+id/search_profile_board_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_ttrpgs"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="0dp"
-            android:textStyle="italic"
-            android:visibility="visible"
+            android:text="@string/board_games"
+            android:textSize="16sp" />
 
-            />
-        <TextView
-            android:id="@+id/board_games"
+        <CheckBox
+            android:id="@+id/search_profile_ttrpgs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_board_games"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-            />
-        <TextView
-            android:id="@+id/wargames"
+            android:text="@string/ttrpgs"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/search_profile_war_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_wargames"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-            />
+            android:text="@string/war_games"
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -117,10 +90,10 @@
         android:text="@string/age_range"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sliderRange"
+        app:layout_constraintBottom_toBottomOf="@+id/search_profile_age_slider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bio_checkboxes" />
+        app:layout_constraintTop_toTopOf="@+id/search_profile_checkboxes" />
 
     <EditText
         android:id="@+id/search_city_input"
@@ -138,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sliderRange" />
+        app:layout_constraintTop_toTopOf="@+id/search_profile_age_slider" />
 
     <Button
         android:id="@+id/SearchPreferencesBtn"
