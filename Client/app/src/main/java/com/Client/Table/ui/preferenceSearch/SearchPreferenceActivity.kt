@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
 
 import com.Client.Table.R
+import com.Client.Table.data.model.UsersSearchResult
 import com.google.android.material.slider.RangeSlider
 import org.w3c.dom.Text
 
@@ -36,12 +38,15 @@ class SearchPreferenceActivity : AppCompatActivity() {
         age_range = findViewById<RangeSlider>(R.id.search_profile_age_slider)
         error_message_view = findViewById<TextView>(R.id.search_profile_error_message)
 
+        val recyclerView = findViewById<RecyclerView>(R.id.search_preference_list)
+
         submit_search.setOnClickListener {
             if (validateInput()) {
                 Toast.makeText(this, getString(R.string.search_profile_searching), Toast.LENGTH_SHORT).show()
                 submit_search.visibility = View.VISIBLE
                 error_message_view.visibility = TextView.INVISIBLE
-                // make the search
+                val sampleData = mutableListOf<UsersSearchResult>(UsersSearchResult(username = "Josh"),UsersSearchResult(username = "Florian"))
+                recyclerView.adapter = SearchResultAdapter(this, sampleData)
             } else {
                 error_message_view.visibility = TextView.VISIBLE
             }
