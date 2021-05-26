@@ -5,6 +5,8 @@ import java.util.regex.Pattern
 
 data class User(val id: Int?=null, val username: String, val email:String, val password:String, val bio_id:Int?=null)
 data class UserCredentials(val username: String, val password:String, val salt:String?)
+data class GroupCredentials(val username: String, val groupname:String, val groupid:String?)
+
 object Users: Table() {
     val id: Column<Int> = integer("id").autoIncrement()
     val username: Column<String> = varchar("username", 255)

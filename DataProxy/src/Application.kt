@@ -70,7 +70,43 @@ fun Application.module(testing: Boolean = false) {
                }
             }
         }
-        route("/user") {
+        route("/group") {
+            authenticate("requires-logged-in") {
+                post("/create") {
+                    // send username, groupname, groupid as json
+                    // response is status code
+                    call.response.status(HttpStatusCode.OK)
+                    call.respond(mapOf("response" to "Created Group"))
+                }
+            }
+            authenticate("requires-logged-in") {
+                post("/addmember") {
+                    // send username, groupname, groupid
+                    // response is status code
+                    call.response.status(HttpStatusCode.OK)
+                    call.respond(mapOf("response" to "Created Group"))
+                }
+            }
+            authenticate("requires-logged-in") {
+                post("/deletemember") {
+                    // send username, groupname, groupid
+                    // response is status code
+                    call.response.status(HttpStatusCode.OK)
+                    call.respond(mapOf("response" to "Created Group"))
+                }
+            }
+            authenticate("requires-logged-in") {
+                post("/getgrouplist") {
+                    // send username
+                    // response is a statuscode with a dictionary mapping between groupname and id
+                    call.response.status(HttpStatusCode.OK)
+                    call.respond(mapOf("response" to "Created Group"))
+                }
+            }
+        }
+
+
+            route("/user") {
             get("/") {
                 val users = dbConnector.getAllUsers()
                 call.respond(users)
