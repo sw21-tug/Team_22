@@ -12,20 +12,13 @@
         android:id="@+id/search_profile_age_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="300dp"
         android:stepSize="1"
         android:value="20"
         android:valueFrom="14"
         android:valueTo="99"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_profile_checkboxes"
-        app:layout_constraintVertical_bias="0.517"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_age_range_text"
         app:values="@array/rangeSliderValues" />
 
     <LinearLayout
@@ -83,6 +76,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/search_profile_age_range_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/age_range"
@@ -97,19 +91,14 @@
         android:id="@+id/search_profile_city_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="280dp"
         android:hint="@string/bio_hint_city"
         android:inputType="text"
         android:paddingBottom="16dp"
         android:selectAllOnFocus="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/search_profile_age_slider" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_age_slider" />
 
     <TextView
         android:id="@+id/search_profile_error_message"

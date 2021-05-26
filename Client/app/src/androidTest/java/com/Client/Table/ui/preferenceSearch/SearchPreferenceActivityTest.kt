@@ -59,7 +59,7 @@ class SearchPreferenceActivityTest {
             )
         )
 
-        onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider())
+        onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider(), closeSoftKeyboard())
 
         onView(withId(R.id.search_profile_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
             matches(
@@ -71,7 +71,7 @@ class SearchPreferenceActivityTest {
     fun selectedNoCheckboxes() {
         ActivityScenario.launch(SearchPreferenceActivity::class.java)
 
-        onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider())
+        onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider(), closeSoftKeyboard())
 
         onView(withId(R.id.search_profile_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
                 matches(
