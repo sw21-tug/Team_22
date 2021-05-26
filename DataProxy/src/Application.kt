@@ -14,6 +14,7 @@ import com.Table.Server.DatabaseObjects.*
 import io.ktor.auth.jwt.*
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -130,6 +131,32 @@ fun Application.module(testing: Boolean = false) {
                         return@get
                     }
                 }
+
+                get("/getUsersByPreferences"){
+                    try{
+                        val preferences = call.receive<SearchPreferences>()
+                        val users = dbConnector.getAllUsers()
+                        var matched_users :MutableList<User> = ArrayList()
+                        for (user in users){
+                            val bio = dbConnector.getBioByUsername(user.username)
+                            if(bio[0].wargames == preferences.wargames ||
+                                    bio[0].card_games == preferences.card_games ||
+                                    bio[0].board_games == preferences.board_games ||
+                                    bio[0].ttrpg == preferences.ttrpg){
+                                matched_users.add(user)
+                            }
+                        }
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(matched_users[0])
+                        return@get
+                    }
+                    catch (i:java.lang.Exception){
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Cant retrieve Searchpreferences"))
+                        return@get
+                    }
+                }
+
             }
             post("/") {
                 val user = call.receive<User>()

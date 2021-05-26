@@ -49,7 +49,7 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
 
-            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
+            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Graz", true, false, true, false)))
@@ -60,7 +60,7 @@ class SearchPreferencesTest {
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
                     val mapperConvertValue:User = mapper.convertValue<User>(tree)
-                    assertTrue(mapperConvertValue.username == "maxi_muster")
+                    assertTrue(mapperConvertValue.username == "maxi")
                 }
                 catch (e:Exception)
                 {
