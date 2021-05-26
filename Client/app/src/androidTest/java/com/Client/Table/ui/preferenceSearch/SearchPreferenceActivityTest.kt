@@ -52,9 +52,7 @@ class SearchPreferenceActivityTest {
             }
 
             override fun matchesSafely(recyclerView: RecyclerView): Boolean {
-                if (recyclerView.adapter == null)
-                    return false
-                return recyclerView.adapter!!.itemCount > 0
+                return recyclerView.childCount == 0
             }
         }
     }
@@ -103,10 +101,10 @@ class SearchPreferenceActivityTest {
         onView(withId(R.id.search_profile_error_message)).check(matches(isDisplayed()))
     }
 
-    @Test(expected = PerformException::class)
+    @Test
     fun listNotShownUntilClicked() {
         ActivityScenario.launch(SearchPreferenceActivity::class.java)
-        onView(ViewMatchers.withId(R.id.search_preference_list))
+        onView(withId(R.id.search_preference_list))
             .check(matches(isRecyclerViewEmpty()))
     }
 
@@ -130,7 +128,7 @@ class SearchPreferenceActivityTest {
 
         onView((withId(R.id.search_profile_submit_btn))).perform(click())
 
-        onView(ViewMatchers.withId(R.id.search_preference_list))
+        onView(withId(R.id.search_preference_list))
             .check(matches(not(isRecyclerViewEmpty())))
     }
 }
