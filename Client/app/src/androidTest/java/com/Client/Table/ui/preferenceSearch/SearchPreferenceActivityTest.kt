@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.Client.Table.R
 import com.Client.Table.data.LoginRepository
 import com.Client.Table.ui.login.LoggedInUserView
+import com.Client.Table.ui.registration.RegistrationActivity
 import com.google.android.material.slider.RangeSlider
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
@@ -70,4 +71,20 @@ class SearchPreferenceActivityTest {
             )
         )
     }
+    @Test
+    fun selectedNoCheckboxes() {
+        ActivityScenario.launch(SearchPreferenceActivity::class.java)
+
+        onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider())
+
+        onView(withId(R.id.search_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
+                matches(
+                        withText("Graz")
+                )
+        )
+        onView((withId(R.id.SearchPreferencesBtn))).perform(click())
+
+        onView(withId(R.id.search_profile_card_games)).check(matches(hasErrorText("Please Enter One Preference")))
+
+        }
 }
