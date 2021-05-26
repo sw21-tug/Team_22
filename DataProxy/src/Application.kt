@@ -12,6 +12,7 @@ import io.ktor.jackson.*
 import io.ktor.features.*
 import com.Table.Server.DatabaseObjects.*
 import io.ktor.auth.jwt.*
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
 
@@ -92,11 +93,21 @@ fun Application.module(testing: Boolean = false) {
                 post("/addmember") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
-                        dbConnector.addMemberToGroup(credentials)
+                        val errorcode = dbConnector.addMemberToGroup(credentials)
+                        if(errorcode.equals(1)){
+                            call.response.status(HttpStatusCode.Conflict)
+                            call.respond(mapOf("response" to "User does not exist"))
+                            return@post
+                        }
                         // send username, groupname, groupid
                         // response is status code
                         call.response.status(HttpStatusCode.OK)
                         call.respond(mapOf("response" to "Created Group"))
+                    }
+                    catch (i: JdbcSQLIntegrityConstraintViolationException) {
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Database constraint conflict"))
+                        return@post
                     }
                     catch (e : java.lang.Exception) {
                         call.response.status(HttpStatusCode.NotAcceptable)

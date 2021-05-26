@@ -1,5 +1,6 @@
 package com.Table.Server
 import com.Table.Server.DatabaseObjects.*
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
@@ -121,15 +122,21 @@ class DatabaseConnector {
     }
 
     fun addMemberToGroup(groupCredentials: GroupCredentials):Int{
-        transaction {
-            val user = Users.select{Users.username eq groupCredentials.username}.map{ Users.toUser(it)}[0]
+        val ret = transaction {
+            val userList = Users.select{Users.username eq groupCredentials.username}.map{ Users.toUser(it)}
+            if(userList.isEmpty())
+            {
+                return@transaction 1
+            }
+            var user = userList[0]
 
             GroupsToUsers.insert {
                 it[GroupsToUsers.group_id] = groupCredentials.groupid!!
                 it[GroupsToUsers.user_id] = user.id!!
             }
+            return@transaction 0
         }
-        return 0
+        return ret
     }
 
     fun deleteMemberFromGroup(groupCredentials: GroupCredentials):Int{

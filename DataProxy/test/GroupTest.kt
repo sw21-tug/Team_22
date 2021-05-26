@@ -31,13 +31,13 @@ class GroupTest {
     @Test
     fun testAddGroupValid() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Post, "/group/create") {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", null)))
             }
 
-            update_bio_request.apply {
+            create_group_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
         }
@@ -45,14 +45,76 @@ class GroupTest {
     @Test
     fun testAddGroupInValid() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Post, "/group/create") {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString("Not valid json"))
             }
 
-            update_bio_request.apply {
+            create_group_request.apply {
                 assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+    @Test
+    fun testAddGroupAndAddMember() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", null)))
+            }
+
+            create_group_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", 1)))
+            }
+
+            add_member_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAddMemberToNonExistantGroup() {
+        withTestApplication({ module(testing = true) }) {
+            val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", 1)))
+            }
+
+            add_member_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAddNonExistantMemberToGroup() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", null)))
+            }
+
+            create_group_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("User That does not exist", "Mygroup", 1)))
+            }
+
+            add_member_request.apply {
+                assertEquals(HttpStatusCode.Conflict, response.status())
             }
         }
     }
