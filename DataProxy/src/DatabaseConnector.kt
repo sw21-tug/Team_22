@@ -104,13 +104,37 @@ class DatabaseConnector {
         return 0
     }
 
+    fun createGroup(groupCredentials: GroupCredentials):Int {
+        transaction {
+            val group_id = Groups.insert {
+                it[group_name] = groupCredentials.groupname
+                it[group_admin] = groupCredentials.username
+
+            }[Groups.group_id]
+            val user = Users.select{Users.username eq groupCredentials.username}.map{ Users.toUser(it)}[0]
+
+            GroupsToUsers.insert {
+                it[GroupsToUsers.group_id] = group_id
+                it[GroupsToUsers.user_id] = user.id!!
+            }
+        }
+        return 0
+    }
+
     fun reset() {
         transaction(db) {
             if (Users.exists())
                 Users.deleteAll()
             if (Bios.exists())
                 Bios.deleteAll()
+            if (Groups.exists())
+                Groups.deleteAll()
+            if (GroupsToUsers.exists())
+                GroupsToUsers.deleteAll()
+
         }
     }
+
+
 
 }
