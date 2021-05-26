@@ -119,8 +119,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/sliderRange"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bio_checkboxes" />
+        app:layout_constraintTop_toTopOf="@+id/bio_checkboxes"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/search_city_input"
