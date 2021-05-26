@@ -15,6 +15,8 @@ class DatabaseConnector {
             //create Table
             SchemaUtils.create(Users)
             SchemaUtils.create(Bios)
+            SchemaUtils.create(Groups)
+            SchemaUtils.create(GroupsToUsers)
         }
         print("Created Database\n")
     }

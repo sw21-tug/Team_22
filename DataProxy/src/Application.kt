@@ -70,6 +70,7 @@ fun Application.module(testing: Boolean = false) {
                }
             }
         }
+
         route("/group") {
             authenticate("requires-logged-in") {
                 post("/create") {
@@ -117,7 +118,7 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
             authenticate("requires-logged-in") {
-                post("/getgrouplist") {
+                get("/getgrouplist") {
                     // send username
                     try {
                         val username = call.principal<UserPrincipal>()!!.username
