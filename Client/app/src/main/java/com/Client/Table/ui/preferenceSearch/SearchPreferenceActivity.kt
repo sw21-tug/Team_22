@@ -1,52 +1,62 @@
 package com.Client.Table.ui.preferenceSearch
-import android.content.Context
+import android.content.res.Resources
+import android.content.res.loader.ResourcesProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
+import androidx.core.content.res.ResourcesCompat
 
 import com.Client.Table.R
+import com.google.android.material.slider.RangeSlider
+import org.w3c.dom.Text
 
 
 class SearchPreferenceActivity : AppCompatActivity() {
 
     private lateinit var submit_search: Button
+    private lateinit var card_games: CheckBox
+    private lateinit var board_games: CheckBox
+    private lateinit var ttrpgs: CheckBox
+    private lateinit var war_games: CheckBox
+    private lateinit var city: EditText
+    private lateinit var age_range: RangeSlider
+    private lateinit var error_message_view: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search_profile_preferences)
-        submit_search = findViewById<Button>(R.id.SearchPreferencesBtn)
+
+        submit_search = findViewById<Button>(R.id.search_profile_submit_btn)
+        card_games = findViewById<CheckBox>(R.id.search_profile_card_games)
+        board_games = findViewById<CheckBox>(R.id.search_profile_board_games)
+        ttrpgs = findViewById<CheckBox>(R.id.search_profile_ttrpgs)
+        war_games = findViewById<CheckBox>(R.id.search_profile_war_games)
+        city = findViewById<EditText>(R.id.search_profile_city_input)
+        age_range = findViewById<RangeSlider>(R.id.search_profile_age_slider)
+        error_message_view = findViewById<TextView>(R.id.search_profile_error_message)
+
         submit_search.setOnClickListener {
-            Toast.makeText(this, "Searching ..", Toast.LENGTH_SHORT).show()
-            submit_search.visibility = View.VISIBLE
-
-
-            //Please dont create another mainActivity, we already have the main activity in the Background. You just need to return some sort of notifier in this activity such that you get redirected to the results.
-            //Or you can just set the preferences in this task and adding the members via search is being done in the group menu.
-
-            // This should redirect to the results of the set search
-            // redirects to main view activity until implemented
-            //val intent = Intent(this, MainViewActivity::class.java).apply{}
-            //startActivity(intent)
-            //for now
-            finish()
-            //maybe use home fragment for displaying search results
+            if (validateInput()) {
+                Toast.makeText(this, getString(R.string.search_profile_searching), Toast.LENGTH_SHORT).show()
+                submit_search.visibility = View.VISIBLE
+                error_message_view.visibility = TextView.INVISIBLE
+                // make the search
+            } else {
+                error_message_view.visibility = TextView.VISIBLE
+            }
         }
 
 
     }
+
     override fun onBackPressed() {
         finish()
     }
 
-    companion object {
-        val MIN_AGE = 14
-        val MAX_AGE = 99
+    fun validateInput() : Boolean {
+        return !(!card_games.isChecked && !board_games.isChecked && !ttrpgs.isChecked && !war_games.isChecked)
     }
-
-
-
 
 }
 

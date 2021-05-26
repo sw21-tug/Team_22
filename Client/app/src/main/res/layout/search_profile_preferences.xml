@@ -83,20 +83,18 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="79dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="299dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/age_range"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/search_profile_age_slider"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/search_profile_checkboxes" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_checkboxes" />
 
     <EditText
-        android:id="@+id/search_city_input"
+        android:id="@+id/search_profile_city_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="57dp"
@@ -113,22 +111,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_profile_age_slider" />
 
+    <TextView
+        android:id="@+id/search_profile_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_profile_none_selected_error_msg"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_city_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
-        android:id="@+id/SearchPreferencesBtn"
+        android:id="@+id/search_profile_submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="10dp"
         android:enabled="true"
         android:text="@string/submit_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_city_input"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_error_message" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

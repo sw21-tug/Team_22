@@ -1,7 +1,6 @@
 package com.Client.Table.ui.preferenceSearch
 
 import android.view.View
-import android.widget.SeekBar
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
@@ -12,13 +11,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.Client.Table.R
 import com.Client.Table.data.LoginRepository
 import com.Client.Table.ui.login.LoggedInUserView
-import com.Client.Table.ui.registration.RegistrationActivity
 import com.google.android.material.slider.RangeSlider
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Test
-import java.io.*
 
 
 class SearchPreferenceActivityTest {
@@ -65,7 +61,7 @@ class SearchPreferenceActivityTest {
 
         onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider())
 
-        onView(withId(R.id.search_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
+        onView(withId(R.id.search_profile_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
             matches(
                 withText("Graz")
             )
@@ -77,14 +73,14 @@ class SearchPreferenceActivityTest {
 
         onView((withId(R.id.search_profile_age_slider))).perform(setValueRangeSlider())
 
-        onView(withId(R.id.search_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
+        onView(withId(R.id.search_profile_city_input)).perform(typeText("Graz"), closeSoftKeyboard()).check(
                 matches(
                         withText("Graz")
                 )
         )
-        onView((withId(R.id.SearchPreferencesBtn))).perform(click())
+        onView((withId(R.id.search_profile_submit_btn))).perform(click())
 
-        onView(withId(R.id.search_profile_card_games)).check(matches(hasErrorText("Please Enter One Preference")))
+        onView(withId(R.id.search_profile_error_message)).check(matches(isDisplayed()))
 
-        }
+    }
 }

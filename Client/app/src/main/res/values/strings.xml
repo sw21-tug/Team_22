@@ -69,8 +69,10 @@
         <item>20.0</item>
         <item>70.0</item>
     </array>
+    <string name="search_profile_none_selected_error_msg">Please select at least one preference</string>
     <string name="crossed_ttrpg"> <strike> T</strike> </string>
     <string name="search_profile_preference"> search preferences </string>
+    <string name="search_profile_searching">Searching ...</string>
 
 
 
