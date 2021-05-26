@@ -59,8 +59,8 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue:User = mapper.convertValue<User>(tree)
-                    assertTrue(mapperConvertValue.username == "maxi")
+                    val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
+                    assertTrue(mapperConvertValue[0] == "maxi")
                     //print(tree)
                 }
                 catch (e:Exception)
@@ -97,8 +97,8 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue:User = mapper.convertValue<User>(tree)
-                    assertTrue(mapperConvertValue.username == null)
+                    val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
+                    assertTrue(mapperConvertValue.isEmpty())
                 }
                 catch (e:Exception)
                 {
