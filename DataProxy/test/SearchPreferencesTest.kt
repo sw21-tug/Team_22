@@ -61,6 +61,7 @@ class SearchPreferencesTest {
                     val tree: JsonNode = mapper.readTree(response.content)
                     val mapperConvertValue:User = mapper.convertValue<User>(tree)
                     assertTrue(mapperConvertValue.username == "maxi")
+                    //print(tree)
                 }
                 catch (e:Exception)
                 {
@@ -71,5 +72,40 @@ class SearchPreferencesTest {
 
         }
     }
-    
+
+    @Test
+    fun incorrectCity() {
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Wien", true, false, true, false)))
+            }
+
+            search_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:User = mapper.convertValue<User>(tree)
+                    assertTrue(mapperConvertValue.username == null)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+        }
+    }
 }
