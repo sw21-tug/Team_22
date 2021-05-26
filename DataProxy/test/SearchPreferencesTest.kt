@@ -42,7 +42,7 @@ class SearchPreferencesTest {
             val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, true, true, true)))
             }
 
             update_bio_request.apply {
@@ -52,7 +52,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Graz", true, false, true, false)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Graz", true, true, true, true)))
             }
 
             search_request.apply {
