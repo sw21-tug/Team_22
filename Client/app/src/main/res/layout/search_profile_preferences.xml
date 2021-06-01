@@ -9,27 +9,20 @@
 
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/sliderRange"
+        android:id="@+id/search_profile_age_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="300dp"
         android:stepSize="1"
         android:value="20"
         android:valueFrom="14"
         android:valueTo="99"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bio_checkboxes"
-        app:layout_constraintVertical_bias="0.517"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_age_range_text"
         app:values="@array/rangeSliderValues" />
 
     <LinearLayout
-        android:id="@+id/bio_checkboxes"
+        android:id="@+id/search_profile_checkboxes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/search_preferences"
+            android:id="@+id/edit_search_preferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -51,111 +44,96 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/card_games"
+        <CheckBox
+            android:id="@+id/search_profile_card_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_card_games"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-        />
+            android:text="@string/card_games"
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/ttrpgs_games"
+        <CheckBox
+            android:id="@+id/search_profile_board_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_ttrpgs"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="0dp"
-            android:textStyle="italic"
-            android:visibility="visible"
+            android:text="@string/board_games"
+            android:textSize="16sp" />
 
-            />
-        <TextView
-            android:id="@+id/board_games"
+        <CheckBox
+            android:id="@+id/search_profile_ttrpgs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_board_games"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-            />
-        <TextView
-            android:id="@+id/wargames"
+            android:text="@string/ttrpgs"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/search_profile_war_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/search_preferences"
-            app:layout_constraintTop_toTopOf="@+id/search_preferences"
-            android:text = "@string/bio_interests_wargames"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:layout_marginLeft="100dp"
-            android:textStyle="italic"
-            android:visibility="visible"
-            />
+            android:text="@string/war_games"
+            android:textSize="16sp" />
 
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="79dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="299dp"
-        android:layout_marginBottom="48dp"
+        android:id="@+id/search_profile_age_range_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/age_range"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sliderRange"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bio_checkboxes" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_checkboxes" />
 
     <EditText
-        android:id="@+id/search_city_input"
+        android:id="@+id/search_profile_city_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="280dp"
         android:hint="@string/bio_hint_city"
         android:inputType="text"
         android:paddingBottom="16dp"
         android:selectAllOnFocus="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sliderRange" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_age_slider" />
+
+    <TextView
+        android:id="@+id/search_profile_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_profile_none_selected_error_msg"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_city_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/SearchPreferencesBtn"
+        android:id="@+id/search_profile_submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="10dp"
         android:enabled="true"
         android:text="@string/submit_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_city_input"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/search_profile_error_message" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_preference_list"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="70dp"
+        android:layout_height="160dp"
+        app:layout_constraintTop_toBottomOf="@id/search_profile_submit_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
