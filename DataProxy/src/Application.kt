@@ -99,8 +99,12 @@ fun Application.module(testing: Boolean = false) {
                             call.respond(mapOf("response" to "User does not exist"))
                             return@post
                         }
-                        // send username, groupname, groupid
-                        // response is status code
+                        if(errorcode.equals(2)){
+                            call.response.status(HttpStatusCode.Conflict)
+                            call.respond(mapOf("response" to "User already added"))
+                            return@post
+                        }
+
                         call.response.status(HttpStatusCode.OK)
                         call.respond(mapOf("response" to "Created Group"))
                     }
@@ -137,8 +141,9 @@ fun Application.module(testing: Boolean = false) {
                     try {
                         val username = call.principal<UserPrincipal>()!!.username
                         // response is a statuscode with a dictionary mapping between groupname and id
+                        var membernames = dbConnector.getGroupNames(username)
                         call.response.status(HttpStatusCode.OK)
-                        call.respond(mapOf("response" to "Created Group"))
+                        call.respond(membernames)
                     }
                     catch (e : java.lang.Exception) {
                         call.response.status(HttpStatusCode.NotAcceptable)

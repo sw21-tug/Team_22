@@ -24,6 +24,9 @@ class GroupTest {
         dbConnector.reset()
         dbConnector.connectToDatabase()
         val id = dbConnector.insertUser(loggedInUser)
+        dbConnector.insertUser(User(null, "generic1", "genericmail1", "password"))
+        dbConnector.insertUser(User(null, "generic2", "genericmail2", "password"))
+        //Add some generic users
         jwtToken = "Bearer " + jwthandler.generateLoginToken(dbConnector.getUserForAuth(UserCredentials(loggedInUser.username, loggedInUser.password, null))[0])
         loggedInUser = dbConnector.getUserById(id)[0]
     }
@@ -68,10 +71,30 @@ class GroupTest {
             create_group_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
+            var group_id = 0
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.size, 1)
+                    group_id = mapperConvertValue[0].first
+                } catch (e: Exception) {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
             val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", 1)))
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("generic1", "Mygroup", group_id)))
             }
 
             add_member_request.apply {
@@ -107,10 +130,32 @@ class GroupTest {
             create_group_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
+            var group_id= 0
+
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.size, 1)
+                    group_id = mapperConvertValue[0].first
+                } catch (e: Exception) {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+
             val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("User That does not exist", "Mygroup", 1)))
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("User That does not exist", "Mygroup", group_id)))
             }
 
             add_member_request.apply {
@@ -119,35 +164,259 @@ class GroupTest {
         }
     }
 
-   /* @Test
-    fun testAddGroupMemberValid() {
+    @Test
+    fun getfilledGroupList() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+            val create_group_request1 = handleRequest(HttpMethod.Post, "/group/create") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", null)))
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup1", null)))
             }
-
-            update_bio_request.apply {
+            create_group_request1.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
+            val create_group_request2 = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup2", null)))
+            }
+            create_group_request2.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val create_group_request3 = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup1", null)))
+            }
+            create_group_request3.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:List<Pair<Int,String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.size,3)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
         }
     }
     @Test
-    fun testAddGroupMemberInValid() {
+    fun getEmptyGroupList() {
         withTestApplication({ module(testing = true) }) {
-            val update_bio_request = handleRequest(HttpMethod.Post, "/group/addmemebr") {
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString("Not valid json"))
             }
-
-            update_bio_request.apply {
-                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:List<Pair<Int,String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.isEmpty(),true)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
             }
         }
-    }*/
+    }
 
+    @Test
+    fun testAddingMemberTwice() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request1 = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup1", null)))
+            }
+            create_group_request1.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            var group_id = 0
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.size, 1)
+                    group_id = mapperConvertValue[0].first
+                } catch (e: Exception) {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+            val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("generic1", "Mygroup1", group_id)))
+            }
+            add_member_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            val add_member_request2 = handleRequest(HttpMethod.Post, "/group/addmember") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("generic1", "Mygroup1", group_id)))
+            }
+            add_member_request2.apply {
+                assertEquals(HttpStatusCode.Conflict, response.status())
+            }
+        }
+    }
+
+
+    @Test
+    fun testAuthenticationAddingDeletingAndGettingUserlist() {
+        withTestApplication({ module(testing = true) }) {
+            val username = "MaxMustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            val mapper = jacksonObjectMapper()
+            var token = ""
+            login_request.apply {
+                //assertEquals(HttpStatusCode.OK, response.status())
+                val tokentree: JsonNode = mapper.readTree(response.content)
+                val mapperJWT = jacksonObjectMapper().convertValue<String>(tokentree.get("jwtToken"))
+                token = mapperJWT
+            }
+            var group_id = 0
+            val create_group_request1 = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, "Bearer " + token)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(username, "Mygroup1", null)))
+            }
+            create_group_request1.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val group_list_request = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, "Bearer " + token)
+            }
+
+            group_list_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val mapper = jacksonObjectMapper()
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    assertEquals(mapperConvertValue.size, 1)
+                    group_id = mapperConvertValue[0].first
+                } catch (e: Exception) {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+                val add_member_request = handleRequest(HttpMethod.Post, "/group/addmember") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    addHeader(HttpHeaders.Authorization, "Bearer " + token)
+                    setBody(
+                        jacksonObjectMapper().writeValueAsString(
+                            GroupCredentials(
+                                loggedInUser.username,
+                                "Mygroup1",
+                                group_id
+                            )
+                        )
+                    )
+                }
+                add_member_request.apply {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                }
+
+                val group_list_request2 = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    addHeader(HttpHeaders.Authorization, jwtToken!!)
+                }
+
+                group_list_request2.apply {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                    try {
+                        val mapper = jacksonObjectMapper()
+                        val tree: JsonNode = mapper.readTree(response.content)
+                        val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                        assertEquals(mapperConvertValue.size, 1)
+                        group_id = mapperConvertValue[0].first
+                    } catch (e: Exception) {
+                        println("Testcase Failed")
+                        assert(false)
+                    }
+
+                }
+                val delete_member_request = handleRequest(HttpMethod.Post, "/group/deletemember") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    addHeader(HttpHeaders.Authorization, "Bearer " + token)
+                    setBody(
+                        jacksonObjectMapper().writeValueAsString(
+                            GroupCredentials(
+                                loggedInUser.username,
+                                "Mygroup1",
+                                group_id
+                            )
+                        )
+                    )
+                }
+                delete_member_request.apply {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                }
+
+                val group_list_request3 = handleRequest(HttpMethod.Get, "/group/getgrouplist") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    addHeader(HttpHeaders.Authorization, jwtToken!!)
+                }
+                group_list_request3.apply {
+                    assertEquals(HttpStatusCode.OK, response.status())
+                    try {
+                        val mapper = jacksonObjectMapper()
+                        val tree: JsonNode = mapper.readTree(response.content)
+                        val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                        assertEquals(mapperConvertValue.size, 0)
+                    } catch (e: Exception) {
+                        println("Testcase Failed")
+                        assert(false)
+                    }
+
+                }
+            }
+        }
 
 }
 

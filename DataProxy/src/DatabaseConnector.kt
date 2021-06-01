@@ -16,8 +16,9 @@ class DatabaseConnector {
             //create Table
             SchemaUtils.create(Users)
             SchemaUtils.create(Bios)
-            SchemaUtils.create(Groups)
             SchemaUtils.create(GroupsToUsers)
+            SchemaUtils.create(Groups)
+
         }
         print("Created Database\n")
     }
@@ -130,6 +131,13 @@ class DatabaseConnector {
             }
             var user = userList[0]
 
+            val relationList = GroupsToUsers.select{
+                (GroupsToUsers.group_id eq groupCredentials.groupid!!) and
+                        (GroupsToUsers.user_id eq user.id!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            if(!relationList.isEmpty()){
+                return@transaction 2
+            }
+
             GroupsToUsers.insert {
                 it[GroupsToUsers.group_id] = groupCredentials.groupid!!
                 it[GroupsToUsers.user_id] = user.id!!
@@ -146,6 +154,21 @@ class DatabaseConnector {
                     (GroupsToUsers.group_id eq groupCredentials.groupid!!)}
         }
         return 0
+    }
+
+    fun getGroupNames(username:String):List<Pair<Int,String>>{
+        val ret = transaction {
+            val user = Users.select{Users.username eq username}.map{ Users.toUser(it)}[0]
+            val selected_group_ids = GroupsToUsers.select{(GroupsToUsers.user_id eq user.id!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            var list: MutableList<Pair<Int, String>> = ArrayList()
+            for(relation in selected_group_ids)
+            {
+                val selected_groups = Groups.select{(Groups.group_id eq relation.group_id)}.map{Groups.toGroup(it)}
+                list.add(Pair(relation.group_id,selected_groups[0].group_name))
+            }
+            return@transaction list
+        }
+        return ret
     }
 
     fun reset() {
