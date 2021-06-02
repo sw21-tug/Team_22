@@ -37,6 +37,9 @@ interface BackendApiService {
     @GET("/user/getBio")
     suspend fun getBio(@Header("Authorization")authToken: String): Bio
 
+    @POST("/user/getUsersByPreferences")
+    suspend fun getSearchResults(@Header("Authorization")authToken: String,@Body searchPreferences: SearchPreferences): MutableList<String>
+
 }
 
 object BackendApi {

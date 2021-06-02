@@ -132,7 +132,7 @@ fun Application.module(testing: Boolean = false) {
                     }
                 }
 
-                get("/getUsersByPreferences"){
+                post("/getUsersByPreferences"){
                     try{
                         val preferences = call.receive<SearchPreferences>()
                         val users = dbConnector.getAllUsers()
@@ -141,9 +141,9 @@ fun Application.module(testing: Boolean = false) {
                             val bio = dbConnector.getBioByUsername(user.username)
 
                             if(bio.isEmpty()){
+                                println("Bio is empty")
                                 continue
                             }
-
                             if((bio[0].wargames == preferences.wargames ||
                                     bio[0].card_games == preferences.card_games ||
                                     bio[0].board_games == preferences.board_games ||
@@ -154,12 +154,12 @@ fun Application.module(testing: Boolean = false) {
                         }
                         call.response.status(HttpStatusCode.OK)
                         call.respond(matched_users)
-                        return@get
+                        return@post
                     }
                     catch (i:java.lang.Exception){
                         call.response.status(HttpStatusCode.Conflict)
                         call.respond(mapOf("response" to "Cant retrieve Searchpreferences"))
-                        return@get
+                        return@post
                     }
                 }
 

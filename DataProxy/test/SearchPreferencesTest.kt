@@ -49,7 +49,7 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
 
-            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
+            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Graz", true, true, true, true)))
@@ -87,7 +87,7 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
 
-            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
+            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Wien", true, false, true, false)))
@@ -124,7 +124,7 @@ class SearchPreferencesTest {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
 
-            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
+            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true)))
