@@ -48,6 +48,7 @@
     <string name="txt_Language">Язык</string>
 
     <string name="menu_edit_bio">Редактировать биографию</string>
+    <string name="edit_bio_btn">Редактировать биографию</string>
     <string name="edit_bio_heading">Редактировать личную биографию</string>
     <string name="bio_hint_displayed_username">Отображаемое имя пользователя</string>
     <string name="bio_hint_age">Возраст</string>

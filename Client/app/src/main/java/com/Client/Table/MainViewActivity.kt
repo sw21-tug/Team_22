@@ -31,9 +31,9 @@ class MainViewActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_edit_bio, R.id.nav_display_bio, R.id.nav_display_group
-            ), drawerLayout
+                setOf(
+                        R.id.nav_home, R.id.nav_edit_bio, R.id.nav_display_bio, R.id.nav_display_group
+                ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -48,13 +48,13 @@ class MainViewActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_view, menu)
         val search_pref_item: MenuItem = menu.findItem(R.id.action_settings)
-            search_pref_item.setOnMenuItemClickListener {
-                //start intent
-                val intent = Intent(this, SearchPreferenceActivity::class.java).apply {  }
-                //add variable with observer, set observed variable with return value of Activity for changing search view?
-                startActivity(intent)
-                true
-            }
+        search_pref_item.setOnMenuItemClickListener {
+            //start intent
+            val intent = Intent(this, SearchPreferenceActivity::class.java).apply {  }
+            //add variable with observer, set observed variable with return value of Activity for changing search view?
+            startActivity(intent)
+            true
+        }
 
         return true
     }
