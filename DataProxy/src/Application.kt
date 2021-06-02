@@ -147,7 +147,8 @@ fun Application.module(testing: Boolean = false) {
                             if((bio[0].wargames == preferences.wargames ||
                                     bio[0].card_games == preferences.card_games ||
                                     bio[0].board_games == preferences.board_games ||
-                                    bio[0].ttrpg == preferences.ttrpg)&& bio[0].city == preferences.city){
+                                    bio[0].ttrpg == preferences.ttrpg)&& bio[0].city == preferences.city &&
+                                    (bio[0].age!! <= preferences.max_age && bio[0].age!! >= preferences.min_age)){
                                 matched_users.add(user.username)
                             }
                         }

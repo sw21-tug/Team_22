@@ -52,7 +52,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Graz", true, true, true, true)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Graz", true, true, true, true)))
             }
 
             search_request.apply {
@@ -90,7 +90,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, "Wien", true, false, true, false)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Wien", true, false, true, false)))
             }
 
             search_request.apply {
