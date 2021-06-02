@@ -108,4 +108,43 @@ class SearchPreferencesTest {
             }
         }
     }
+
+
+    @Test
+    fun simpleAgeRangeTest() {
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 20,  "Graz", true, true, true, true)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val search_request = handleRequest(HttpMethod.Get, "/user/getUsersByPreferences") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true)))
+            }
+
+            search_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
+                    assertTrue(mapperConvertValue[0] == "maxi")
+                    //print(tree)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+        }
+    }
 }
