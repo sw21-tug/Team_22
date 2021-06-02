@@ -161,6 +161,7 @@ fun Application.module(testing: Boolean = false) {
                         call.response.status(HttpStatusCode.OK)
                         call.respond(user_list)
                     }
+
                     catch (e : java.lang.Exception)
                     {
                         call.response.status(HttpStatusCode.NotAcceptable)
