@@ -135,15 +135,20 @@ fun Application.module(testing: Boolean = false) {
                 post("/getUsersByPreferences"){
                     try{
                         val preferences = call.receive<SearchPreferences>()
+                        print(preferences.username)
                         val users = dbConnector.getAllUsers()
                         var matched_users :MutableList<String> = ArrayList()
+
                         for (user in users){
                             val bio = dbConnector.getBioByUsername(user.username)
 
-                            if(bio.isEmpty()){
-                                println("Bio is empty")
+                            if(user.username == preferences.username){
                                 continue
                             }
+                            if(bio.isEmpty()){
+                                continue
+                            }
+
                             if((bio[0].wargames == preferences.wargames ||
                                     bio[0].card_games == preferences.card_games ||
                                     bio[0].board_games == preferences.board_games ||

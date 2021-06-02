@@ -59,7 +59,7 @@ class SearchPreferenceActivity : AppCompatActivity() {
                     try {
                         sampleData = BackendApi.retrofitService.getSearchResults(LoginRepository.user!!.jwtToken,
                                 SearchPreferences(range_values[0].toInt(), range_values[1].toInt(),
-                                        city.text.toString(), card_games.isChecked, board_games.isChecked, ttrpgs.isChecked, war_games.isChecked))
+                                        city.text.toString(), card_games.isChecked, board_games.isChecked, ttrpgs.isChecked, war_games.isChecked, LoginRepository.user!!.displayName))
                     }
                     catch (e: Exception) {
                         println(e)
@@ -82,7 +82,6 @@ class SearchPreferenceActivity : AppCompatActivity() {
     fun validateInput() : Boolean {
         return !(!card_games.isChecked && !board_games.isChecked && !ttrpgs.isChecked && !war_games.isChecked)
     }
-
 }
 
 

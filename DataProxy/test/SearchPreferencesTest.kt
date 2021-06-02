@@ -64,7 +64,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Graz", true, true, true, true)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Graz", true, true, true, true,loggedInUser.username)))
             }
 
             search_request.apply {
@@ -72,7 +72,7 @@ class SearchPreferencesTest {
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
                     val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
-                    assertTrue(mapperConvertValue[0] == "maxi")
+                    assertTrue(mapperConvertValue.isEmpty())
                     //print(tree)
                 }
                 catch (e:Exception)
@@ -91,8 +91,8 @@ class SearchPreferencesTest {
         withTestApplication({ module(testing = true) }) {
             val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+                addHeader(HttpHeaders.Authorization, jwtToken2!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser2.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
             }
 
             update_bio_request.apply {
@@ -102,7 +102,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Wien", true, false, true, false)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Wien", true, false, true, false,loggedInUser.username)))
             }
 
             search_request.apply {
@@ -128,8 +128,8 @@ class SearchPreferencesTest {
         withTestApplication({ module(testing = true) }) {
             val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 20,  "Graz", true, true, true, true)))
+                addHeader(HttpHeaders.Authorization, jwtToken2!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser2.bio_id, "maxi_muster", 20,  "Graz", true, true, true, true)))
             }
 
             update_bio_request.apply {
@@ -139,7 +139,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true,loggedInUser.username)))
             }
 
             search_request.apply {
@@ -147,7 +147,7 @@ class SearchPreferencesTest {
                 try {
                     val tree: JsonNode = mapper.readTree(response.content)
                     val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
-                    assertTrue(mapperConvertValue[0] == "maxi")
+                    assertTrue(mapperConvertValue[0] == "user")
                     //print(tree)
                 }
                 catch (e:Exception)
@@ -188,7 +188,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true,loggedInUser.username)))
             }
 
             search_request.apply {
