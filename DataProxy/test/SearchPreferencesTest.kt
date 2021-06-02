@@ -210,4 +210,43 @@ class SearchPreferencesTest {
 
         }
     }
+
+    @Test
+    fun simpleGameInterestTest() {
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken2!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser2.bio_id, "user2", 20,  "Graz", false, false, false, true)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, false, false, false,loggedInUser.username)))
+            }
+
+            search_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
+                    assertTrue(mapperConvertValue.isEmpty())
+                    //assertTrue(mapperConvertValue[0] != "user")
+                    //print(tree)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+        }
+    }
 }
