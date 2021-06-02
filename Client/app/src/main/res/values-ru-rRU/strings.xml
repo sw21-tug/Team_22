@@ -54,10 +54,10 @@
     <string name="edit_proile_image">Изменить изображение профиля</string>
     <string name="bio_hint_city">Город</string>
     <string name="bio_checkboxes_interests_heading">Я заинтересован в ...</string>
-    <string name="bio_interests_card_games">Карточные игры</string>
-    <string name="bio_interests_board_games">Настольные игры</string>
-    <string name="bio_interests_ttrpgs">Настольные ролевые игры</string>
-    <string name="bio_interests_wargames"> Военные игры </string>
+    <string name="card_games">Карточные игры</string>
+    <string name="board_games">Настольные игры</string>
+    <string name="ttrpgs">Настольные ролевые игры</string>
+    <string name="war_games"> Военные игры </string>
     <string name="submit_button_text">ПРЕДСТАВИТЬ</string>
     <string name="your_personal_bio">Ваша личная биография</string>
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>
@@ -72,8 +72,10 @@
         <item>20.0</item>
         <item>70.0</item>
     </array>
+    <string name="search_profile_none_selected_error_msg">Пожалуйста, выберите хотя бы одно предпочтение</string>
     <string name="crossed_ttrpg"> <strike> T</strike> </string>
     <string name="search_profile_preference">настройки поиска</string>
+    <string name="search_profile_searching">испытующий ...</string>
 
     <string name="your_group">Ваша группа</string>
     <string name="group_not_found">группа не найдена</string>
