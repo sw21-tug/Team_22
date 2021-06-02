@@ -1,8 +1,12 @@
 package com.Client.Table.data
 
+import com.Client.Table.data.model.Bio
 import com.Client.Table.data.model.FetchedUser
 import com.Client.Table.data.model.Group
+import com.Client.Table.network.BackendApi
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
+import java.lang.Exception
 import java.lang.reflect.Member
 
 class GroupDataSource {
@@ -38,19 +42,26 @@ class GroupDataSource {
         return Result.Success(FetchedUser(member))
     }
     fun fetchUserGroups(username:String):Result<MutableList<String>>{
-        try {
             var demoList: MutableList<String> = ArrayList()
+            var result: Result<MutableList<String>> = Result.Success(demoList)
+            runBlocking {
+                try {
+                    val groups: MutableList<String> =
+                        BackendApi.retrofitService.getGroupList(LoginRepository.user!!.jwtToken)
+                    result = Result.Success(groups)
+
+                } catch (e: Exception) {
+                    result = Result.Error(IOException("Error finding group", e))
+                }
+            }
+
             if (username == "username") {
 
                 demoList.add("TestGroup1")
                 demoList.add("TestGroup2")
+                result = Result.Success(demoList)
 
             }
-            return Result.Success(demoList)
+            return result
         }
-        catch (e: Throwable) {
-            return Result.Error(IOException("Error finding group", e))
-        }
-
-    }
 }

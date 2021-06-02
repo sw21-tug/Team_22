@@ -78,7 +78,7 @@
     <string name="group_not_found">Group not found</string>
     <string name="cannot_add_member_twice">Cannot Add member twice</string>
     <string name="deleted_member">Deleted member</string>
-    <string name="too_many_members">Groups can only have 10 members</string>
+    <string name="too_many_members">Groups can only have 6 members</string>
     <string name="user_not_found">User not found</string>
     <string name="cannot_create_group_with_same_name">Cannot create group with the same name twice</string>
     <string name="menu_group">Group</string>

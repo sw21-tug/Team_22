@@ -37,6 +37,9 @@ interface BackendApiService {
     @GET("/user/getBio")
     suspend fun getBio(@Header("Authorization")authToken: String): Bio
 
+    @GET("/group/getgrouplist")
+    suspend fun getGroupList(@Header("Authorization")authToken: String): MutableList<String>
+
 }
 
 object BackendApi {
