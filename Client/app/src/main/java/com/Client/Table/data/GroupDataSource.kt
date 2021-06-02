@@ -1,8 +1,6 @@
 package com.Client.Table.data
 
-import com.Client.Table.data.model.Bio
-import com.Client.Table.data.model.FetchedUser
-import com.Client.Table.data.model.Group
+import com.Client.Table.data.model.*
 import com.Client.Table.network.BackendApi
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -64,4 +62,21 @@ class GroupDataSource {
             }
             return result
         }
+
+    fun createGroup(groupname: String, username: String) : Result<String> {
+       var group_credentials = GroupCredentials(username, groupname, null)
+        var result : Result<String> = Result.Success("Success")
+        runBlocking {
+            try {
+                val response: Response =
+                        BackendApi.retrofitService.createGroup(LoginRepository.user!!.jwtToken, group_credentials)
+                result = Result.Success("Success")
+            }
+            catch (e: Exception) {
+                result = Result.Error(IOException("Error creating group", e))
+            }
+        }
+
+        return result
+    }
 }

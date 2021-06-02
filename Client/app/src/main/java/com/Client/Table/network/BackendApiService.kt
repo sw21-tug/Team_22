@@ -40,6 +40,10 @@ interface BackendApiService {
     @GET("/group/getgrouplist")
     suspend fun getGroupList(@Header("Authorization")authToken: String): MutableList<String>
 
+    @POST("/group/create")
+    suspend fun createGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+
 }
 
 object BackendApi {
