@@ -171,6 +171,36 @@ class DatabaseConnector {
         return ret
     }
 
+    fun getGroupUserNames(groupCredentials: GroupCredentials):List<String>
+    {
+        var user_list: MutableList<String> = ArrayList()
+        val return_value = transaction {
+            val selected_user_group_relations = GroupsToUsers.select{(GroupsToUsers.group_id eq
+                    groupCredentials.groupid!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            var user_is_in_group = false
+
+            for (identification in selected_user_group_relations)
+            {
+                val user = Users.select{Users.id eq identification.user_id}.map{ Users.toUser(it)}[0]
+                if(user.username == groupCredentials.username)
+                {
+                    user_is_in_group = true
+                }
+                user_list.add(user.username)
+            }
+            if(user_is_in_group == true)
+            {
+                return@transaction user_list
+            }
+            else
+            {
+                return@transaction ArrayList()
+            }
+        }
+
+        return return_value
+    }
+
     fun reset() {
         transaction(db) {
             if (GroupsToUsers.exists())

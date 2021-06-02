@@ -152,6 +152,23 @@ fun Application.module(testing: Boolean = false) {
 
                 }
             }
+
+            authenticate("requires-logged-in") {
+                get("/getUsersInGroup") {
+                    try {
+                        val credentials = call.receive<GroupCredentials>()
+                        val user_list = dbConnector.getGroupUserNames(credentials)
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(user_list)
+                    }
+                    catch (e : java.lang.Exception)
+                    {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Something Went Wrong"))
+                    }
+                }
+            }
+
         }
 
 

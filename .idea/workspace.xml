@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dee38527-0601-4a87-8aee-809adff31d73" name="Default Changelist" comment="" />
+    <list default="true" id="dee38527-0601-4a87-8aee-809adff31d73" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/misc.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +25,7 @@
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -33,19 +38,5 @@
       <updated>1618386022444</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="157" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618389344902">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="157" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1618389344902" />
-    <state x="412" y="153" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1618389344126">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="412" y="153" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1618389344126" />
-    <state x="100" y="100" width="1166" height="528" key="AVDManager" timestamp="1618389359793">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="100" y="100" width="1166" height="528" key="AVDManager/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1618389359793" />
   </component>
 </project>
