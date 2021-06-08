@@ -156,15 +156,15 @@ class DatabaseConnector {
         return 0
     }
 
-    fun getGroupNames(username:String):List<Pair<Int,String>>{
+    fun getGroupNames(username:String):List<Pair<String,String>>{
         val ret = transaction {
             val user = Users.select{Users.username eq username}.map{ Users.toUser(it)}[0]
             val selected_group_ids = GroupsToUsers.select{(GroupsToUsers.user_id eq user.id!!)}.map{GroupsToUsers.toGroupToUser(it)}
-            var list: MutableList<Pair<Int, String>> = ArrayList()
+            var list: MutableList<Pair<String, String>> = ArrayList()
             for(relation in selected_group_ids)
             {
                 val selected_groups = Groups.select{(Groups.group_id eq relation.group_id)}.map{Groups.toGroup(it)}
-                list.add(Pair(relation.group_id,selected_groups[0].group_name))
+                list.add(Pair(relation.group_id.toString(),selected_groups[0].group_name))
             }
             return@transaction list
         }

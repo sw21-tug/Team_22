@@ -106,7 +106,7 @@ fun Application.module(testing: Boolean = false) {
                         }
 
                         call.response.status(HttpStatusCode.OK)
-                        call.respond(mapOf("response" to "Created Group"))
+                        call.respond(mapOf("response" to "User added"))
                     }
                     catch (i: JdbcSQLIntegrityConstraintViolationException) {
                         call.response.status(HttpStatusCode.Conflict)
@@ -141,9 +141,9 @@ fun Application.module(testing: Boolean = false) {
                     try {
                         val username = call.principal<UserPrincipal>()!!.username
                         // response is a statuscode with a dictionary mapping between groupname and id
-                        var membernames = dbConnector.getGroupNames(username)
+                        var membernames:Map<String,String> = dbConnector.getGroupNames(username).toMap()
                         call.response.status(HttpStatusCode.OK)
-                        call.respond(membernames)
+                        call.respond(mapOf("list" to membernames))
                     }
                     catch (e : java.lang.Exception) {
                         call.response.status(HttpStatusCode.NotAcceptable)
@@ -154,12 +154,12 @@ fun Application.module(testing: Boolean = false) {
             }
 
             authenticate("requires-logged-in") {
-                get("/getUsersInGroup") {
+                post("/getUsersInGroup") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
                         val user_list = dbConnector.getGroupUserNames(credentials)
                         call.response.status(HttpStatusCode.OK)
-                        call.respond(user_list)
+                        call.respond(mapOf("list" to user_list))
                     }
 
                     catch (e : java.lang.Exception)

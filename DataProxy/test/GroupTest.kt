@@ -82,9 +82,9 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                     assertEquals(mapperConvertValue.size, 1)
-                    group_id = mapperConvertValue[0].first
+                    group_id = mapperConvertValue.entries.first().key.toInt()
                 } catch (e: Exception) {
                     println("Testcase Failed")
                     assert(false)
@@ -142,9 +142,9 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                     assertEquals(mapperConvertValue.size, 1)
-                    group_id = mapperConvertValue[0].first
+                    group_id = mapperConvertValue.entries.first().key.toInt()
                 } catch (e: Exception) {
                     println("Testcase Failed")
                     assert(false)
@@ -203,8 +203,8 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue:List<Pair<Int,String>> = mapper.convertValue(tree)
-                    assertEquals(mapperConvertValue.size,3)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
+                    assertEquals(mapperConvertValue.size, 3)
                 }
                 catch (e:Exception)
                 {
@@ -227,8 +227,8 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue:List<Pair<Int,String>> = mapper.convertValue(tree)
-                    assertEquals(mapperConvertValue.isEmpty(),true)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
+                    assertEquals(mapperConvertValue.size, 0)
                 }
                 catch (e:Exception)
                 {
@@ -261,9 +261,9 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                     assertEquals(mapperConvertValue.size, 1)
-                    group_id = mapperConvertValue[0].first
+                    group_id = mapperConvertValue.entries.first().key.toInt()
                 } catch (e: Exception) {
                     println("Testcase Failed")
                     assert(false)
@@ -336,9 +336,9 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                    val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                     assertEquals(mapperConvertValue.size, 1)
-                    group_id = mapperConvertValue[0].first
+                    group_id = mapperConvertValue.entries.first().key.toInt()
                 } catch (e: Exception) {
                     println("Testcase Failed")
                     assert(false)
@@ -372,9 +372,9 @@ class GroupTest {
                     try {
                         val mapper = jacksonObjectMapper()
                         val tree: JsonNode = mapper.readTree(response.content)
-                        val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                        val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                         assertEquals(mapperConvertValue.size, 1)
-                        group_id = mapperConvertValue[0].first
+                        group_id = mapperConvertValue.entries.first().key.toInt()
                     } catch (e: Exception) {
                         println("Testcase Failed")
                         assert(false)
@@ -407,7 +407,7 @@ class GroupTest {
                     try {
                         val mapper = jacksonObjectMapper()
                         val tree: JsonNode = mapper.readTree(response.content)
-                        val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                        val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                         assertEquals(mapperConvertValue.size, 0)
                     } catch (e: Exception) {
                         println("Testcase Failed")
@@ -447,9 +447,9 @@ class GroupTest {
                     try {
                         val mapper = jacksonObjectMapper()
                         val tree: JsonNode = mapper.readTree(response.content)
-                        val mapperConvertValue: List<Pair<Int, String>> = mapper.convertValue(tree)
+                        val mapperConvertValue: Map<String,String> = mapper.convertValue(tree.get("list"))
                         assertEquals(mapperConvertValue.size, 1)
-                        group_id = mapperConvertValue[0].first
+                        group_id = mapperConvertValue.entries.first().key.toInt()
                     } catch (e: Exception) {
                         println("Testcase Failed")
                         assert(false)
@@ -475,7 +475,7 @@ class GroupTest {
                 try {
                     val mapper = jacksonObjectMapper()
                     val tree: JsonNode = mapper.readTree(response.content)
-                    val mapperConvertValue: List<String> = mapper.convertValue(tree)
+                    val mapperConvertValue: List<String> = mapper.convertValue(tree.get("list"))
                     assertEquals(mapperConvertValue.size, 2)
                     assertEquals(mapperConvertValue.contains(loggedInUser.username), true)
                     assertEquals(mapperConvertValue.contains("generic1"), true)
