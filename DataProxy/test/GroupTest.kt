@@ -465,7 +465,7 @@ class GroupTest {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
 
-            val get_user_list = handleRequest(HttpMethod.Get, "/group/getUsersInGroup") {
+            val get_user_list = handleRequest(HttpMethod.Post, "/group/getUsersInGroup") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
                 setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "MyGroup", group_id)))
