@@ -1,6 +1,5 @@
 package com.Client.Table.ui.displaygroup
-import android.content.Context
-import android.widget.Toast
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +7,6 @@ import com.Client.Table.R
 import com.Client.Table.data.GroupDataSource
 import com.Client.Table.data.Result
 import com.Client.Table.data.model.Group
-import com.Client.Table.ui.login.LoggedInUserView
-import com.Client.Table.ui.login.LoginResult
 
 class DisplayGroupViewModel() : ViewModel() {
     private val dataSource: GroupDataSource = GroupDataSource()
@@ -29,7 +26,7 @@ class DisplayGroupViewModel() : ViewModel() {
     fun setData(name: String, member: String, members: MutableList<String>)
     {
         _group_name.value = name
-       // _member_to_add.value = member
+        // _member_to_add.value = member
         _member_list.value = members
 
     }
