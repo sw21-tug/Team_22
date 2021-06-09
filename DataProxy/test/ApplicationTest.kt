@@ -167,6 +167,25 @@ class ApplicationTest {
             }
         }
     }
+
+    @Test
+    fun testRegistrationInvalidEmail2() {
+        withTestApplication({ module(testing = true) }) {
+            val usernames: List<String> = listOf("testuser1")
+            val emails: List<String> = listOf("test1test@at")
+            for (i in usernames.indices) {
+                val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                    addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    setBody("{\"username\": \"${usernames[i]}\", \"email\": \"${emails[i]}\", \"password\": \"pw\"}")
+                }
+
+                addUser.apply {
+                    assertEquals(HttpStatusCode.NotAcceptable, response.status())
+                }
+            }
+        }
+    }
+
     @Test
     fun testLoginIsInvalid(){
         withTestApplication({ module(testing = true) }) {
@@ -203,6 +222,45 @@ class ApplicationTest {
             login_request.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
             }
+        }
+    }
+
+    @Test
+    fun TestLoginMultipleTimes() {
+        withTestApplication({ module(testing = true) }) {
+            val username = "Max Mustermann"
+            val email = "muster@gmail.com"
+            val password = "123456"
+            val addUser = handleRequest(HttpMethod.Post, "/user/register") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"email\": \"${email}\", \"password\": \"${password}\"}")
+            }
+            addUser.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val login_request = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            val login_request2 = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request2.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+            val login_request3 = handleRequest(HttpMethod.Post, "/user/login") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody("{\"username\": \"${username}\", \"password\": \"${password}\"}");
+            }
+            login_request3.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
         }
     }
 
