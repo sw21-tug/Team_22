@@ -78,6 +78,11 @@ fun Application.module(testing: Boolean = false) {
                 post("/create") {
                     try {
                         val credentials = call.receive<GroupCredentials>()
+                        if (credentials.groupid != null) {
+                            call.response.status(HttpStatusCode.NotAcceptable)
+                            call.respond(mapOf("response" to "Group id must be null when creating a new group."))
+                            return@post
+                        }
                         dbConnector.createGroup(credentials)
                         // send username, groupname, groupid as json
                         // response is status code
@@ -175,10 +180,6 @@ fun Application.module(testing: Boolean = false) {
 
 
             route("/user") {
-            get("/") {
-                val users = dbConnector.getAllUsers()
-                call.respond(users)
-            }
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 val users = dbConnector.getUserById(id)

@@ -147,6 +147,106 @@ class UserBioTest {
             }
         }
     }
+
+    @Test
+    fun testGetUserBioInvalid(){
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val get_bio_request = handleRequest(HttpMethod.Get, "/user/getBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                //addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            get_bio_request.apply {
+                assertEquals(HttpStatusCode.Unauthorized, response.status())
+            }
+
+        }
+    }
+
+    @Test
+    fun testGetUserBioValidFields(){
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 16, "Graz", true, false, true, false)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val get_bio_request = handleRequest(HttpMethod.Get, "/user/getBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            get_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree)
+                    assertTrue(mapperConvertValue.user_name == "maxi_muster")
+                    assertTrue(mapperConvertValue.age == 16)
+                    assertTrue(mapperConvertValue.city == "Graz")
+                    assertTrue(mapperConvertValue.card_games == true)
+                    assertTrue(mapperConvertValue.board_games == false)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+            val update_bio_request2 = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 21, "Wien", false, true, true, false)))
+            }
+
+            update_bio_request2.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val get_bio_request2 = handleRequest(HttpMethod.Get, "/user/getBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+            }
+
+            get_bio_request2.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:Bio = mapper.convertValue<Bio>(tree)
+                    assertTrue(mapperConvertValue.user_name == "maxi_muster")
+                    assertTrue(mapperConvertValue.age == 21)
+                    assertTrue(mapperConvertValue.city == "Wien")
+                    assertTrue(mapperConvertValue.card_games == false)
+                    assertTrue(mapperConvertValue.board_games == true)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+        }
+    }
+
+
 }
 
 
