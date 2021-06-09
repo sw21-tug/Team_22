@@ -10,7 +10,7 @@ import android.widget.ListView
 import com.Client.Table.R
 import android.widget.*
 import androidx.lifecycle.Observer
-
+import com.Client.Table.data.LoginRepository
 
 
 class DisplayGroupFragment : Fragment() {
@@ -18,7 +18,7 @@ class DisplayGroupFragment : Fragment() {
     private lateinit var groupViewModel: DisplayGroupViewModel
 
     lateinit var members : MutableList<String>
-    lateinit var groups : MutableList<String>
+    lateinit var groups : MutableList<Pair<Int,String>>
     lateinit var groupName: TextView
     lateinit var memberName: TextView
     lateinit var addGroupBtn: Button
@@ -49,7 +49,7 @@ class DisplayGroupFragment : Fragment() {
             membersAdapter.notifyDataSetChanged()
         }
         membersList.setOnItemLongClickListener { parent, view, position, id ->
-            groupViewModel.deleteMember(id.toInt())
+            groupViewModel.deleteMember(members.get(id.toInt()))
             membersAdapter.notifyDataSetChanged()
             true
         }
@@ -60,7 +60,7 @@ class DisplayGroupFragment : Fragment() {
         }
 
         groups = ArrayList()
-        groupAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, groups)
+        groupAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, groups.map { it.second })
         selectGroupSpinner.adapter=groupAdapter
         //taken from: https://stackoverflow.com/questions/46447296/android-kotlin-onitemselectedlistener-for-spinner-not-working
         selectGroupSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -69,7 +69,7 @@ class DisplayGroupFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                groupViewModel.fetchGroupData(groups.get(id.toInt()))
+                 groupViewModel.fetchGroupData(groups.get(id.toInt()).second, groups.get(id.toInt()).first)
             }
 
         }
@@ -82,33 +82,32 @@ class DisplayGroupFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // groupViewModel = ViewModelProvider(this).get(DisplayGroupViewModel::class.java)
-        // TODO: Use the ViewModel
-        groupViewModel.group_name.observe(viewLifecycleOwner, Observer { it ->
-            groupName.text = it
-        })
+            super.onViewCreated(view, savedInstanceState)
+           // groupViewModel = ViewModelProvider(this).get(DisplayGroupViewModel::class.java)
+            // TODO: Use the ViewModel
+            //groupViewModel.group_name.observe(viewLifecycleOwner, Observer { it ->
+            //    groupName.text = it
+            //})
 
-        groupViewModel.error_.observe(viewLifecycleOwner, Observer { it ->
-            errorval = it
-            if(errorval!=-1){Toast.makeText(this.requireContext(), getString(errorval), Toast.LENGTH_SHORT).show()}
-        })
+             groupViewModel.error_.observe(viewLifecycleOwner, Observer { it ->
+                 errorval = it
+                 if(errorval!=-1){Toast.makeText(this.requireContext(), getString(errorval), Toast.LENGTH_SHORT).show()}
+             })
 
-        groupViewModel.group_members.observe(viewLifecycleOwner, Observer { it ->
-            members = it
-            membersAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, members)
-            membersList.adapter=membersAdapter
-            membersAdapter.notifyDataSetChanged()
-        })
+            groupViewModel.group_members.observe(viewLifecycleOwner, Observer { it ->
+                members = it
+                membersAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, members)
+                membersList.adapter=membersAdapter
+                membersAdapter.notifyDataSetChanged()
+            })
 
-        groupViewModel.groups_.observe(viewLifecycleOwner, Observer { it ->
-            groups = it
-            groupAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, groups)
-            selectGroupSpinner.adapter=groupAdapter
-            groupAdapter.notifyDataSetChanged()
-        })
-        groupViewModel.fetchGroupList("username")
-
+           groupViewModel.groups_.observe(viewLifecycleOwner, Observer { it ->
+                groups = it
+                groupAdapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1,  groups.map { it.second })
+                selectGroupSpinner.adapter=groupAdapter
+                groupAdapter.notifyDataSetChanged()
+            })
+           groupViewModel.fetchGroupList(LoginRepository.user!!.displayName)
     }
 
 }

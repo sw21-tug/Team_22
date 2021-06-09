@@ -37,6 +37,22 @@ interface BackendApiService {
     @GET("/user/getBio")
     suspend fun getBio(@Header("Authorization")authToken: String): Bio
 
+    @GET("/group/getgrouplist")
+    suspend fun getGroupList(@Header("Authorization")authToken: String): GroupListResponse
+
+    @POST("/group/getUsersInGroup")
+    suspend fun getUserList(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): UserListResponse
+
+    @POST("/group/create")
+    suspend fun createGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+    @POST("/group/addmember")
+    suspend fun addMemberToGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+    @POST("/group/deletemember")
+    suspend fun deleteMemberFromGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+
 }
 
 object BackendApi {

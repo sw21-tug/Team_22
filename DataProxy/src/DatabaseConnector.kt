@@ -1,5 +1,6 @@
 package com.Table.Server
 import com.Table.Server.DatabaseObjects.*
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
@@ -15,6 +16,9 @@ class DatabaseConnector {
             //create Table
             SchemaUtils.create(Users)
             SchemaUtils.create(Bios)
+            SchemaUtils.create(GroupsToUsers)
+            SchemaUtils.create(Groups)
+
         }
         print("Created Database\n")
     }
@@ -102,13 +106,114 @@ class DatabaseConnector {
         return 0
     }
 
+    fun createGroup(groupCredentials: GroupCredentials):Int {
+        transaction {
+            val group_id = Groups.insert {
+                it[group_name] = groupCredentials.groupname
+                it[group_admin] = groupCredentials.username
+            }[Groups.group_id]
+            val user = Users.select{Users.username eq groupCredentials.username}.map{Users.toUser(it)}[0]
+
+            GroupsToUsers.insert {
+                it[GroupsToUsers.group_id] = group_id
+                it[GroupsToUsers.user_id] = user.id!!
+            }
+        }
+        return 0
+    }
+
+    fun addMemberToGroup(groupCredentials: GroupCredentials):Int{
+        val ret = transaction {
+            val userList = Users.select{Users.username eq groupCredentials.username}.map{ Users.toUser(it)}
+            if(userList.isEmpty())
+            {
+                return@transaction 1
+            }
+            var user = userList[0]
+
+            val relationList = GroupsToUsers.select{
+                (GroupsToUsers.group_id eq groupCredentials.groupid!!) and
+                        (GroupsToUsers.user_id eq user.id!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            if(!relationList.isEmpty()){
+                return@transaction 2
+            }
+
+            GroupsToUsers.insert {
+                it[GroupsToUsers.group_id] = groupCredentials.groupid!!
+                it[GroupsToUsers.user_id] = user.id!!
+            }
+            return@transaction 0
+        }
+        return ret
+    }
+
+    fun deleteMemberFromGroup(groupCredentials: GroupCredentials):Int{
+        transaction {
+            val user = Users.select{Users.username eq groupCredentials.username}.map{ Users.toUser(it)}[0]
+            GroupsToUsers.deleteWhere{(GroupsToUsers.user_id eq user.id!!) and
+                    (GroupsToUsers.group_id eq groupCredentials.groupid!!)}
+        }
+        return 0
+    }
+
+    fun getGroupNames(username:String):List<Pair<String,String>>{
+        val ret = transaction {
+            val user = Users.select{Users.username eq username}.map{ Users.toUser(it)}[0]
+            val selected_group_ids = GroupsToUsers.select{(GroupsToUsers.user_id eq user.id!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            var list: MutableList<Pair<String, String>> = ArrayList()
+            for(relation in selected_group_ids)
+            {
+                val selected_groups = Groups.select{(Groups.group_id eq relation.group_id)}.map{Groups.toGroup(it)}
+                list.add(Pair(relation.group_id.toString(),selected_groups[0].group_name))
+            }
+            return@transaction list
+        }
+        return ret
+    }
+
+    fun getGroupUserNames(groupCredentials: GroupCredentials):List<String>
+    {
+        var user_list: MutableList<String> = ArrayList()
+        val return_value = transaction {
+            val selected_user_group_relations = GroupsToUsers.select{(GroupsToUsers.group_id eq
+                    groupCredentials.groupid!!)}.map{GroupsToUsers.toGroupToUser(it)}
+            var user_is_in_group = false
+
+            for (identification in selected_user_group_relations)
+            {
+                val user = Users.select{Users.id eq identification.user_id}.map{ Users.toUser(it)}[0]
+                if(user.username == groupCredentials.username)
+                {
+                    user_is_in_group = true
+                }
+                user_list.add(user.username)
+            }
+            if(user_is_in_group == true)
+            {
+                return@transaction user_list
+            }
+            else
+            {
+                return@transaction ArrayList()
+            }
+        }
+
+        return return_value
+    }
+
     fun reset() {
         transaction(db) {
+            if (GroupsToUsers.exists())
+                GroupsToUsers.deleteAll()
+            if (Groups.exists())
+                Groups.deleteAll()
             if (Users.exists())
                 Users.deleteAll()
             if (Bios.exists())
                 Bios.deleteAll()
         }
     }
+
+
 
 }
