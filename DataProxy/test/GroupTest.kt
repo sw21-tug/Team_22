@@ -45,6 +45,7 @@ class GroupTest {
             }
         }
     }
+
     @Test
     fun testAddGroupInValid() {
         withTestApplication({ module(testing = true) }) {
@@ -59,6 +60,37 @@ class GroupTest {
             }
         }
     }
+
+    @Test
+    fun testAddGroupInvalidUsername() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials("invalid_username", "group_name", null)))
+            }
+
+            create_group_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
+    @Test
+    fun testAddGroupInvalidGroupId() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "group_name", -1)))
+            }
+
+            create_group_request.apply {
+                assertEquals(HttpStatusCode.NotAcceptable, response.status())
+            }
+        }
+    }
+
     @Test
     fun testAddGroupAndAddMember() {
         withTestApplication({ module(testing = true) }) {
