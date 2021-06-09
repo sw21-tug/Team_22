@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">Looking 4 Group</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -7,7 +7,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register </string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome, </string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -45,16 +45,17 @@
 
 
     <string name="menu_edit_bio">Edit Bio</string>
+    <string name="edit_bio_btn">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
     <string name="edit_proile_image">Edit Profil Image</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
     <string name="bio_hint_age">Age</string>
     <string name="bio_hint_city">City</string>
     <string name="bio_checkboxes_interests_heading">I am interested in ...</string>
-    <string name="bio_interests_card_games">Card games</string>
-    <string name="bio_interests_board_games">Board games</string>
-    <string name="bio_interests_ttrpgs">Tabletop role-playing games (TTRPGs)</string>
-    <string name="bio_interests_wargames"> Wargames </string>
+    <string name="card_games">Card games</string>
+    <string name="board_games">Board games</string>
+    <string name="ttrpgs">Tabletop role-playing games (TTRPGs)</string>
+    <string name="war_games"> Wargames </string>
     <string name="submit_button_text">SUBMIT</string>
     <string name="your_personal_bio">Your Personal Bio</string>
     <string name="bio_error_message_age_range">This is not a valid age</string>
@@ -69,8 +70,10 @@
         <item>20.0</item>
         <item>70.0</item>
     </array>
+    <string name="search_profile_none_selected_error_msg">Please select at least one preference</string>
     <string name="crossed_ttrpg"> <strike> T</strike> </string>
     <string name="search_profile_preference"> search preferences </string>
+    <string name="search_profile_searching">Searching ...</string>
 
 
 

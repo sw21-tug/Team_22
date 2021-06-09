@@ -92,28 +92,28 @@
                 android:id="@+id/edit_bio_checkbox_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bio_interests_card_games"
+                android:text="@string/card_games"
                 android:textSize="16sp" />
 
             <CheckBox
                 android:id="@+id/edit_bio_checkbox_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bio_interests_board_games"
+                android:text="@string/board_games"
                 android:textSize="16sp" />
 
             <CheckBox
                 android:id="@+id/edit_bio_checkbox_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bio_interests_ttrpgs"
+                android:text="@string/ttrpgs"
                 android:textSize="16sp" />
 
             <CheckBox
                 android:id="@+id/edit_bio_checkbox_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bio_interests_wargames"
+                android:text="@string/war_games"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -151,7 +151,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_bio_header"
             app:layout_constraintVertical_bias="0.166"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:src="@mipmap/ic_launcher" />
 
         <Button
             android:id="@+id/edit_picture_button"

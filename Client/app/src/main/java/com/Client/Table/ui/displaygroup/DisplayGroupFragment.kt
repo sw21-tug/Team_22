@@ -1,18 +1,14 @@
 package com.Client.Table.ui.displaygroup
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 import com.Client.Table.R
-import com.Client.Table.data.GroupDataSource
 import android.widget.*
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.Client.Table.data.LoginRepository
 
@@ -37,8 +33,8 @@ class DisplayGroupFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragement_display_group, container, false)
         groupViewModel = DisplayGroupViewModel()
@@ -49,8 +45,8 @@ class DisplayGroupFragment : Fragment() {
         membersList = root.findViewById(R.id.groupListView)
         selectGroupSpinner = root.findViewById<Spinner>(R.id.selectGroupSpinner)
         addMemberBtn.setOnClickListener {
-                groupViewModel.addMember(memberName.text.toString())
-                membersAdapter.notifyDataSetChanged()
+            groupViewModel.addMember(memberName.text.toString())
+            membersAdapter.notifyDataSetChanged()
         }
         membersList.setOnItemLongClickListener { parent, view, position, id ->
             groupViewModel.deleteMember(members.get(id.toInt()))
@@ -60,7 +56,7 @@ class DisplayGroupFragment : Fragment() {
         addGroupBtn.setOnClickListener {
             groupViewModel.addGroup(groupName.text.toString())
             groupAdapter.notifyDataSetChanged()
-           // groupViewModel.fetchGroupData(groupName.text.toString())
+            // groupViewModel.fetchGroupData(groupName.text.toString())
         }
 
         groups = ArrayList()
@@ -112,7 +108,6 @@ class DisplayGroupFragment : Fragment() {
                 groupAdapter.notifyDataSetChanged()
             })
            groupViewModel.fetchGroupList(LoginRepository.user!!.displayName)
-
     }
 
 }
