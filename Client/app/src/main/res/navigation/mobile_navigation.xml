@@ -12,21 +12,9 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.Client.Table.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.Client.Table.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
         android:id="@+id/nav_edit_bio"
         android:name="com.Client.Table.ui.bio.EditBioFragment"
-        android:label="menu_edit_bio"
+        android:label="@string/menu_edit_bio"
         tools:layout="@layout/fragment_edit_bio" >
         <action
             android:id="@+id/action_nav_edit_bio_to_nav_display_bio"
@@ -36,7 +24,7 @@
     <fragment
         android:id="@+id/nav_display_bio"
         android:name="com.Client.Table.ui.bio.DisplayBioFragment"
-        android:label="menu_display_bio"
+        android:label="@string/your_bio"
         tools:layout="@layout/fragment_display_bio" >
         <action
             android:id="@+id/action_nav_display_bio_to_nav_edit_bio"

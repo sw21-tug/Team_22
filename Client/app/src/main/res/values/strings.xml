@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">Looking 4 Group</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -7,7 +7,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register </string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome, </string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -45,6 +45,7 @@
 
 
     <string name="menu_edit_bio">Edit Bio</string>
+    <string name="edit_bio_btn">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
     <string name="edit_proile_image">Edit Profil Image</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
@@ -80,7 +81,7 @@
     <string name="group_not_found">Group not found</string>
     <string name="cannot_add_member_twice">Cannot Add member twice</string>
     <string name="deleted_member">Deleted member</string>
-    <string name="too_many_members">Groups can only have 10 members</string>
+    <string name="too_many_members">Groups can only have 6 members</string>
     <string name="user_not_found">User not found</string>
     <string name="cannot_create_group_with_same_name">Cannot create group with the same name twice</string>
     <string name="menu_group">Group</string>

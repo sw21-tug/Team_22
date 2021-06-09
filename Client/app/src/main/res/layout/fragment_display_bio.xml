@@ -125,12 +125,12 @@
             android:maxWidth="30dp"
             android:maxHeight="30dp"
             android:scaleType="fitStart"
+            android:layout_marginTop="12dp"
 
-            app:layout_constraintBottom_toTopOf="@+id/bio_username_input"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/display_bio_header"
             app:layout_constraintVertical_bias="0.166"
-            tools:srcCompat="@tools:sample/avatars"
+            android:src="@mipmap/ic_launcher"
             android:visibility="visible"
             />
 
@@ -141,14 +141,10 @@
             android:layout_marginStart="24dp"
             android:backgroundTint="@color/salmon"
             android:scaleType="fitStart"
-            android:text="@string/edit_proile_image"
-            app:layout_constraintBottom_toTopOf="@+id/bio_username_display"
+            android:text="@string/edit_bio_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.442"
-
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_bio_header"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/bio_checkboxes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

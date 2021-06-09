@@ -47,9 +47,9 @@ class EditBioFragment : Fragment() {
     private val bioViewModel: BioViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_edit_bio, container, false)
 
@@ -77,6 +77,10 @@ class EditBioFragment : Fragment() {
                 findNavController().navigate(action)
             }
 
+        }
+
+        profile_image.setOnClickListener {
+            edit_btn.performClick()
         }
 
         return root

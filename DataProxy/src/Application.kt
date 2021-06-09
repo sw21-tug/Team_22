@@ -12,6 +12,7 @@ import io.ktor.jackson.*
 import io.ktor.features.*
 import com.Table.Server.DatabaseObjects.*
 import io.ktor.auth.jwt.*
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -71,7 +72,109 @@ fun Application.module(testing: Boolean = false) {
                }
             }
         }
-        route("/user") {
+
+        route("/group") {
+            authenticate("requires-logged-in") {
+                post("/create") {
+                    try {
+                        val credentials = call.receive<GroupCredentials>()
+                        dbConnector.createGroup(credentials)
+                        // send username, groupname, groupid as json
+                        // response is status code
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(mapOf("response" to "Created Group"))
+                    }
+                    catch (e : java.lang.Exception) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Invalid JSON format"))
+                    }
+                }
+            }
+            authenticate("requires-logged-in") {
+                post("/addmember") {
+                    try {
+                        val credentials = call.receive<GroupCredentials>()
+                        val errorcode = dbConnector.addMemberToGroup(credentials)
+                        if(errorcode.equals(1)){
+                            call.response.status(HttpStatusCode.Conflict)
+                            call.respond(mapOf("response" to "User does not exist"))
+                            return@post
+                        }
+                        if(errorcode.equals(2)){
+                            call.response.status(HttpStatusCode.Conflict)
+                            call.respond(mapOf("response" to "User already added"))
+                            return@post
+                        }
+
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(mapOf("response" to "User added"))
+                    }
+                    catch (i: JdbcSQLIntegrityConstraintViolationException) {
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Database constraint conflict"))
+                        return@post
+                    }
+                    catch (e : java.lang.Exception) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Invalid JSON format"))
+                    }
+                }
+            }
+            authenticate("requires-logged-in") {
+                post("/deletemember") {
+                    try {
+                        val credentials = call.receive<GroupCredentials>()
+                        dbConnector.deleteMemberFromGroup(credentials)
+                        // send username, groupname, groupid
+                        // response is status code
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(mapOf("response" to "Created Group"))
+                    }
+                    catch (e : java.lang.Exception) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Invalid JSON format"))
+                    }
+                }
+            }
+            authenticate("requires-logged-in") {
+                get("/getgrouplist") {
+                    // send username
+                    try {
+                        val username = call.principal<UserPrincipal>()!!.username
+                        // response is a statuscode with a dictionary mapping between groupname and id
+                        var membernames:Map<String,String> = dbConnector.getGroupNames(username).toMap()
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(mapOf("list" to membernames))
+                    }
+                    catch (e : java.lang.Exception) {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Username not found"))
+                    }
+
+                }
+            }
+
+            authenticate("requires-logged-in") {
+                post("/getUsersInGroup") {
+                    try {
+                        val credentials = call.receive<GroupCredentials>()
+                        val user_list = dbConnector.getGroupUserNames(credentials)
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(mapOf("list" to user_list))
+                    }
+
+                    catch (e : java.lang.Exception)
+                    {
+                        call.response.status(HttpStatusCode.NotAcceptable)
+                        call.respond(mapOf("response" to "Something Went Wrong"))
+                    }
+                }
+            }
+
+        }
+
+
+            route("/user") {
             get("/") {
                 val users = dbConnector.getAllUsers()
                 call.respond(users)
