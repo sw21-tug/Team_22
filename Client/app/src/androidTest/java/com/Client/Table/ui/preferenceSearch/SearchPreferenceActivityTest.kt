@@ -1,6 +1,7 @@
 package com.Client.Table.ui.preferenceSearch
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -130,5 +131,25 @@ class SearchPreferenceActivityTest {
 
         onView(withId(R.id.search_preference_list))
             .check(matches((isRecyclerViewEmpty())))
+    }
+    @Test
+    fun testRemainingInputFields() {
+        ActivityScenario.launch(SearchPreferenceActivity::class.java)
+
+        onView(withId(R.id.search_profile_war_games)).perform(click(), closeSoftKeyboard()).check(
+                matches(
+                        isChecked()
+                )
+        )
+        onView(withId(R.id.search_profile_ttrpgs)).perform(click(), closeSoftKeyboard()).check(
+                matches(
+                        isChecked()
+                )
+        )
+        onView(withId(R.id.search_profile_city_input)).perform(typeText("Vienna"), closeSoftKeyboard()).check(
+                matches(
+                        withText("Vienna")
+                )
+        )
     }
 }
