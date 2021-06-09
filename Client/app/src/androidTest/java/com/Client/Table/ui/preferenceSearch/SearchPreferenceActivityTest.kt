@@ -131,4 +131,25 @@ class SearchPreferenceActivityTest {
         onView(withId(R.id.search_preference_list))
             .check(matches((isRecyclerViewEmpty())))
     }
+    @Test
+    fun testRemainingInputFields() {
+        ActivityScenario.launch(SearchPreferenceActivity::class.java)
+
+        onView(withId(R.id.search_profile_war_games)).perform(click(), closeSoftKeyboard()).check(
+                matches(
+                        isChecked()
+                )
+        )
+        onView(withId(R.id.search_profile_ttrpgs)).perform(click(), closeSoftKeyboard()).check(
+                matches(
+                        isChecked()
+                )
+        )
+        onView(withId(R.id.search_profile_city_input)).perform(typeText("Vienna"), closeSoftKeyboard()).check(
+                matches(
+                        withText("Vienna")
+                )
+        )
+    }
+
 }
