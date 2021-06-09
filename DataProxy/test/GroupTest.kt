@@ -62,6 +62,21 @@ class GroupTest {
     }
 
     @Test
+    fun testAddGroupInValidAuthorization() {
+        withTestApplication({ module(testing = true) }) {
+            val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                //addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(GroupCredentials(loggedInUser.username, "Mygroup", null)))
+            }
+
+            create_group_request.apply {
+                assertEquals(HttpStatusCode.Unauthorized, response.status())
+            }
+        }
+    }
+
+    @Test
     fun testAddGroupInvalidUsername() {
         withTestApplication({ module(testing = true) }) {
             val create_group_request = handleRequest(HttpMethod.Post, "/group/create") {
