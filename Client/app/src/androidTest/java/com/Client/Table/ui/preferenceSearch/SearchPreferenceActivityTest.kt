@@ -1,6 +1,7 @@
 package com.Client.Table.ui.preferenceSearch
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -151,5 +152,4 @@ class SearchPreferenceActivityTest {
                 )
         )
     }
-
 }
