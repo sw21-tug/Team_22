@@ -15,6 +15,7 @@ import io.ktor.auth.jwt.*
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -233,6 +234,44 @@ fun Application.module(testing: Boolean = false) {
                         return@get
                     }
                 }
+
+                post("/getUsersByPreferences"){
+                    try{
+                        val preferences = call.receive<SearchPreferences>()
+                        print(preferences.username)
+                        val users = dbConnector.getAllUsers()
+                        var matched_users :MutableList<String> = ArrayList()
+
+                        for (user in users){
+                            val bio = dbConnector.getBioByUsername(user.username)
+
+                            if(user.username == preferences.username){
+                                continue
+                            }
+                            if(bio.isEmpty()){
+                                continue
+                            }
+
+                            if(((bio[0].wargames == preferences.wargames && preferences.wargames)
+                                            || (bio[0].card_games == preferences.card_games &&preferences.card_games)
+                                            || (bio[0].board_games == preferences.board_games && preferences.board_games)
+                                            ||( bio[0].ttrpg == preferences.ttrpg && preferences.ttrpg))
+                                    && bio[0].city == preferences.city &&
+                                    (bio[0].age!! <= preferences.max_age && bio[0].age!! >= preferences.min_age)){
+                                matched_users.add(user.username)
+                            }
+                        }
+                        call.response.status(HttpStatusCode.OK)
+                        call.respond(matched_users)
+                        return@post
+                    }
+                    catch (i:java.lang.Exception){
+                        call.response.status(HttpStatusCode.Conflict)
+                        call.respond(mapOf("response" to "Cant retrieve Searchpreferences"))
+                        return@post
+                    }
+                }
+
             }
             post("/") {
                 val user = call.receive<User>()

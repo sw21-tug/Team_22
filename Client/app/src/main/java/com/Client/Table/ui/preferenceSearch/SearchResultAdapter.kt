@@ -12,7 +12,7 @@ import com.Client.Table.R
 
 class SearchResultAdapter(
         private val context: Context,
-        private val dataset: List<UsersSearchResult>
+        private val dataset: List<String>
 ) : RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -28,7 +28,7 @@ class SearchResultAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-        holder.textView.text = item.username
+        holder.textView.text = item
     }
 
     override fun getItemCount() = dataset.size
