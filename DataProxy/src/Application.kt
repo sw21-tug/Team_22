@@ -180,10 +180,6 @@ fun Application.module(testing: Boolean = false) {
 
 
             route("/user") {
-            get("/") {
-                val users = dbConnector.getAllUsers()
-                call.respond(users)
-            }
             get("/{id}") {
                 val id = call.parameters["id"]!!.toInt()
                 val users = dbConnector.getUserById(id)

@@ -38,6 +38,10 @@ class SearchPreferencesTest {
     var jwtToken4: String? = null
     val jwthandler4 = JWTHandler()
 
+    var loggedInUser5: User = User(null, "zemo", "zemoemail", "password")
+    var jwtToken5: String? = null
+    val jwthandler5 = JWTHandler()
+
     @Before
     fun initDB() {
         dbConnector.reset()
@@ -58,6 +62,10 @@ class SearchPreferencesTest {
         val id4: Int = dbConnector.insertUser(loggedInUser4)
         jwtToken4 = "Bearer " + jwthandler4.generateLoginToken(dbConnector.getUserForAuth(UserCredentials(loggedInUser4.username, loggedInUser4.password, null))[0])
         loggedInUser4 = dbConnector.getUserById(id4)[0]
+
+        val id5: Int = dbConnector.insertUser(loggedInUser5)
+        jwtToken5 = "Bearer " + jwthandler5.generateLoginToken(dbConnector.getUserForAuth(UserCredentials(loggedInUser5.username, loggedInUser5.password, null))[0])
+        loggedInUser5 = dbConnector.getUserById(id5)[0]
 
     }
 
@@ -116,7 +124,7 @@ class SearchPreferencesTest {
             val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken!!)
-                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Wien", true, false, true, false,loggedInUser.username)))
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(16, 30,"Vienna", true, false, true, false,loggedInUser.username)))
             }
 
             search_request.apply {
@@ -318,7 +326,7 @@ class SearchPreferencesTest {
             val update_bio_request4 = handleRequest(HttpMethod.Post, "/user/updateBio") {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
                 addHeader(HttpHeaders.Authorization, jwtToken4!!)
-                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser4.bio_id, "jane", 21,  "Wiena", true, true, true, true)))
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser4.bio_id, "jane", 21,  "Vienna", true, true, true, true)))
             }
 
             update_bio_request.apply {
@@ -351,6 +359,84 @@ class SearchPreferencesTest {
                     //assertTrue(mapperConvertValue[0] == "maxi")
                     //assertTrue(mapperConvertValue[1] == "user")
                     assertTrue(mapperConvertValue.size == 2)
+                }
+                catch (e:Exception)
+                {
+                    println("Testcase Failed")
+                    assert(false)
+                }
+            }
+
+        }
+    }
+
+    @Test
+    fun noMatchingTest() {
+        val mapper = jacksonObjectMapper()
+        withTestApplication({ module(testing = true) }) {
+
+            val update_bio_request = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser.bio_id, "maxi_muster", 20,  "Graz", true, true, true, true)))
+            }
+
+            val update_bio_request2 = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken2!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser2.bio_id, "user2", 20,  "Vienna", true, true, true, true)))
+            }
+
+            val update_bio_request3 = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken3!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser3.bio_id, "jon", 21,  "Vienna", true, true, true, true)))
+            }
+
+            val update_bio_request4 = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken4!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser4.bio_id, "jane", 21,  "Vienna", true, true, true, true)))
+            }
+
+            val update_bio_request5 = handleRequest(HttpMethod.Post, "/user/updateBio") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken5!!)
+                setBody(jacksonObjectMapper().writeValueAsString(Bio(loggedInUser5.bio_id, "zemo", 21,  "Vienna", true, true, true, true)))
+            }
+
+            update_bio_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            update_bio_request2.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            update_bio_request3.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            update_bio_request4.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            update_bio_request5.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+            }
+
+            val search_request = handleRequest(HttpMethod.Post, "/user/getUsersByPreferences") {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                addHeader(HttpHeaders.Authorization, jwtToken!!)
+                setBody(jacksonObjectMapper().writeValueAsString(SearchPreferences(18, 27, "Graz", true, true, true, true,loggedInUser.username)))
+            }
+
+            search_request.apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                try {
+                    val tree: JsonNode = mapper.readTree(response.content)
+                    val mapperConvertValue:List<String> = mapper.convertValue<List<String>>(tree)
+                    assertTrue(mapperConvertValue.isEmpty())
                 }
                 catch (e:Exception)
                 {
