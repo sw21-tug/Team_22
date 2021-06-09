@@ -20,26 +20,6 @@ class LoginActivityTest{
         onView(withId(R.id.signinBtn)).perform(click())
         onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
     }
-
-    @Test
-    fun  login_then_logout_and_login_again(){
-        //probably needs to be rewritten at some point
-        val activityScenario = ActivityScenario.launch(LoginActivity::class.java)
-        onView(withId(R.id.username)).perform(typeText("username"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.password)).perform(typeText("password"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.signinBtn)).perform(click())
-        onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
-        pressBack()
-        onView(withId(R.id.signinBtn)).check(matches(isDisplayed()))
-        onView(withId(R.id.username)).perform(typeText("username"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.password)).perform(typeText("password"))
-        Espresso.closeSoftKeyboard()
-        onView(withId(R.id.signinBtn)).perform(click())
-        onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
-    }
     
     @Test
     fun  register_activity_displayed_after_button(){
