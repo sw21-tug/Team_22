@@ -109,7 +109,7 @@ class SearchPreferenceActivityTest {
     }
 
     @Test
-    fun listShownAfterSubmitClicked() {
+    fun listEmptyAfterSubmitClicked() {
         ActivityScenario.launch(SearchPreferenceActivity::class.java)
 
         onView(withId(R.id.search_profile_board_games)).perform(click(), closeSoftKeyboard()).check(
@@ -129,6 +129,6 @@ class SearchPreferenceActivityTest {
         onView((withId(R.id.search_profile_submit_btn))).perform(click())
 
         onView(withId(R.id.search_preference_list))
-            .check(matches(not(isRecyclerViewEmpty())))
+            .check(matches((isRecyclerViewEmpty())))
     }
 }
