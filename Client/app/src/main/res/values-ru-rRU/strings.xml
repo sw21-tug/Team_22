@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">Клиент</string>
+    <string name="app_name">Ищу группу</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Электронное письмо</string>
     <string name="prompt_password">Пароль</string>
@@ -9,13 +9,14 @@
     <string name="action_sign_in">Войдите или зарегистрируйтесь</string>
     <string name="action_sign_in_short">Войти</string>
     <string name="action_register">Pегистр </string>
-    <string name="welcome">"Добро пожаловать !"</string>
+    <string name="welcome">Добро пожаловать, </string>
     <string name="invalid_username">Неверное имя пользователя</string>
     <string name="invalid_password">Пароль должен содержать более 5 символов.</string>
     <string name="login_failed">"Ошибка входа"</string>
     <string name="login_text">"Войти в поиск группы"</string>
     <string name="title_activity_main_view">Основной вид деятельности</string>
     <string name="title_activity_register_view">Зарегистрироваться Посмотреть активность</string>
+    <string name="title_activity_search_profile_view">Просмотр профиля поиска</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="nav_header_title">Cтудия Android</string>
@@ -47,20 +48,50 @@
     <string name="txt_Language">Язык</string>
 
     <string name="menu_edit_bio">Редактировать биографию</string>
+    <string name="edit_bio_btn">Редактировать биографию</string>
     <string name="edit_bio_heading">Редактировать личную биографию</string>
     <string name="bio_hint_displayed_username">Отображаемое имя пользователя</string>
     <string name="bio_hint_age">Возраст</string>
+    <string name="edit_proile_image">Изменить изображение профиля</string>
     <string name="bio_hint_city">Город</string>
     <string name="bio_checkboxes_interests_heading">Я заинтересован в ...</string>
-    <string name="bio_interests_card_games">Карточные игры</string>
-    <string name="bio_interests_board_games">Настольные игры</string>
-    <string name="bio_interests_ttrpgs">Настольные ролевые игры</string>
-    <string name="bio_interests_wargames"> Военные игры </string>
+    <string name="card_games">Карточные игры</string>
+    <string name="board_games">Настольные игры</string>
+    <string name="ttrpgs">Настольные ролевые игры</string>
+    <string name="war_games"> Военные игры </string>
     <string name="submit_button_text">ПРЕДСТАВИТЬ</string>
     <string name="your_personal_bio">Ваша личная биография</string>
     <string name="bio_error_message_age_range">Это недопустимый возраст</string>
     <string name="bio_error_message_empty_username">Пожалуйста введите имя пользователя</string>
     <string name="your_bio">Ваша биография</string>
+
+    <string name="edit_search_preferences">Ваши предпочтения</string>
+    <string name="age_range">Возрастной диапазон</string>
+    <string name="city_preference">Город</string>
+    <string name="edit_search_profile">ИЗМЕНИТЬ ПРОФИЛЬ ПОИСКА</string>
+    <array name="rangeSliderValues">
+        <item>20.0</item>
+        <item>70.0</item>
+    </array>
+    <string name="search_profile_none_selected_error_msg">Пожалуйста, выберите хотя бы одно предпочтение</string>
+    <string name="crossed_ttrpg"> <strike> T</strike> </string>
+    <string name="search_profile_preference">настройки поиска</string>
+    <string name="search_profile_searching">испытующий ...</string>
+
+    <string name="your_group">Ваша группа</string>
+    <string name="group_not_found">группа не найдена</string>
+    <string name="cannot_add_member_twice">Невозможно добавить участника дважды</string>
+    <string name="deleted_member">Удаленный участник</string>
+    <string name="too_many_members">В группах может быть не более 6 участников.</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="cannot_create_group_with_same_name">Невозможно создать группу с одинаковым именем дважды</string>
+    <string name="menu_group">группа</string>
+
+    <string name="select_group">Выбрать группу</string>
+    <string name="group_name">Имя группы</string>
+    <string name="add_name">Имя</string>
+
+
 
 
 </resources>

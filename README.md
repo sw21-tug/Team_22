@@ -55,3 +55,11 @@ The whole Setup has only been tested on Ubuntu Version 20.
 -User Bio UI https://github.com/sw21-tug/Team_22/projects/1#card-58962898
 
 -User Bio Backend https://github.com/sw21-tug/Team_22/projects/1#card-58962921
+
+-Search Profile UI https://github.com/sw21-tug/Team_22/issues/14
+
+-Make Group UI https://github.com/sw21-tug/Team_22/issues/19
+
+-Make Group Backend https://github.com/sw21-tug/Team_22/issues/20
+
+-Performing a Search https://github.com/sw21-tug/Team_22/issues/16

@@ -29,7 +29,33 @@ interface BackendApiService {
     suspend fun login(@Body credentials: Credentials): LoginResponse
 
     @GET("/testauthentication/")
-    suspend fun testauthentication(@Header("Authorization") authToken: String) : TestAuthentication
+    suspend fun testauthentication(@Header("Authorization") authToken: String) : Response
+
+    @POST("/user/updateBio")
+    suspend fun updateBio(@Header("Authorization")authToken: String, @Body bio :Bio): Response
+
+    @GET("/user/getBio")
+    suspend fun getBio(@Header("Authorization")authToken: String): Bio
+
+    @POST("/user/getUsersByPreferences")
+    suspend fun getSearchResults(@Header("Authorization")authToken: String,@Body searchPreferences: SearchPreferences): MutableList<String>
+
+    @GET("/group/getgrouplist")
+    suspend fun getGroupList(@Header("Authorization")authToken: String): GroupListResponse
+
+    @POST("/group/getUsersInGroup")
+    suspend fun getUserList(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): UserListResponse
+
+    @POST("/group/create")
+    suspend fun createGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+    @POST("/group/addmember")
+    suspend fun addMemberToGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+    @POST("/group/deletemember")
+    suspend fun deleteMemberFromGroup(@Header("Authorization")authToken: String, @Body groupCredentials: GroupCredentials): Response
+
+
 }
 
 object BackendApi {

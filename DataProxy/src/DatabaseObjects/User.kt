@@ -3,14 +3,17 @@ import org.jetbrains.exposed.sql.*
 import org.mindrot.jbcrypt.BCrypt
 import java.util.regex.Pattern
 
-data class User(val id: Int?=null, val username: String, val email:String, val password:String)
+data class User(val id: Int?=null, val username: String, val email:String, val password:String, val bio_id:Int?=null)
 data class UserCredentials(val username: String, val password:String, val salt:String?)
+data class GroupCredentials(val username: String, val groupname:String, val groupid:Int?)
+
 object Users: Table() {
     val id: Column<Int> = integer("id").autoIncrement()
     val username: Column<String> = varchar("username", 255)
     val email: Column<String> = varchar("email", 255)
     val passwordHash: Column<String> = varchar("passwordHash", 255)
     val salt: Column<String> = varchar("salt", 255)
+    val bioId = (integer("bio_id") references Bios.bio_id).nullable()
     override val primaryKey = PrimaryKey(id, name = "User_ID")
 
     init {
@@ -22,7 +25,8 @@ object Users: Table() {
         id = row[id],
         username = row[username],
         email = row[email],
-        password = ""
+        password = "",
+        bio_id = row[bioId]
     )
     fun toUserCredentials(row: ResultRow): UserCredentials = UserCredentials(
         username = row[username],

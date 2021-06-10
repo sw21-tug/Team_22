@@ -20,6 +20,7 @@ class LoginActivityTest{
         onView(withId(R.id.signinBtn)).perform(click())
         onView(withId(R.id.drawer_layout)).check(matches(isDisplayed()))
     }
+    
     @Test
     fun  register_activity_displayed_after_button(){
         //probably needs to be rewritten at some point

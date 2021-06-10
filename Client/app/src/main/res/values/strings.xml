@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">Looking 4 Group</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -7,13 +7,14 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register </string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome, </string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="login_text">"Login to Looking 4 Group"</string>
     <string name="title_activity_main_view">MainViewActivity</string>
     <string name="title_activity_register_view">RegisterViewActivity</string>
+    <string name="title_activity_search_profile_view">SearchProfileView</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -44,19 +45,50 @@
 
 
     <string name="menu_edit_bio">Edit Bio</string>
+    <string name="edit_bio_btn">Edit Bio</string>
     <string name="edit_bio_heading">Edit Personal Bio</string>
+    <string name="edit_proile_image">Edit Profil Image</string>
     <string name="bio_hint_displayed_username">Displayed username</string>
     <string name="bio_hint_age">Age</string>
     <string name="bio_hint_city">City</string>
     <string name="bio_checkboxes_interests_heading">I am interested in ...</string>
-    <string name="bio_interests_card_games">Card games</string>
-    <string name="bio_interests_board_games">Board games</string>
-    <string name="bio_interests_ttrpgs">Tabletop role-playing games (TTRPGs)</string>
-    <string name="bio_interests_wargames"> Wargames </string>
+    <string name="card_games">Card games</string>
+    <string name="board_games">Board games</string>
+    <string name="ttrpgs">Tabletop role-playing games (TTRPGs)</string>
+    <string name="war_games"> Wargames </string>
     <string name="submit_button_text">SUBMIT</string>
     <string name="your_personal_bio">Your Personal Bio</string>
     <string name="bio_error_message_age_range">This is not a valid age</string>
     <string name="bio_error_message_empty_username">Please enter an username</string>
     <string name="your_bio">Your Bio</string>
+
+    <string name="edit_search_preferences">Your preferences</string>
+    <string name="age_range">Age range</string>
+    <string name="city_preference">City</string>
+    <string name="edit_search_profile">EDIT SEARCH PROFILE</string>
+    <array name="rangeSliderValues">
+        <item>20.0</item>
+        <item>70.0</item>
+    </array>
+    <string name="search_profile_none_selected_error_msg">Please select at least one preference</string>
+    <string name="crossed_ttrpg"> <strike> T</strike> </string>
+    <string name="search_profile_preference"> search preferences </string>
+    <string name="search_profile_searching">Searching ...</string>
+
+
+
+    <string name="your_group">Your Group</string>
+    <string name="group_not_found">Group not found</string>
+    <string name="cannot_add_member_twice">Cannot Add member twice</string>
+    <string name="deleted_member">Deleted member</string>
+    <string name="too_many_members">Groups can only have 6 members</string>
+    <string name="user_not_found">User not found</string>
+    <string name="cannot_create_group_with_same_name">Cannot create group with the same name twice</string>
+    <string name="menu_group">Group</string>
+
+    <string name="select_group">Select Group</string>
+    <string name="group_name">Group Name</string>
+    <string name="add_name">Name</string>
+
 
 </resources>
